@@ -19,3 +19,9 @@ export default [
     component: About,
   },
 ]
+
+export const nav = [
+  { to: '/', label: 'Home' },
+  { to: '/portfolio', label: 'Portfolio' },
+  { to: '/about', label: 'About' },
+]

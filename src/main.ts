@@ -1,4 +1,3 @@
-import { createPinia } from 'pinia'
 import { ViteSSG } from 'vite-ssg'
 
 import './fonts.css'
@@ -12,7 +11,4 @@ export const createApp = ViteSSG(
   App,
   // vue-router options
   { routes },
-  // function to have custom setups
-  // ({ app }) => {
-  // },
 )

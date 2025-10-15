@@ -1,14 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Hero from '@/components/Hero.vue'
+</script>
 
 <template>
-  <div class="hero bg-base-200 min-h-screen">
-    <div class="hero-content text-center">
-      <div class="max-w-md">
-        <h1 class="text-5xl font-bold">Jessica Barrett</h1>
-        <p class="py-6">The home of Jessica Barrett</p>
-      </div>
-    </div>
-  </div>
+  <Hero title="Jessica Barrett" description="The home of Jessica Barrett" />
 </template>
 
 <style scoped></style>
