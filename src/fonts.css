@@ -1,0 +1,9 @@
+@font-face {
+    font-family: Montserrat;
+    src: url("/fonts/montserrat/Montserrat-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Playfair;
+    src: url("/fonts/playfair/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+}
