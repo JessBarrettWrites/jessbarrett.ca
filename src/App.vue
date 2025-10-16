@@ -1,25 +1,28 @@
 <script setup lang="ts">
 import Nav from '@/components/Nav.vue'
+import { usePreferredReducedMotion } from '@vueuse/core'
+
+const allowTransitions = usePreferredReducedMotion()
 </script>
 
 <template>
   <Nav title="Jessica Barrett">
     <router-view v-slot="{ Component }">
-      <transition name="fade">
+      <Transition
+        v-if="allowTransitions"
+        enter-active-class="transition-opacity absolute top-0 left-0 duration-200"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity absolute top-0 left-0 duration-200"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
         <component :is="Component" />
-      </transition>
+      </Transition>
+
+      <component v-if="!allowTransitions" :is="Component" />
     </router-view>
   </Nav>
 </template>
 
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease-in-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 80%;
-}
-</style>
+<style scoped></style>
