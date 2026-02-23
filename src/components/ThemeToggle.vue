@@ -1,4 +1,27 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { usePreferredDark, useStorage } from '@vueuse/core'
+import { computed, toValue, watchEffect } from 'vue'
+import { darkTheme, lightTheme, type Theme } from '@/constants.ts'
+
+const prefersDark = usePreferredDark()
+const theme = useStorage<Theme | null>('theme', null)
+
+const isDark = computed(() => {
+  if (theme.value !== null) {
+    // NULL uses system settings
+    return theme.value === darkTheme
+  }
+  return prefersDark.value
+})
+
+watchEffect(() => {
+  document.documentElement.setAttribute('data-theme', toValue(isDark) ? darkTheme : lightTheme)
+})
+
+function toggleTheme() {
+  theme.value = toValue(isDark) ? lightTheme : darkTheme
+}
+</script>
 
 <template>
   <label class="flex cursor-pointer gap-2">
@@ -18,7 +41,7 @@
         d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"
       />
     </svg>
-    <input type="checkbox" class="toggle theme-controller" value="black" />
+    <input type="checkbox" class="toggle" :checked="isDark" @change="toggleTheme" />
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"
