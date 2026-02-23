@@ -1,19 +1,83 @@
 @font-face {
     font-family: Montserrat;
+    font-weight: 100 900;
+    font-style: normal;
     src: url("/fonts/montserrat/Montserrat-VariableFont_wght.ttf") format("truetype");
 }
 
 @font-face {
+    font-family: Montserrat;
+    font-weight: 100 900;
+    font-style: italic;
+    src: url("/fonts/montserrat/Montserrat-Italic-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
     font-family: Playfair;
+    font-weight: 100 900;
+    font-style: normal;
     src: url("/fonts/playfair/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
 }
 
 @font-face {
+    font-family: Playfair;
+    font-weight: 100 900;
+    font-style: italic;
+    src: url("/fonts/playfair/PlayfairDisplay-Italic-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
     font-family: TimesNewHuman;
+    font-weight: normal;
+    font-style: normal;
     src: url("/fonts/timesnewhuman/TimesNewHuman-Reg.otf") format("opentype");
 }
 
 @font-face {
+    font-family: TimesNewHuman;
+    font-weight: normal;
+    font-style: italic;
+    src: url("/fonts/timesnewhuman/TimesNewHuman-RegIta.otf") format("opentype");
+}
+
+@font-face {
+    font-family: TimesNewHuman;
+    font-weight: bold;
+    font-style: normal;
+    src: url("/fonts/timesnewhuman/TimesNewHuman-Bol.otf") format("opentype");
+}
+
+@font-face {
+    font-family: TimesNewHuman;
+    font-weight: bold;
+    font-style: italic;
+    src: url("/fonts/timesnewhuman/TimesNewHuman-BolIta.otf") format("opentype");
+}
+
+@font-face {
     font-family: Areal;
+    font-weight: normal;
+    font-style: normal;
     src: url("/fonts/areal/Areal.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Areal;
+    font-weight: normal;
+    font-style: italic;
+    src: url("/fonts/areal/Areal-Italic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Areal;
+    font-weight: bold;
+    font-style: normal;
+    src: url("/fonts/areal/Areal-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Areal;
+    font-weight: bold;
+    font-style: italic;
+    src: url("/fonts/areal/Areal-BoldItalic.otf") format("opentype");
 }
