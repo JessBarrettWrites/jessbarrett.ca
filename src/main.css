@@ -11,14 +11,14 @@
   default: true;
   prefersdark: false;
   color-scheme: light;
-  --font-sans: Montserrat;
-  --font-serif: Playfair;
+  --font-sans: Areal;
+  --font-serif: TimesNewHuman;
 }
 
 @plugin "daisyui/theme" {
   name: "black";
   prefersdark: true;
   color-scheme: dark;
-  --font-sans: Montserrat;
-  --font-serif: Playfair;
+  --font-sans: Areal;
+  --font-serif: TimesNewHuman;
 }

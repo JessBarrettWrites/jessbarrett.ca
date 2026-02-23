@@ -7,3 +7,13 @@
     font-family: Playfair;
     src: url("/fonts/playfair/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: TimesNewHuman;
+    src: url("/fonts/timesnewhuman/TimesNewHuman-Reg.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Areal;
+    src: url("/fonts/areal/Areal.otf") format("opentype");
+}

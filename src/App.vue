@@ -6,7 +6,7 @@ const allowTransitions = usePreferredReducedMotion()
 </script>
 
 <template>
-  <Nav title="Jessica Barrett">
+  <Nav title="Jessica Barrett am- Author">
     <router-view v-slot="{ Component }">
       <Transition
         v-if="allowTransitions"
