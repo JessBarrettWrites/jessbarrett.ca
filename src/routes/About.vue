@@ -6,14 +6,12 @@ import PullQuote from '@/components/PullQuote.vue'
 
 <template>
   <article>
-    <PageHeader title="About" subtitle="Author, Writer, and Award-Winning Journalist" />
-
+    <PageHeader title="Jessica Barrett" subtitle="Author, Writer, and Award-Winning Journalist" />
     <ProfileBlock>
       <template #image>
         <div class="bg-base-200 aspect-3/4 w-full" role="img" aria-label="Author portrait"></div>
       </template>
 
-      <h2 class="font-serif text-4xl font-bold">Jessica Barrett</h2>
       <p class="text-lg leading-relaxed opacity-90">
         Jessica Barrett is an award-winning journalist and writer. She has reported for the
         <span class="italic">Vancouver Sun</span>,
@@ -43,8 +41,6 @@ import PullQuote from '@/components/PullQuote.vue'
         Barrett forms a framework for solutions and the basis for achievable change.
       </p>
     </ProfileBlock>
-
-    <div class="divider mx-auto max-w-4xl px-6 opacity-30"></div>
 
     <PullQuote>
       "We cannot solve our housing crisis until we first address our crisis of home. "

@@ -1,19 +1,33 @@
 <script setup lang="ts">
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import { nav } from '@/routes'
+import { computed } from 'vue'
 
-const props = defineProps<{ title?: string }>()
+const props = defineProps<{ title?: string; subtitle?: string }>()
 
 function clickMenu(e: Event) {
   // Hide menu after clicking on it
   const link = e.currentTarget as HTMLElement
   link?.blur()
 }
+
+const navbarText = computed(() => {
+  if (props.title && props.subtitle) {
+    return `${props.title} am- ${props.subtitle}`
+  } else if (props.title) {
+    return props.title
+  } else {
+    return ''
+  }
+})
 </script>
 
 <template>
   <div class="navbar-start">
-    <span v-if="props.title" class="btn btn-ghost text-xl">{{ props.title }}</span>
+    <span v-if="props.title" class="btn btn-ghost text-lg sm:text-xl">
+      <span class="sm:hidden">{{ props.title }}</span>
+      <span class="hidden sm:inline">{{ navbarText }}</span>
+    </span>
   </div>
   <nav class="navbar-end text-right hidden md:inline">
     <ul class="inline-block px-2" v-for="{ to, label } in nav" :key="to">
