@@ -18,7 +18,7 @@ import Footer from '@/components/Footer.vue'
       imageAlt="No Place Like Home Book Cover"
       href="https://www.penguinrandomhouse.ca/books/760899/no-place-like-home-by-jessica-barrett/9780735250253"
     >
-      <p class="font-serif font-bold text-md opacity-80">Available for Pre-Order March 3, 2026</p>
+      <p class="font-serif font-bold text-md opacity-80">Available for Pre-Order</p>
     </BookPromo>
 
     <section class="mx-auto max-w-4xl px-6 pb-20">
