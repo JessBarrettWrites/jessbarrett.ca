@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Hero from '@/components/Hero.vue'
+import PageHeader from '@/components/PageHeader.vue'
 </script>
 
-<template><Hero title="Portfolio" /></template>
+<template><PageHeader title="Portfolio" /></template>
 
 <style scoped></style>

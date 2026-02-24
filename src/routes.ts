@@ -22,6 +22,6 @@ export default [
 
 export const nav = [
   { to: '/', label: 'Home' },
-  // { to: '/portfolio', label: 'Portfolio' },
+  // TODO: Add content // { to: '/portfolio', label: 'Portfolio' },
   { to: '/about', label: 'About' },
 ]
