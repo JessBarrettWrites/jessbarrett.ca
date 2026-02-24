@@ -9,7 +9,11 @@ import PullQuote from '@/components/PullQuote.vue'
     <PageHeader title="Jessica Barrett" subtitle="Author, Writer, and Award-Winning Journalist" />
     <ProfileBlock>
       <template #image>
-        <img src="/images/jessica-barrett.jpg" alt="Author portrait" class="w-full" />
+        <img
+          src="/images/jessica-barrett.jpg"
+          alt="Author portrait"
+          class="w-full shadow-2xl ring-1 ring-black/10"
+        />
       </template>
 
       <p class="text-lg leading-relaxed opacity-90">
