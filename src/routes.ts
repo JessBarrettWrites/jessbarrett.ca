@@ -1,6 +1,6 @@
-import Home from '@/components/Home.vue'
-import About from '@/components/About.vue'
-import Portfolio from '@/components/Portfolio.vue'
+import Home from '@/routes/Home.vue'
+import About from '@/routes/About.vue'
+import Portfolio from '@/routes/Portfolio.vue'
 
 export default [
   {
@@ -22,6 +22,6 @@ export default [
 
 export const nav = [
   { to: '/', label: 'Home' },
-  { to: '/portfolio', label: 'Portfolio' },
+  // { to: '/portfolio', label: 'Portfolio' },
   { to: '/about', label: 'About' },
 ]
