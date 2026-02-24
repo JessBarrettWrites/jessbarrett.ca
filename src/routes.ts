@@ -1,12 +1,12 @@
-import Home from '@/routes/Home.vue'
+import Books from '@/routes/Books.vue'
 import About from '@/routes/About.vue'
 import Portfolio from '@/routes/Portfolio.vue'
 
 export default [
   {
     path: '/',
-    name: 'home',
-    component: Home,
+    name: 'books',
+    component: Books,
   },
   {
     path: '/portfolio',
@@ -21,7 +21,7 @@ export default [
 ]
 
 export const nav = [
-  { to: '/', label: 'Home' },
+  { to: '/', label: 'Books' },
   // TODO: Add content // { to: '/portfolio', label: 'Portfolio' },
   { to: '/about', label: 'About' },
 ]
