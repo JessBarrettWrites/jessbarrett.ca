@@ -8,7 +8,9 @@ const articles = parseJournalism()
 
 <template>
   <article>
-    <PageHeader title="Journalism" subtitle="Selected reporting and essays" />
+    <PageHeader title="Journalism">
+      <template #subtitle>Selected reporting and essays</template>
+    </PageHeader>
 
     <section class="mx-auto max-w-4xl px-6 py-6 pb-6">
       <div v-if="articles.length === 0" class="py-12 text-center opacity-50 font-serif italic">

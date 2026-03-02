@@ -24,13 +24,13 @@ const navbarText = computed(() => {
 </script>
 
 <template>
-  <div class="navbar-start">
-    <span v-if="props.title" class="btn btn-ghost text-lg sm:text-xl">
-      <span class="sm:hidden">{{ props.title }}</span>
-      <span class="hidden sm:inline">{{ navbarText }}</span>
+  <div class="navbar-start w-auto!">
+    <span v-if="props.title" class="btn btn-ghost text-lg md:text-xl">
+      <span class="lg:hidden">{{ props.title }}</span>
+      <span class="hidden lg:inline">{{ navbarText }}</span>
     </span>
   </div>
-  <nav class="navbar-end text-right hidden md:inline">
+  <nav class="navbar-end text-right hidden md:inline flex-1!">
     <ul class="inline-block px-2" v-for="{ to, label } in nav" :key="to">
       <li>
         <RouterLink :to="to">{{ label }}</RouterLink>
@@ -43,7 +43,7 @@ const navbarText = computed(() => {
       <ThemeToggle />
     </div>
   </nav>
-  <div class="navbar-end visible md:hidden">
+  <div class="navbar-end visible md:hidden flex-1!">
     <div class="inline-block px-2">
       <ThemeToggle />
     </div>

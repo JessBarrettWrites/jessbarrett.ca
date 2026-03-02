@@ -1,7 +1,12 @@
-export interface BookTestimonialToml {
+export interface BookTestimonial {
   quote: string
   name: string
   role?: string
+}
+
+export interface BookAccolade {
+  text: string
+  url: string
 }
 
 export interface BookMetaToml {
@@ -13,7 +18,8 @@ export interface BookMetaToml {
   url: string
   preorder?: string
   available?: string
-  testimonial?: BookTestimonialToml[]
+  testimonial?: BookTestimonial[]
+  accolade?: BookAccolade[]
 }
 
 export interface BookMeta {
@@ -25,12 +31,13 @@ export interface BookMeta {
   url: string
   preorder?: Date
   available?: Date
+  accolades?: BookAccolade[]
 }
 
 export interface Book {
   slug: string
   meta: BookMeta
-  testimonials: BookTestimonialToml[]
+  testimonials: BookTestimonial[]
   body: string
 }
 
@@ -63,5 +70,25 @@ export interface AboutMeta {
 
 export interface About {
   meta: AboutMeta
+  body: string
+}
+
+export interface TalksPageMeta {
+  title: string
+  subtitle?: string
+}
+
+export interface TalksPage {
+  meta: TalksPageMeta
+  body: string
+}
+
+export interface TalkMeta {
+  title: string
+}
+
+export interface Talk {
+  slug: string
+  meta: TalkMeta
   body: string
 }

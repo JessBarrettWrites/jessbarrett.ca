@@ -1,0 +1,5 @@
++++
+title = "The Hidden Power of Neighbourliness"
++++
+
+Canadians spend significantly less time with our neighbours now than we did just a few decades ago. In the era of Amazon and Instacart, our lack of neighbourly connections might seem a little sad, but largely inconsequential to our lives — we no longer need our neighbours to provide that proverbial cup of sugar. But we do need our neighbours, and we need them more than ever. In this talk, Jessica dives into the astounding research on the role neighbourliness plays in our health, safety and social fabric, explaining how reclaiming neighbourliness is one of the biggest untapped solutions to some of most pressing issues of our time — everything from the loneliness epidemic, to political polarization, to surviving climate change. She then points the way toward some surprising, and surprisingly simple, actions we can take to nurture neighbourliness at every level of our lives, from the personal to political.

@@ -20,6 +20,7 @@ const books = parseBooks()
       :featuredUntil="book.meta.featuredUntil"
       :title="book.meta.title"
       :subtitle="book.meta.subtitle"
+      :accolades="book.meta.accolades"
       :imageSrc="book.meta.imageSrc"
       :imageAlt="book.meta.imageAlt"
       :url="book.meta.url"

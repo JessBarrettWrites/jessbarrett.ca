@@ -10,7 +10,9 @@ const { meta, body } = parseAbout()
 
 <template>
   <article>
-    <PageHeader :title="meta.title" :subtitle="meta.subtitle" />
+    <PageHeader :title="meta.title">
+      <template #subtitle>{{ meta.subtitle }}</template>
+    </PageHeader>
     <ProfileBlock>
       <template #image>
         <img
@@ -20,9 +22,10 @@ const { meta, body } = parseAbout()
         />
       </template>
 
-      <Markdown class="[&_p]:text-lg [&_p]:leading-relaxed [&_p]:opacity-90 [&_p+p]:mt-5">{{
-        body
-      }}</Markdown>
+      <Markdown
+        class="[&_p]:text-lg [&_p]:leading-relaxed [&_p]:opacity-90 [&_p+p]:mt-5 [&_a]:underline [&_a]:underline-offset-2"
+        >{{ body }}</Markdown
+      >
     </ProfileBlock>
 
     <PullQuote v-if="meta.pullQuote">{{ meta.pullQuote }}</PullQuote>

@@ -1,0 +1,5 @@
++++
+title = "Housing Vs. Home"
++++
+
+After living in Vancouver for her entire adult life, Jessica Barrett packed up her apartment, quit her dream job as a magazine editor, and headed for Calgary in search of a more affordable place to call home. In the years since Barrett was priced out of Vancouver, the issue of housing affordability has become a national crisis, fanning the flames of social inequality and setting us up for financial ruin. But our obsession with rising housing prices obscures a more complex and pressing issue: we have lost our reverence for, and our understanding of, home. In this talk, Jessica introduces audiences to her research on the fundamental elements of home and explores how these elements are, or are not, prioritized in our current housing system. She then goes on to present examples from around the world and locally on how to get back to the fundamentals of home, and produce better, more affordable housing for all.

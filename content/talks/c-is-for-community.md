@@ -1,0 +1,5 @@
++++
+title = "C is for Community"
++++
+
+When it comes to our housing crisis, most of the proposed solutions come from one of two places: the market, or the government. Both are problematic, though for different reasons. Private developers don't always build homes that people can afford — or homes that people want. And governments are famously fickle. All it takes is a shift in political ideologies or a change in ruling parties to decimate systems and organizations that rely on public funding. But there is a third option. A vast middle ground between public and private on which we can build housing that is affordable, desirable and socially and environmentally sustainable. And there is an overlooked stakeholder group that is inherently motivated and perfectly capable of leading this charge. Us. In this talk, Jessica introduces audiences to the concept of Community-Led housing, offering examples from all over Canada, and all over the world, that show how the housing crisis can be solved by regular people coming together in pursuit of a better way to live.

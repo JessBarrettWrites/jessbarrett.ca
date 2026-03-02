@@ -8,6 +8,14 @@ url = "https://www.penguinrandomhouse.ca/books/760899/no-place-like-home-by-jess
 preorder = "2025-10-01"
 available = "2026-03-03"
 
+[[accolade]]
+text = "Audible Most Anticipated Audiobooks of 2026"
+url = "https://www.audible.ca/blog/en/most-anticipated-2026"
+
+[[accolade]]
+text = "Indigo Most Anticipated Books of 2026"
+url = "https://www.indigo.ca/en-ca/most-anticipated-books/most-anticipated-non-fiction/?start=48&sz=24&page=3"
+
 [[testimonial]]
 quote = "In No Place Like Home, Jessica Barrett thoughtfully examines the housing crisis from all angles, putting together a clear playbook for one of the biggest problems we collectively face."
 name = "Kyla Scanlon"

@@ -4,7 +4,7 @@
     href="https://www.instagram.com/thewritelight"
     target="_blank"
     aria-label="Instagram"
-    class="btn btn-ghost btn-circle btn-sm"
+    class="btn btn-ghost btn-circle btn-sm [--btn-color:var(--color-neutral-content)]"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
   <a
     href="mailto:jessicabarrett@gmail.com"
     aria-label="Email"
-    class="btn btn-ghost btn-circle btn-sm"
+    class="btn btn-ghost btn-circle btn-sm [--btn-color:var(--color-neutral-content)]"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

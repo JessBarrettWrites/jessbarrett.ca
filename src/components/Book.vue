@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
+import type { BookAccolade } from '@/types'
 
 const props = defineProps<{
   featuredUntil?: Date
   title: string
   subtitle?: string
+  accolades?: BookAccolade[]
   imageSrc: string
   imageAlt: string
   url: string
@@ -88,6 +90,16 @@ const bodyStyle = computed(() => ({
     <p v-if="subtitle" class="font-serif text-lg italic opacity-60 leading-tight -mt-3">
       {{ subtitle }}
     </p>
+    <ul v-if="accolades?.length" class="flex flex-col gap-1">
+      <li v-for="accolade in accolades" :key="accolade.text">
+        <a
+          :href="accolade.url"
+          target="_blank"
+          class="font-serif text-sm italic opacity-60 hover:opacity-100 transition-opacity underline underline-offset-2"
+          >{{ accolade.text }}</a
+        >
+      </li>
+    </ul>
     <p v-if="statusText" class="font-serif font-bold text-md opacity-80">{{ statusText }}</p>
 
     <div>
