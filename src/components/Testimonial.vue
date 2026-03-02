@@ -3,7 +3,7 @@ defineProps<{ quote: string; name: string; role?: string }>()
 </script>
 
 <template>
-  <figure class="flex flex-col gap-5 border-t border-base-content/15 pt-6">
+  <figure class="flex flex-col gap-5 pt-6">
     <blockquote>
       <p class="font-serif text-base leading-relaxed italic opacity-80">"{{ quote }}"</p>
     </blockquote>

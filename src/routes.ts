@@ -2,7 +2,6 @@ import Home from '@/routes/Home.vue'
 import Books from '@/routes/Books.vue'
 import Journalism from '@/routes/Journalism.vue'
 import About from '@/routes/About.vue'
-import Portfolio from '@/routes/Portfolio.vue'
 
 export default [
   {
@@ -19,11 +18,6 @@ export default [
     path: '/journalism',
     name: 'journalism',
     component: Journalism,
-  },
-  {
-    path: '/portfolio',
-    name: 'portfolio',
-    component: Portfolio,
   },
   {
     path: '/about',

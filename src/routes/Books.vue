@@ -1,23 +1,32 @@
 <script setup lang="ts">
-import BookPromo from '@/components/BookPromo.vue'
+import Book from '@/components/Book.vue'
 import PageHeader from '@/components/PageHeader.vue'
+import Markdown from '@/components/Markdown.vue'
 import Footer from '@/components/Footer.vue'
+import { parseBooks } from '@/content'
+
+const books = parseBooks()
 </script>
 
 <template>
   <article>
     <PageHeader title="Books" />
 
-    <BookPromo
-      label="Featured Book"
-      title="No Place Like Home"
-      subtitle="The Missing Key to Our Housing Crisis"
-      imageSrc="/images/book-cover.jpg"
-      imageAlt="No Place Like Home Book Cover"
-      href="https://www.penguinrandomhouse.ca/books/760899/no-place-like-home-by-jessica-barrett/9780735250253"
+    <Book
+      v-for="(entry, i) in books"
+      :key="entry.meta.title"
+      :reverse="i % 2 !== 0"
+      :featuredUntil="entry.meta.featuredUntil"
+      :title="entry.meta.title"
+      :subtitle="entry.meta.subtitle"
+      :imageSrc="entry.meta.imageSrc"
+      :imageAlt="entry.meta.imageAlt"
+      :href="entry.meta.href"
+      :preorder="entry.meta.preorder"
+      :available="entry.meta.available"
     >
-      <p class="font-serif font-bold text-md opacity-80">Available for Pre-Order</p>
-    </BookPromo>
+      <Markdown v-if="entry.body" class="[&_p]:leading-relaxed [&_p]:opacity-75 [&_p+p]:mt-4">{{ entry.body }}</Markdown>
+    </Book>
 
     <Footer />
   </article>
