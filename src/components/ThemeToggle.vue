@@ -15,6 +15,7 @@ const isDark = computed(() => {
 })
 
 watchEffect(() => {
+  if (typeof document === 'undefined') return
   document.documentElement.setAttribute('data-theme', toValue(isDark) ? darkTheme : lightTheme)
 })
 
