@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import Markdown from '@/components/Markdown.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
 import type { BookAccolade } from '@/types'
 
@@ -7,12 +8,14 @@ const props = defineProps<{
   featuredUntil?: Date
   title: string
   subtitle?: string
+  synopsis?: string
   accolades?: BookAccolade[]
   imageSrc: string
   imageAlt: string
   url: string
   preorder?: Date
   available?: Date
+  titleLink?: boolean
   linkText?: string
   reverse?: boolean
   slug?: string
@@ -86,7 +89,10 @@ const bodyStyle = computed(() => ({
     <p v-if="isFeatured" class="font-serif text-sm uppercase tracking-widest opacity-50">
       Featured Book
     </p>
-    <h2 class="font-serif text-4xl font-bold leading-tight">{{ title }}</h2>
+    <h2 class="font-serif text-4xl font-bold leading-tight">
+      <RouterLink v-if="titleLink && slug" :to="`/books#${slug}`" class="hover:underline underline-offset-4">{{ title }}</RouterLink>
+      <template v-else>{{ title }}</template>
+    </h2>
     <p v-if="subtitle" class="font-serif text-lg italic opacity-60 leading-tight -mt-3">
       {{ subtitle }}
     </p>
@@ -112,6 +118,10 @@ const bodyStyle = computed(() => ({
       </a>
     </div>
 
+    <p v-if="synopsis" class="font-serif font-bold font-italic opacity-70 leading-relaxed">
+      <Markdown>{{ synopsis }}</Markdown>
+    </p>
+
     <div class="relative">
       <div
         ref="bodyEl"
@@ -129,7 +139,7 @@ const bodyStyle = computed(() => ({
     <button
       v-if="overflows"
       @click="toggle"
-      class="font-serif text-md italic opacity-50 hover:opacity-100 transition-opacity"
+      class="btn btn-ghost btn-md font-serif italic opacity-50 hover:opacity-100"
     >
       {{ expanded ? 'Show less' : 'Read more' }}
     </button>

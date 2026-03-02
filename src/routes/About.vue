@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
-import PullQuote from '@/components/PullQuote.vue'
+import FooterQuote from '@/components/FooterQuote.vue'
 import Markdown from '@/components/Markdown.vue'
 import { parseAbout } from '@/content'
+import Footer from '@/components/Footer.vue'
 
 const { meta, body } = parseAbout()
 </script>
@@ -28,7 +29,10 @@ const { meta, body } = parseAbout()
       >
     </ProfileBlock>
 
-    <PullQuote v-if="meta.pullQuote">{{ meta.pullQuote }}</PullQuote>
+    <FooterQuote v-if="meta.pullQuote">
+      {{ meta.pullQuote }}
+    </FooterQuote>
+    <Footer v-else />
   </article>
 </template>
 

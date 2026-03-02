@@ -16,16 +16,20 @@ const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
 <template>
   <article>
     <Book
-      v-for="books in featuredBooks"
-      :key="books.meta.title"
-      :featuredUntil="books.meta.featuredUntil"
-      :title="books.meta.title"
-      :subtitle="books.meta.subtitle"
-      :imageSrc="books.meta.imageSrc"
-      :imageAlt="books.meta.imageAlt"
-      :url="books.meta.url"
-      :preorder="books.meta.preorder"
-      :available="books.meta.available"
+      v-for="book in featuredBooks"
+      :key="book.meta.title"
+      :slug="book.slug"
+      :titleLink="true"
+      :featuredUntil="book.meta.featuredUntil"
+      :title="book.meta.title"
+      :subtitle="book.meta.subtitle"
+      :synopsis="book.meta.synopsis"
+      :accolades="book.meta.accolades"
+      :imageSrc="book.meta.imageSrc"
+      :imageAlt="book.meta.imageAlt"
+      :url="book.meta.url"
+      :preorder="book.meta.preorder"
+      :available="book.meta.available"
     />
 
     <section class="mx-auto max-w-4xl px-6 pb-12">

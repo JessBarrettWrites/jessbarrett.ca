@@ -2,6 +2,7 @@
 featuredUntil = "2027-03-03"
 title = "No Place Like Home"
 subtitle = "The Missing Key to Our Housing Crisis"
+synopsis = "From award-winning journalist Jessica Barrett, an honest and urgent look at our housing crisis and lessons from around the world that will make better homes for all Canadians."
 imageSrc = "/images/no-place-like-home.jpg"
 imageAlt = "No Place Like Home Book Cover"
 url = "https://www.penguinrandomhouse.ca/books/760899/no-place-like-home-by-jessica-barrett/9780735250253"

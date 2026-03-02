@@ -13,6 +13,7 @@ export interface BookMetaToml {
   featuredUntil?: string
   title: string
   subtitle?: string
+  synopsis?: string
   imageSrc: string
   imageAlt: string
   url: string
@@ -26,6 +27,7 @@ export interface BookMeta {
   featuredUntil?: Date
   title: string
   subtitle?: string
+  synopsis?: string
   imageSrc: string
   imageAlt: string
   url: string
