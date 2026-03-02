@@ -2,17 +2,18 @@
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import SocialMedia from '@/components/SocialMedia.vue'
 import { nav } from '@/routes'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
 const props = defineProps<{ title?: string; subtitle?: string }>()
 
-function clickMenu(e: Event) {
-  // Hide menu after clicking on it
-  const link = e.currentTarget as HTMLElement
-  link?.blur()
+const dropdownTrigger = ref<HTMLElement | null>(null)
+
+function clickMenu() {
+  // Hide menu after clicking on it by blurring the dropdown trigger
+  dropdownTrigger.value?.blur()
 }
 
 const navbarText = computed(() => {
@@ -54,6 +55,7 @@ const navbarText = computed(() => {
     </div>
     <nav class="dropdown dropdown-end">
       <div
+        ref="dropdownTrigger"
         tabindex="0"
         role="button"
         aria-label="Open menu"
