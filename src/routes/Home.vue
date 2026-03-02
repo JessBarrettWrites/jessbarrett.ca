@@ -7,7 +7,8 @@ import { parseBooks, parseTestimonials } from '@/content'
 const books = parseBooks()
 const testimonials = parseTestimonials()
 const today = new Date()
-const featuredBooks = books.filter((b) => !!b.meta.featuredUntil && today <= b.meta.featuredUntil)
+const featured = books.filter((b) => !!b.meta.featuredUntil && today <= b.meta.featuredUntil)
+const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
 </script>
 
 <template>
