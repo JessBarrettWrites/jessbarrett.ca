@@ -10,13 +10,13 @@ const articles = parseJournalism()
   <article>
     <PageHeader title="Journalism" subtitle="Selected reporting and essays" />
 
-    <section class="mx-auto max-w-4xl px-6 py-10 pb-20">
+    <section class="mx-auto max-w-4xl px-6 py-6 pb-6">
       <div v-if="articles.length === 0" class="py-12 text-center opacity-50 font-serif italic">
         Coming soon.
       </div>
       <ul v-else class="flex flex-col">
-        <li v-for="article in articles" :key="article.href" class="py-8 flex flex-col gap-2">
-          <a :href="article.href" target="_blank" class="group flex flex-col gap-1">
+        <li v-for="article in articles" :key="article.url" class="py-4 flex flex-col gap-2">
+          <a :href="article.url" target="_blank" class="group flex flex-col gap-1">
             <span class="font-serif text-xl font-bold group-hover:underline underline-offset-4">
               {{ article.title }}
             </span>

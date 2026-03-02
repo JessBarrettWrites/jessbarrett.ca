@@ -10,7 +10,7 @@ export interface BookMetaToml {
   subtitle?: string
   imageSrc: string
   imageAlt: string
-  href: string
+  url: string
   preorder?: string
   available?: string
   testimonial?: BookTestimonialToml[]
@@ -22,7 +22,7 @@ export interface BookMeta {
   subtitle?: string
   imageSrc: string
   imageAlt: string
-  href: string
+  url: string
   preorder?: Date
   available?: Date
 }
@@ -49,7 +49,7 @@ export interface JournalismArticle {
   title: string
   publication: string
   date: string
-  href: string
+  url: string
   description?: string
 }
 

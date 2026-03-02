@@ -8,11 +8,12 @@ const props = defineProps<{
   subtitle?: string
   imageSrc: string
   imageAlt: string
-  href: string
+  url: string
   preorder?: Date
   available?: Date
   linkText?: string
   reverse?: boolean
+  slug?: string
 }>()
 
 const today = new Date()
@@ -69,7 +70,7 @@ const bodyStyle = computed(() => ({
 </script>
 
 <template>
-  <ProfileBlock :reverse="reverse">
+  <ProfileBlock :reverse="reverse" :id="slug">
     <template #image>
       <img
         ref="imageEl"
@@ -91,7 +92,7 @@ const bodyStyle = computed(() => ({
 
     <div>
       <a
-        :href="href"
+        :href="url"
         target="_blank"
         class="btn btn-neutral transition-all hover:translate-y-0.5 hover:shadow-inner active:translate-y-1"
       >

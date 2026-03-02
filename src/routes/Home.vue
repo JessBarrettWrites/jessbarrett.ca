@@ -4,9 +4,11 @@ import Testimonial from '@/components/Testimonial.vue'
 import Footer from '@/components/Footer.vue'
 import { parseBooks, parseTestimonials } from '@/content'
 
+const today = new Date()
+
 const books = parseBooks()
 const testimonials = parseTestimonials()
-const today = new Date()
+const bookBySlug = new Map(books.map((b) => [b.slug, b]))
 const featured = books.filter((b) => !!b.meta.featuredUntil && today <= b.meta.featuredUntil)
 const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
 </script>
@@ -14,26 +16,28 @@ const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
 <template>
   <article>
     <Book
-      v-for="entry in featuredBooks"
-      :key="entry.meta.title"
-      :featuredUntil="entry.meta.featuredUntil"
-      :title="entry.meta.title"
-      :subtitle="entry.meta.subtitle"
-      :imageSrc="entry.meta.imageSrc"
-      :imageAlt="entry.meta.imageAlt"
-      :href="entry.meta.href"
-      :preorder="entry.meta.preorder"
-      :available="entry.meta.available"
+      v-for="books in featuredBooks"
+      :key="books.meta.title"
+      :featuredUntil="books.meta.featuredUntil"
+      :title="books.meta.title"
+      :subtitle="books.meta.subtitle"
+      :imageSrc="books.meta.imageSrc"
+      :imageAlt="books.meta.imageAlt"
+      :url="books.meta.url"
+      :preorder="books.meta.preorder"
+      :available="books.meta.available"
     />
 
-    <section class="mx-auto max-w-4xl px-6 pb-20">
+    <section class="mx-auto max-w-4xl px-6 pb-12">
       <div class="grid gap-10 md:grid-cols-2">
         <Testimonial
-          v-for="t in testimonials"
-          :key="t.name"
-          :quote="t.quote"
-          :name="t.name"
-          :role="t.role"
+          v-for="testimonial in testimonials"
+          :key="testimonial.name"
+          :quote="testimonial.quote"
+          :name="testimonial.name"
+          :role="testimonial.role"
+          :onTitle="bookBySlug.get(testimonial.book)?.meta.title"
+          :onTitleUrl="`/books#${testimonial.book}`"
         />
       </div>
     </section>

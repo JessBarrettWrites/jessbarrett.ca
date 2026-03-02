@@ -4,7 +4,7 @@ title = "No Place Like Home"
 subtitle = "The Missing Key to Our Housing Crisis"
 imageSrc = "/images/no-place-like-home.jpg"
 imageAlt = "No Place Like Home Book Cover"
-href = "https://www.penguinrandomhouse.ca/books/760899/no-place-like-home-by-jessica-barrett/9780735250253"
+url = "https://www.penguinrandomhouse.ca/books/760899/no-place-like-home-by-jessica-barrett/9780735250253"
 preorder = "2025-10-01"
 available = "2026-03-03"
 

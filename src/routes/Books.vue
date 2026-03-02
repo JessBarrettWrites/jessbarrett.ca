@@ -13,19 +13,22 @@ const books = parseBooks()
     <PageHeader title="Books" />
 
     <Book
-      v-for="(entry, i) in books"
-      :key="entry.meta.title"
+      v-for="(book, i) in books"
+      :key="book.meta.title"
+      :slug="book.slug"
       :reverse="i % 2 !== 0"
-      :featuredUntil="entry.meta.featuredUntil"
-      :title="entry.meta.title"
-      :subtitle="entry.meta.subtitle"
-      :imageSrc="entry.meta.imageSrc"
-      :imageAlt="entry.meta.imageAlt"
-      :href="entry.meta.href"
-      :preorder="entry.meta.preorder"
-      :available="entry.meta.available"
+      :featuredUntil="book.meta.featuredUntil"
+      :title="book.meta.title"
+      :subtitle="book.meta.subtitle"
+      :imageSrc="book.meta.imageSrc"
+      :imageAlt="book.meta.imageAlt"
+      :url="book.meta.url"
+      :preorder="book.meta.preorder"
+      :available="book.meta.available"
     >
-      <Markdown v-if="entry.body" class="[&_p]:leading-relaxed [&_p]:opacity-75 [&_p+p]:mt-4">{{ entry.body }}</Markdown>
+      <Markdown v-if="book.body" class="[&_p]:leading-relaxed [&_p]:opacity-75 [&_p+p]:mt-4">{{
+        book.body
+      }}</Markdown>
     </Book>
 
     <Footer />
