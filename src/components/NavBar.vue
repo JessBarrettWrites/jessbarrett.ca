@@ -66,7 +66,7 @@ const navbarText = computed(() => {
       </div>
       <menu
         tabindex="-1"
-        class="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 p-2 shadow items-end"
+        class="menu menu-md dropdown-content bg-neutral text-neutral-content rounded-box z-1 mt-3 p-2 shadow items-end"
       >
         <li v-for="{ to, label } in nav" :key="to">
           <RouterLink @click="clickMenu" :to="to">{{ label }}</RouterLink>

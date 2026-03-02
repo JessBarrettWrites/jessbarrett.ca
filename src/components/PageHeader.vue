@@ -3,7 +3,7 @@ defineProps<{ title: string; subtitle?: string }>()
 </script>
 
 <template>
-  <section class="bg-base-200 px-6 py-6 text-center sm:py-12">
+  <section class="px-6 py-6 text-center bg-neutral text-neutral-content sm:py-12">
     <h1 class="font-serif text-4xl font-bold tracking-tight md:text-6xl">{{ title }}</h1>
     <p
       v-if="subtitle"

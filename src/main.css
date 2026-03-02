@@ -13,6 +13,8 @@
   color-scheme: light;
   --font-sans: Areal;
   --font-serif: TimesNewHuman;
+  --color-neutral: #3f6e80;
+  --color-neutral-content: #f8c0aa;
 }
 
 @plugin "daisyui/theme" {
@@ -21,4 +23,6 @@
   color-scheme: dark;
   --font-sans: Areal;
   --font-serif: TimesNewHuman;
+  --color-neutral: #3f6e80;
+  --color-neutral-content: #f8c0aa;
 }
