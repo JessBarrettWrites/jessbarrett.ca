@@ -18,7 +18,7 @@ const articles = parseJournalism()
       </div>
       <ul v-else class="flex flex-col">
         <li v-for="article in articles" :key="article.url" class="py-4 flex flex-col gap-2">
-          <a :href="article.url" target="_blank" class="group flex flex-col gap-1">
+          <a :href="article.url" target="_blank" rel="noopener noreferrer" class="group flex flex-col gap-1">
             <span class="font-serif text-xl font-bold group-hover:underline underline-offset-4">
               {{ article.title }}
             </span>

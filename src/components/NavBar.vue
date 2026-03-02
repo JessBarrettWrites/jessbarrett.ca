@@ -3,6 +3,9 @@ import ThemeToggle from '@/components/ThemeToggle.vue'
 import SocialMedia from '@/components/SocialMedia.vue'
 import { nav } from '@/routes'
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const props = defineProps<{ title?: string; subtitle?: string }>()
 
@@ -33,7 +36,7 @@ const navbarText = computed(() => {
   <nav class="navbar-end text-right hidden md:inline flex-1!">
     <ul class="inline-block px-2" v-for="{ to, label } in nav" :key="to">
       <li>
-        <RouterLink :to="to">{{ label }}</RouterLink>
+        <RouterLink :to="to" :aria-current="route.path === to ? 'page' : undefined">{{ label }}</RouterLink>
       </li>
     </ul>
     <div class="inline-flex items-center gap-1 px-3">
@@ -48,13 +51,14 @@ const navbarText = computed(() => {
       <ThemeToggle />
     </div>
     <nav class="dropdown dropdown-end">
-      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+      <div tabindex="0" role="button" aria-label="Open menu" aria-haspopup="menu" class="btn btn-ghost btn-circle">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
         >
           <path
             stroke-linecap="round"
@@ -69,7 +73,7 @@ const navbarText = computed(() => {
         class="menu menu-md dropdown-content bg-neutral text-neutral-content rounded-box z-1 mt-3 p-2 shadow items-end"
       >
         <li v-for="{ to, label } in nav" :key="to">
-          <RouterLink @click="clickMenu" :to="to">{{ label }}</RouterLink>
+          <RouterLink @click="clickMenu" :to="to" :aria-current="route.path === to ? 'page' : undefined">{{ label }}</RouterLink>
         </li>
         <li class="mt-1 pt-1 border-t border-base-content/10">
           <div class="flex justify-end gap-2 px-2 py-1">

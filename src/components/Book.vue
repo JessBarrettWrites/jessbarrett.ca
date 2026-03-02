@@ -101,6 +101,7 @@ const bodyStyle = computed(() => ({
         <a
           :href="accolade.url"
           target="_blank"
+          rel="noopener noreferrer"
           class="font-serif text-sm italic opacity-60 hover:opacity-100 transition-opacity underline underline-offset-2"
           >{{ accolade.text }}</a
         >
@@ -112,6 +113,7 @@ const bodyStyle = computed(() => ({
       <a
         :href="url"
         target="_blank"
+        rel="noopener noreferrer"
         class="btn btn-neutral transition-all hover:translate-y-0.5 hover:shadow-inner active:translate-y-1"
       >
         {{ linkText ?? 'Get the Book' }}
@@ -139,6 +141,7 @@ const bodyStyle = computed(() => ({
     <button
       v-if="overflows"
       @click="toggle"
+      :aria-expanded="expanded"
       class="btn btn-ghost btn-md font-serif italic opacity-50 hover:opacity-100"
     >
       {{ expanded ? 'Show less' : 'Read more' }}
