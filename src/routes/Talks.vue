@@ -2,6 +2,7 @@
 import { useHead } from '@unhead/vue'
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
+import Talk from '@/components/Talk.vue'
 import Markdown from '@/components/Markdown.vue'
 import { parseTalks, parseTalksPage } from '@/content'
 
@@ -23,15 +24,10 @@ useHead({
       </template>
     </PageHeader>
 
-    <section class="mx-auto max-w-4xl px-6 py-12">
-      <ul class="flex flex-col gap-10">
-        <li v-for="talk in talks" :key="talk.slug">
-          <h3 class="font-serif text-xl font-bold mb-2">{{ talk.meta.title }}</h3>
-          <Markdown class="leading-relaxed opacity-90 [&_a]:underline [&_a]:underline-offset-2">{{
-            talk.body
-          }}</Markdown>
-        </li>
-      </ul>
+    <section class="mx-auto max-w-6xl px-6 py-6">
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <Talk v-for="talk in talks" :key="talk.slug" :title="talk.meta.title" :body="talk.body" />
+      </div>
     </section>
 
     <Footer />
