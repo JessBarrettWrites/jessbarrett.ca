@@ -1,8 +1,12 @@
 import { parse } from 'smol-toml'
 
-/** Returns true if the line starts with two or more `+` characters. */
+/**
+ * Returns true if the line starts with two or more `+` characters.
+ *
+ * Also ignores whitespace at the leading edge
+ * */
 function isDelimiter(line: string): boolean {
-  return /^\+{2,}/.test(line)
+  return /^\s*\+{2,}/.test(line)
 }
 
 export interface FrontMatterResult<T> {
