@@ -38,7 +38,11 @@ useHead({
   <div class="pt-6">
     <section>
       <!-- https://www.youtube.com/watch?v=jPS8kGTKric -->
-      <YouTube videoId="jPS8kGTKric" :maxWidth="bookSectionWidth" />
+      <YouTube
+        title="No Place Like Home Book Trailer"
+        videoId="jPS8kGTKric"
+        :maxWidth="bookSectionWidth"
+      />
     </section>
 
     <section>
