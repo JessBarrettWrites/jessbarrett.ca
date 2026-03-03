@@ -6,7 +6,6 @@ import Footer from '@/components/Footer.vue'
 import { parseJournalismArticles } from '@/content'
 import { articleDateSort } from '@/presentation'
 
-const locale = navigator.language
 const articles = parseJournalismArticles().sort(articleDateSort)
 
 useHead({
@@ -28,14 +27,7 @@ useHead({
       <ul v-else class="flex flex-col">
         <li v-for="(article, i) in articles" :key="article.url">
           <hr v-if="i > 0" class="my-4 border-base-content/10" />
-          <JournalismArticle
-            :title="article.title"
-            :publication="article.publication"
-            :date="article.date"
-            :url="article.url"
-            :description="article.description"
-            :locale="locale"
-          />
+          <JournalismArticle :article="article" />
         </li>
       </ul>
     </section>

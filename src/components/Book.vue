@@ -1,33 +1,29 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, toRef, toValue, onMounted } from 'vue'
 import Markdown from '@/components/Markdown.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
-import type { BookAccolade } from '@/types'
+import type { Book } from '@/types'
 
 const props = defineProps<{
-  featuredUntil?: Date
-  title: string
-  subtitle?: string
-  synopsis?: string
-  accolades?: BookAccolade[]
-  imageSrc: string
-  imageAlt: string
-  url: string
-  preorder?: Date
-  available?: Date
+  book: Book
   titleLink?: boolean
   linkText?: string
   reverse?: boolean
-  slug?: string
 }>()
+
+const book = toRef(props, 'book')
 
 const today = new Date()
 
-const isFeatured = computed(() => !!props.featuredUntil && today <= props.featuredUntil)
+const isFeatured = computed(() => {
+  const { featuredUntil } = toValue(book).meta
+  return !!featuredUntil && today <= featuredUntil
+})
 
 const statusText = computed(() => {
-  if (props.available && today >= props.available) return 'Available Now'
-  if (props.preorder && today >= props.preorder) return 'Available for Pre-Order'
+  const { available, preorder } = toValue(book).meta
+  if (available && today >= available) return 'Available Now'
+  if (preorder && today >= preorder) return 'Available for Pre-Order'
   return null
 })
 
@@ -40,29 +36,31 @@ const overflows = ref(false)
 const expandedHeight = ref(0)
 
 onMounted(() => {
-  if (bodyElement.value && bodyElement.value.scrollHeight > CLAMP_HEIGHT) {
+  const el = toValue(bodyElement)
+  if (el && el.scrollHeight > CLAMP_HEIGHT) {
     overflows.value = true
   }
 })
 
 function toggle() {
-  if (!expanded.value && bodyElement.value) {
-    expandedHeight.value = bodyElement.value.scrollHeight
+  const bodyEl = toValue(bodyElement)
+  if (!toValue(expanded) && bodyEl) {
+    expandedHeight.value = bodyEl.scrollHeight
   }
-  expanded.value = !expanded.value
+  expanded.value = !toValue(expanded)
 }
 
 const bodyStyle = computed(() => ({
-  maxHeight: `${expanded.value ? expandedHeight.value : clampHeight.value}px`,
+  maxHeight: `${toValue(expanded) ? toValue(expandedHeight) : toValue(clampHeight)}px`,
 }))
 </script>
 
 <template>
-  <ProfileBlock :reverse="reverse" :id="slug">
+  <ProfileBlock :reverse="reverse" :id="book.slug">
     <template #image>
       <img
-        :src="imageSrc"
-        :alt="imageAlt"
+        :src="book.meta.imageSrc"
+        :alt="book.meta.imageAlt"
         width="300"
         height="450"
         :style="{ maxHeight: `450px` }"
@@ -75,18 +73,18 @@ const bodyStyle = computed(() => ({
     </p>
     <h2 class="font-serif text-4xl font-bold leading-tight">
       <RouterLink
-        v-if="titleLink && slug"
-        :to="`/books#${slug}`"
+        v-if="titleLink && book.slug"
+        :to="`/books#${book.slug}`"
         class="hover:underline underline-offset-4"
-        >{{ title }}</RouterLink
+        >{{ book.meta.title }}</RouterLink
       >
-      <template v-else>{{ title }}</template>
+      <template v-else>{{ book.meta.title }}</template>
     </h2>
-    <p v-if="subtitle" class="font-serif text-lg italic opacity-60 leading-tight -mt-3">
-      {{ subtitle }}
+    <p v-if="book.meta.subtitle" class="font-serif text-lg italic opacity-60 leading-tight -mt-3">
+      {{ book.meta.subtitle }}
     </p>
-    <ul v-if="accolades?.length" class="flex flex-col gap-1">
-      <li v-for="accolade in accolades" :key="accolade.text">
+    <ul v-if="book.meta.accolades?.length" class="flex flex-col gap-1">
+      <li v-for="accolade in book.meta.accolades" :key="accolade.text">
         <a
           :href="accolade.url"
           target="_blank"
@@ -100,7 +98,7 @@ const bodyStyle = computed(() => ({
 
     <div>
       <a
-        :href="url"
+        :href="book.meta.url"
         target="_blank"
         rel="noopener noreferrer"
         class="btn btn-neutral transition-all hover:translate-y-0.5 hover:shadow-inner active:translate-y-1"
@@ -109,8 +107,11 @@ const bodyStyle = computed(() => ({
       </a>
     </div>
 
-    <p v-if="synopsis" class="font-serif font-bold font-italic opacity-70 leading-relaxed">
-      <Markdown>{{ synopsis }}</Markdown>
+    <p
+      v-if="book.meta.synopsis"
+      class="font-serif font-bold font-italic opacity-70 leading-relaxed"
+    >
+      <Markdown>{{ book.meta.synopsis }}</Markdown>
     </p>
 
     <div class="relative">

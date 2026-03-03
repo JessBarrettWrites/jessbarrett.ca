@@ -1,20 +1,21 @@
 <script setup lang="ts">
+import { toRef } from 'vue'
+import { useNavigatorLanguage } from '@vueuse/core'
 import AmDash from '@/components/AmDash.vue'
+import type { JournalismArticle } from '@/types'
 import { articleDateString } from '@/presentation'
 
 const props = defineProps<{
-  title: string
-  publication: string
-  date: Date
-  url: string
-  description?: string
-  locale: string
+  article: JournalismArticle
 }>()
+
+const { language: locale } = useNavigatorLanguage()
+const article = toRef(props, 'article')
 </script>
 
 <template>
   <a
-    :href="props.url"
+    :href="article.url"
     target="_blank"
     rel="noopener noreferrer"
     class="group flex flex-col gap-1"
@@ -22,15 +23,15 @@ const props = defineProps<{
     <span
       class="font-serif text-xl font-bold italic text-neutral group-hover:underline underline-offset-4"
     >
-      {{ props.title }}
+      {{ article.title }}
     </span>
     <span class="text-sm opacity-50">
-      <span class="font-serif italic">{{ props.publication }}</span>
+      <span class="font-serif italic">{{ article.publication }}</span>
       &nbsp;<AmDash />&nbsp;
-      {{ articleDateString(props, props.locale) }}
+      {{ articleDateString(article, locale) }}
     </span>
   </a>
-  <p v-if="props.description" class="mt-2 text-sm opacity-70 leading-relaxed">
-    {{ props.description }}
+  <p v-if="article.description" class="mt-2 text-sm opacity-70 leading-relaxed">
+    {{ article.description }}
   </p>
 </template>

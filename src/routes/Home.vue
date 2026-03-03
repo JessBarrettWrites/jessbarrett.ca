@@ -50,18 +50,8 @@ useHead({
       <Book
         v-for="book in featuredBooks"
         :key="book.meta.title"
-        :slug="book.slug"
+        :book="book"
         :titleLink="true"
-        :featuredUntil="book.meta.featuredUntil"
-        :title="book.meta.title"
-        :subtitle="book.meta.subtitle"
-        :synopsis="book.meta.synopsis"
-        :accolades="book.meta.accolades"
-        :imageSrc="book.meta.imageSrc"
-        :imageAlt="book.meta.imageAlt"
-        :url="book.meta.url"
-        :preorder="book.meta.preorder"
-        :available="book.meta.available"
       />
     </section>
 
@@ -70,9 +60,7 @@ useHead({
         <Testimonial
           v-for="testimonial in testimonials"
           :key="testimonial.name"
-          :quote="testimonial.quote"
-          :name="testimonial.name"
-          :role="testimonial.role"
+          :testimonial="testimonial"
           :onTitle="bookBySlug.get(testimonial.book)?.meta.title"
           :onTitleUrl="`/books#${testimonial.book}`"
         />

@@ -26,7 +26,7 @@ useHead({
 
     <section class="mx-auto max-w-6xl px-6 py-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Talk v-for="talk in talks" :key="talk.slug" :slug="talk.slug" :title="talk.meta.title">
+        <Talk v-for="talk in talks" :key="talk.slug" :talk="talk">
           <Markdown>{{ talk.body }}</Markdown>
         </Talk>
       </div>

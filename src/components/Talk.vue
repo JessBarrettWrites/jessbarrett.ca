@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, toRef, onMounted } from 'vue'
 
-defineProps<{
-  slug: string
-  title: string
+import type { Talk } from '@/types'
+
+const props = defineProps<{
+  talk: Talk
 }>()
+
+const talk = toRef(props, 'talk')
 
 const COLLAPSED_HEIGHT = 200
 
@@ -32,9 +35,9 @@ const bodyStyle = computed(() => ({
 </script>
 
 <template>
-  <div :id="slug" class="card shadow-sm border border-neutral">
+  <div :id="talk.slug" class="card shadow-sm border border-neutral">
     <div class="bg-neutral text-neutral-content px-6 py-4 rounded-t-[inherit]">
-      <h3 class="font-serif text-xl font-bold">{{ title }}</h3>
+      <h3 class="font-serif text-xl font-bold">{{ talk.meta.title }}</h3>
     </div>
     <div class="card-body">
       <div class="relative">
