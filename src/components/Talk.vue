@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import Markdown from '@/components/Markdown.vue'
 
 defineProps<{
   slug: string
   title: string
-  body: string
 }>()
 
 const COLLAPSED_HEIGHT = 200
@@ -45,10 +43,9 @@ const bodyStyle = computed(() => ({
           :style="bodyStyle"
           class="overflow-hidden transition-[max-height] duration-500 ease-in-out"
         >
-          <Markdown
-            class="text-sm leading-relaxed opacity-90 [&_a]:underline [&_a]:underline-offset-2"
-            >{{ body }}</Markdown
-          >
+          <div class="text-sm leading-relaxed opacity-90 [&_a]:underline [&_a]:underline-offset-2">
+            <slot />
+          </div>
         </div>
         <div
           v-if="overflows && !expanded"
