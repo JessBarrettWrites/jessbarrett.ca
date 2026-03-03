@@ -3,10 +3,11 @@ import Book from '@/components/Book.vue'
 import Testimonial from '@/components/Testimonial.vue'
 import Footer from '@/components/Footer.vue'
 import { parseBooks, parseTestimonials } from '@/content'
+import { bookDateSort } from '@/presentation'
 
 const today = new Date()
 
-const books = parseBooks()
+const books = parseBooks().sort(bookDateSort)
 const testimonials = parseTestimonials()
 const bookBySlug = new Map(books.map((b) => [b.slug, b]))
 const featured = books.filter((b) => !!b.meta.featuredUntil && today <= b.meta.featuredUntil)

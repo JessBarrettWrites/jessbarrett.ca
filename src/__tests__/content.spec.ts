@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   parseBooks,
   parseTestimonials,
-  parseJournalism,
+  parseJournalismArticles,
   parseTalks,
   parseTalksPage,
   parseAbout,
@@ -52,15 +52,6 @@ describe('parseBooks', () => {
     expect(book.meta.accolades![0]).toHaveProperty('text')
     expect(book.meta.accolades![0]).toHaveProperty('url')
   })
-
-  it('books with no dates sort after books with dates', () => {
-    const books = parseBooks()
-    // All books with dates should appear before books without
-    const withDates = books.filter((b) => b.meta.preorder || b.meta.available)
-    const withoutDates = books.filter((b) => !b.meta.preorder && !b.meta.available)
-    expect(books.slice(0, withDates.length)).toEqual(withDates)
-    expect(books.slice(withDates.length)).toEqual(withoutDates)
-  })
 })
 
 describe('parseTestimonials', () => {
@@ -86,14 +77,14 @@ describe('parseTestimonials', () => {
 
 describe('parseJournalism', () => {
   it('returns a non-empty array', () => {
-    expect(parseJournalism().length).toBeGreaterThan(0)
+    expect(parseJournalismArticles().length).toBeGreaterThan(0)
   })
 
   it('each article has required fields', () => {
-    for (const article of parseJournalism()) {
+    for (const article of parseJournalismArticles()) {
       expect(article.title).toBeTruthy()
       expect(article.publication).toBeTruthy()
-      expect(article.date).toBeTruthy()
+      expect(article.date).toBeInstanceOf(Date)
       expect(article.url).toBeTruthy()
     }
   })

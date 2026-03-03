@@ -4,8 +4,9 @@ import PageHeader from '@/components/PageHeader.vue'
 import Markdown from '@/components/Markdown.vue'
 import Footer from '@/components/Footer.vue'
 import { parseBooks } from '@/content'
+import { bookDateSort } from '@/presentation'
 
-const books = parseBooks()
+const books = parseBooks().sort(bookDateSort)
 </script>
 
 <template>

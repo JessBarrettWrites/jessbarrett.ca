@@ -51,13 +51,21 @@ export interface Testimonial {
 }
 
 export interface JournalismToml {
-  article: JournalismArticle[]
+  article: JournalismArticleToml[]
+}
+
+export interface JournalismArticleToml {
+  title: string
+  publication: string
+  date: string
+  url: string
+  description?: string
 }
 
 export interface JournalismArticle {
   title: string
   publication: string
-  date: string
+  date: Date
   url: string
   description?: string
 }

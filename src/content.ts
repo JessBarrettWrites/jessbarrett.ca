@@ -47,28 +47,21 @@ function parseBookMeta(toml: BookMetaToml): BookMeta {
   }
 }
 
-function bookSortKey(entry: Book): number {
-  const d = entry.meta.preorder ?? entry.meta.available
-  return d ? d.getTime() : Infinity
-}
-
 function getSlug(path: string) {
   return path.split('/').pop()!.replace(/\.md$/, '')
 }
 
 export function parseBooks(): Book[] {
-  return Object.entries(rawBookFiles)
-    .map(([path, raw]) => {
-      const slug = getSlug(path)
-      const { frontmatter, body } = frontMatter<BookMetaToml>(raw)
-      return {
-        slug,
-        meta: parseBookMeta(frontmatter),
-        testimonials: frontmatter.testimonial ?? [],
-        body,
-      }
-    })
-    .sort((a, b) => bookSortKey(a) - bookSortKey(b))
+  return Object.entries(rawBookFiles).map(([path, raw]) => {
+    const slug = getSlug(path)
+    const { frontmatter, body } = frontMatter<BookMetaToml>(raw)
+    return {
+      slug,
+      meta: parseBookMeta(frontmatter),
+      testimonials: frontmatter.testimonial ?? [],
+      body,
+    }
+  })
 }
 
 export function parseTestimonials(): Testimonial[] {
@@ -77,9 +70,9 @@ export function parseTestimonials(): Testimonial[] {
   )
 }
 
-export function parseJournalism(): JournalismArticle[] {
+export function parseJournalismArticles(): JournalismArticle[] {
   const { article } = parseTyped<JournalismToml>(rawJournalism)
-  return article
+  return article.map((a) => ({ ...a, date: parseDate(a.date)! }))
 }
 
 export function parseTalks(): Talk[] {

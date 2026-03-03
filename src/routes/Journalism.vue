@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
-import { parseJournalism } from '@/content'
+import { parseJournalismArticles } from '@/content'
+import { articleDateString, articleDateSort } from '@/presentation'
 
-const articles = parseJournalism()
+const locale = navigator.language
+const articles = parseJournalismArticles().sort(articleDateSort)
 </script>
 
 <template>
@@ -18,12 +20,17 @@ const articles = parseJournalism()
       </div>
       <ul v-else class="flex flex-col">
         <li v-for="article in articles" :key="article.url" class="py-4 flex flex-col gap-2">
-          <a :href="article.url" target="_blank" rel="noopener noreferrer" class="group flex flex-col gap-1">
+          <a
+            :href="article.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex flex-col gap-1"
+          >
             <span class="font-serif text-xl font-bold group-hover:underline underline-offset-4">
               {{ article.title }}
             </span>
             <span class="text-sm opacity-50"
-              >{{ article.publication }} &mdash; {{ article.date }}</span
+              >{{ article.publication }} &mdash; {{ articleDateString(article, locale) }}</span
             >
           </a>
           <p v-if="article.description" class="text-sm opacity-70 leading-relaxed">

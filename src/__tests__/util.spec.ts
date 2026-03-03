@@ -21,10 +21,10 @@ describe('parseDate', () => {
     expect(isNaN(result!.getTime())).toBe(false)
   })
 
-  it('preserves the correct year, month, and day', () => {
+  it('preserves the correct year, month, and day in local time', () => {
     const result = parseDate('2026-03-03')!
-    expect(result.getUTCFullYear()).toBe(2026)
-    expect(result.getUTCMonth()).toBe(2) // 0-indexed
-    expect(result.getUTCDate()).toBe(3)
+    expect(result.getFullYear()).toBe(2026)
+    expect(result.getMonth()).toBe(2) // 0-indexed
+    expect(result.getDate()).toBe(3)
   })
 })
