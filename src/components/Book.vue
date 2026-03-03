@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import Markdown from '@/components/Markdown.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
 import type { BookAccolade } from '@/types'
@@ -31,13 +31,19 @@ const statusText = computed(() => {
   return null
 })
 
-const COLLAPSED_HEIGHT = 500
+const CLAMP_HEIGHT = 150
 
 const expanded = ref(false)
 const bodyElement = ref<HTMLDivElement | null>(null)
-const clampHeight = ref(COLLAPSED_HEIGHT)
+const clampHeight = ref(CLAMP_HEIGHT)
 const overflows = ref(false)
 const expandedHeight = ref(0)
+
+onMounted(() => {
+  if (bodyElement.value && bodyElement.value.scrollHeight > CLAMP_HEIGHT) {
+    overflows.value = true
+  }
+})
 
 function toggle() {
   if (!expanded.value && bodyElement.value) {
@@ -59,7 +65,7 @@ const bodyStyle = computed(() => ({
         :alt="imageAlt"
         width="300"
         height="450"
-        :style="{ maxHeight: `${COLLAPSED_HEIGHT}px` }"
+        :style="{ maxHeight: `450px` }"
         class="shadow-2xl ring-1 ring-black/10"
       />
     </template>
