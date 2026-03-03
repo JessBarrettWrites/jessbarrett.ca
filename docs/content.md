@@ -152,7 +152,7 @@ A single TOML file (no Markdown body) containing an array of articles.
 | ------------- | ------ | -------- | ------------------------------------ |
 | `title`       | string | yes      | Article title                        |
 | `publication` | string | yes      | Publication name                     |
-| `date`        | string | yes      | Publication date (e.g. "January 2026") |
+| `date`        | string | yes      | Publication date (ISO format, e.g. "2026-01-26") |
 | `url`         | string | yes      | Link to the article                  |
 | `description` | string | no       | Short description                    |
 
@@ -162,13 +162,13 @@ A single TOML file (no Markdown body) containing an array of articles.
 [[article]]
 title = "Canada's Housing Supply Is In Crisis. Can Robots Help?"
 publication = "Betakit"
-date = "January 2026"
+date = "2026-01-26"
 url = "https://betakit.com/example"
 
 [[article]]
 title = "Is Calgary's Transit Keeping The City From Moving Forward?"
 publication = "Avenue Magazine"
-date = "March 2023"
+date = "2023-03-02"
 url = "https://www.avenuecalgary.com/example"
 ```
 
