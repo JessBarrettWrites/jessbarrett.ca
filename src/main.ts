@@ -10,5 +10,11 @@ export const createApp = ViteSSG(
   // the root component
   App,
   // vue-router options
-  { routes },
+  {
+    routes,
+    scrollBehavior(to) {
+      if (to.hash) return { el: to.hash }
+      return { top: 0 }
+    },
+  },
 )
