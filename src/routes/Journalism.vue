@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import AmDash from '@/components/AmDash.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
@@ -7,6 +8,11 @@ import { articleDateString, articleDateSort } from '@/presentation'
 
 const locale = navigator.language
 const articles = parseJournalismArticles().sort(articleDateSort)
+
+useHead({
+  title: 'Journalism',
+  meta: [{ name: 'description', content: 'Selected reporting and essays by Jessica Barrett.' }],
+})
 </script>
 
 <template>

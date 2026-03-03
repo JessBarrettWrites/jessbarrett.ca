@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import PageHeader from '@/components/PageHeader.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
 import FooterQuote from '@/components/FooterQuote.vue'
@@ -7,6 +8,11 @@ import { parseAbout } from '@/content'
 import Footer from '@/components/Footer.vue'
 
 const { meta, body } = parseAbout()
+
+useHead({
+  title: 'About',
+  meta: [{ name: 'description', content: meta.subtitle ?? 'About Jessica Barrett.' }],
+})
 </script>
 
 <template>

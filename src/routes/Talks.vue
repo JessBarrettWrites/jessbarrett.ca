@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
 import Markdown from '@/components/Markdown.vue'
@@ -6,6 +7,11 @@ import { parseTalks, parseTalksPage } from '@/content'
 
 const { meta, body: intro } = parseTalksPage()
 const talks = parseTalks()
+
+useHead({
+  title: 'Talks',
+  meta: [{ name: 'description', content: meta.subtitle ?? 'Public speaking by Jessica Barrett.' }],
+})
 </script>
 
 <template>

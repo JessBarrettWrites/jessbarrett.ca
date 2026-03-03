@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import Book from '@/components/Book.vue'
 import Testimonial from '@/components/Testimonial.vue'
 import Footer from '@/components/Footer.vue'
@@ -12,6 +13,11 @@ const testimonials = parseTestimonials()
 const bookBySlug = new Map(books.map((b) => [b.slug, b]))
 const featured = books.filter((b) => !!b.meta.featuredUntil && today <= b.meta.featuredUntil)
 const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
+
+useHead({
+  title: 'Jessica Barrett',
+  meta: [{ name: 'description', content: featuredBooks[0]?.meta.synopsis ?? 'Award-winning journalist and author.' }],
+})
 </script>
 
 <template>
