@@ -21,7 +21,9 @@ useHead({
     <PageHeader :title="meta.title">
       <template #subtitle>{{ meta.subtitle }}</template>
       <template #default>
-        <AmDashMarkdown class="[&_a]:underline [&_a]:underline-offset-2">{{ intro }}</AmDashMarkdown>
+        <AmDashMarkdown class="[&_a]:underline [&_a]:underline-offset-2">
+          {{ intro }}
+        </AmDashMarkdown>
       </template>
     </PageHeader>
 
