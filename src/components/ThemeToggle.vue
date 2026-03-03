@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePreferredDark, useStorage } from '@vueuse/core'
 import { computed, toValue, watchEffect } from 'vue'
-import { darkTheme, lightTheme, type Theme } from '@/constants.ts'
+import { DARK_THEME, LIGHT_THEME, type Theme } from '@/constants.ts'
 
 const prefersDark = usePreferredDark()
 const theme = useStorage<Theme | null>('theme', null)
@@ -9,18 +9,18 @@ const theme = useStorage<Theme | null>('theme', null)
 const isDark = computed(() => {
   if (theme.value !== null) {
     // NULL uses system settings
-    return theme.value === darkTheme
+    return theme.value === DARK_THEME
   }
   return prefersDark.value
 })
 
 watchEffect(() => {
   if (typeof document === 'undefined') return
-  document.documentElement.setAttribute('data-theme', toValue(isDark) ? darkTheme : lightTheme)
+  document.documentElement.setAttribute('data-theme', toValue(isDark) ? DARK_THEME : LIGHT_THEME)
 })
 
 function toggleTheme() {
-  theme.value = toValue(isDark) ? lightTheme : darkTheme
+  theme.value = toValue(isDark) ? LIGHT_THEME : DARK_THEME
 }
 </script>
 

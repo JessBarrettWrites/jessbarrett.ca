@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import ThemeToggle from '@/components/ThemeToggle.vue'
-import { lightTheme, darkTheme } from '@/constants'
+import { LIGHT_THEME, DARK_THEME } from '@/constants'
 
 function mockStorage() {
   const store: Record<string, string> = {}
@@ -44,30 +44,30 @@ describe('ThemeToggle', () => {
   })
 
   it('applies the light theme to the document when theme is stored as light', async () => {
-    storage.setItem('theme', lightTheme)
+    storage.setItem('theme', LIGHT_THEME)
     wrapper = mount(ThemeToggle)
     await new Promise((r) => setTimeout(r, 0))
-    expect(document.documentElement.getAttribute('data-theme')).toBe(lightTheme)
+    expect(document.documentElement.getAttribute('data-theme')).toBe(LIGHT_THEME)
   })
 
   it('applies the dark theme to the document when theme is stored as dark', async () => {
-    storage.setItem('theme', darkTheme)
+    storage.setItem('theme', DARK_THEME)
     wrapper = mount(ThemeToggle)
     await new Promise((r) => setTimeout(r, 0))
-    expect(document.documentElement.getAttribute('data-theme')).toBe(darkTheme)
+    expect(document.documentElement.getAttribute('data-theme')).toBe(DARK_THEME)
   })
 
   it('toggles from light to dark when checkbox is changed', async () => {
-    storage.setItem('theme', lightTheme)
+    storage.setItem('theme', LIGHT_THEME)
     wrapper = mount(ThemeToggle)
     await wrapper.find('input[type="checkbox"]').trigger('change')
-    expect(storage.getItem('theme')).toBe(darkTheme)
+    expect(storage.getItem('theme')).toBe(DARK_THEME)
   })
 
   it('toggles from dark to light when checkbox is changed', async () => {
-    storage.setItem('theme', darkTheme)
+    storage.setItem('theme', DARK_THEME)
     wrapper = mount(ThemeToggle)
     await wrapper.find('input[type="checkbox"]').trigger('change')
-    expect(storage.getItem('theme')).toBe(lightTheme)
+    expect(storage.getItem('theme')).toBe(LIGHT_THEME)
   })
 })

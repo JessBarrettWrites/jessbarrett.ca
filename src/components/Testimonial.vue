@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toRef } from 'vue'
 import { RouterLink } from 'vue-router'
-import Markdown from '@/components/Markdown.vue'
+import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
 import type { Testimonial } from '@/types'
 
 const props = defineProps<{
@@ -17,7 +17,7 @@ const testimonial = toRef(props, 'testimonial')
   <figure class="flex flex-col gap-5 pt-3">
     <blockquote>
       <p class="font-serif text-base leading-relaxed italic opacity-80">
-        <Markdown>"{{ testimonial.quote }}"</Markdown>
+        <AmDashMarkdown>"{{ testimonial.quote }}"</AmDashMarkdown>
       </p>
     </blockquote>
     <figcaption class="flex flex-col gap-1">

@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-
-// https://www.theamdash.com/
-// https://chriscoyier.net/2025/05/10/the-am-dash/
-const AMDASH_FONTS = ['TimesNewHuman', 'Areal']
+import { AMDASH_FONTS } from '@/constants.ts'
 
 const root = ref<HTMLElement>()
 const useAmDash = ref(false)

@@ -13,8 +13,9 @@ function makeBook(opts: { preorder?: string; available?: string }): Book {
       url: 'https://example.com',
       preorder: parseDate(opts.preorder),
       available: parseDate(opts.available),
+      accolades: [],
+      testimonials: [],
     },
-    testimonials: [],
     body: '',
   }
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, toRef, toValue, onMounted } from 'vue'
-import Markdown from '@/components/Markdown.vue'
+import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
 import type { Book } from '@/types'
 
@@ -16,8 +16,11 @@ const book = toRef(props, 'book')
 const today = new Date()
 
 const isFeatured = computed(() => {
-  const { featuredUntil } = toValue(book).meta
-  return !!featuredUntil && today <= featuredUntil
+  const meta = toValue(book).meta
+  if (!meta) {
+    return false
+  }
+  return !!meta.featuredUntil && today <= meta.featuredUntil
 })
 
 const statusText = computed(() => {
@@ -59,6 +62,7 @@ const bodyStyle = computed(() => ({
   <ProfileBlock :reverse="reverse" :id="book.slug">
     <template #image>
       <img
+        v-if="book.meta?.imageSrc"
         :src="book.meta.imageSrc"
         :alt="book.meta.imageAlt"
         width="300"
@@ -111,7 +115,7 @@ const bodyStyle = computed(() => ({
       v-if="book.meta.synopsis"
       class="font-serif font-bold font-italic opacity-70 leading-relaxed"
     >
-      <Markdown>{{ book.meta.synopsis }}</Markdown>
+      <AmDashMarkdown>{{ book.meta.synopsis }}</AmDashMarkdown>
     </p>
 
     <div class="relative">

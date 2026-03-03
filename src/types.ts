@@ -14,8 +14,8 @@ export interface BookMetaToml {
   title: string
   subtitle?: string
   synopsis?: string
-  imageSrc: string
-  imageAlt: string
+  imageSrc?: string
+  imageAlt?: string
   url: string
   preorder?: string
   available?: string
@@ -28,18 +28,18 @@ export interface BookMeta {
   title: string
   subtitle?: string
   synopsis?: string
-  imageSrc: string
-  imageAlt: string
+  imageSrc?: string
+  imageAlt?: string
   url: string
   preorder?: Date
   available?: Date
   accolades?: BookAccolade[]
+  testimonials: BookTestimonial[]
 }
 
 export interface Book {
   slug: string
   meta: BookMeta
-  testimonials: BookTestimonial[]
   body: string
 }
 

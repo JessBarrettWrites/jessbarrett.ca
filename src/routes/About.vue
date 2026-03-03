@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+
 import PageHeader from '@/components/PageHeader.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
 import FooterQuote from '@/components/FooterQuote.vue'
-import Markdown from '@/components/Markdown.vue'
+import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
 import { parseAbout } from '@/content'
 import Footer from '@/components/Footer.vue'
 
@@ -32,9 +33,9 @@ useHead({
         />
       </template>
 
-      <Markdown
+      <AmDashMarkdown
         class="[&_p]:text-lg [&_p]:leading-relaxed [&_p]:opacity-90 [&_p+p]:mt-5 [&_a]:underline [&_a]:underline-offset-2"
-        >{{ body }}</Markdown
+        >{{ body }}</AmDashMarkdown
       >
     </ProfileBlock>
 

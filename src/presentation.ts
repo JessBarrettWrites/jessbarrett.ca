@@ -13,7 +13,7 @@ export function articleDateSort(left: JournalismArticle, right: JournalismArticl
 }
 
 // Display for article date
-export function articleDateString(article: JournalismArticle, locale: string): string {
+export function articleDateString(article: JournalismArticle, locale: string | undefined): string {
   return article.date.toLocaleDateString(locale, {
     month: 'long',
     day: 'numeric',

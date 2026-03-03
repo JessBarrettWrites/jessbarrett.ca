@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import Book from '@/components/Book.vue'
+import type { Book as BookType } from '@/types'
 
 const TEST_ROUTER = createRouter({
   history: createMemoryHistory(),
@@ -11,11 +12,25 @@ const TEST_ROUTER = createRouter({
   ],
 })
 
-const TEST_BOOK = {
+const TEST_BOOK_META = {
+  slug: 'test-book',
   title: 'Test Book',
   imageSrc: '/images/test.jpg',
   imageAlt: 'Test book cover',
   url: 'https://example.com',
+  accolades: [],
+  testimonials: [],
+}
+
+function mockBook(meta: object = {}): BookType {
+  return {
+    slug: '',
+    body: '',
+    meta: {
+      ...TEST_BOOK_META,
+      ...meta,
+    },
+  }
 }
 
 // DEV NOTE: 86,400,000 seconds = 1 day
@@ -25,7 +40,7 @@ const yesterday = new Date(Date.now() - 86_400_000)
 describe('Book — featured label', () => {
   it('shows "Featured Book" when featuredUntil is in the future', () => {
     const wrapper = mount(Book, {
-      props: { ...TEST_BOOK, featuredUntil: tomorrow },
+      props: { book: mockBook({ featuredUntil: tomorrow }) },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).toContain('Featured Book')
@@ -33,7 +48,7 @@ describe('Book — featured label', () => {
 
   it('does not show "Featured Book" when featuredUntil is in the past', () => {
     const wrapper = mount(Book, {
-      props: { ...TEST_BOOK, featuredUntil: yesterday },
+      props: { book: mockBook({ featuredUntil: yesterday }) },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).not.toContain('Featured Book')
@@ -41,7 +56,7 @@ describe('Book — featured label', () => {
 
   it('does not show "Featured Book" when featuredUntil is absent', () => {
     const wrapper = mount(Book, {
-      props: TEST_BOOK,
+      props: { book: mockBook() },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).not.toContain('Featured Book')
@@ -51,7 +66,7 @@ describe('Book — featured label', () => {
 describe('Book — availability status', () => {
   it('shows "Available Now" when available date is today or past', () => {
     const wrapper = mount(Book, {
-      props: { ...TEST_BOOK, available: yesterday },
+      props: { book: mockBook({ available: yesterday }) },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).toContain('Available Now')
@@ -59,7 +74,7 @@ describe('Book — availability status', () => {
 
   it('shows "Available for Pre-Order" when preorder is past but available is future', () => {
     const wrapper = mount(Book, {
-      props: { ...TEST_BOOK, preorder: yesterday, available: tomorrow },
+      props: { book: mockBook({ preorder: yesterday, available: tomorrow }) },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).toContain('Available for Pre-Order')
@@ -67,7 +82,7 @@ describe('Book — availability status', () => {
 
   it('shows no status text when no dates are set', () => {
     const wrapper = mount(Book, {
-      props: TEST_BOOK,
+      props: { book: mockBook() },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).not.toContain('Available Now')
@@ -78,7 +93,7 @@ describe('Book — availability status', () => {
 describe('Book — image', () => {
   it('renders the image with the provided src and alt', () => {
     const wrapper = mount(Book, {
-      props: TEST_BOOK,
+      props: { book: mockBook() },
       global: { plugins: [TEST_ROUTER] },
     })
     const img = wrapper.find('img')
@@ -89,7 +104,7 @@ describe('Book — image', () => {
 
   it('renders the image with width and height attributes to prevent layout shift', () => {
     const wrapper = mount(Book, {
-      props: TEST_BOOK,
+      props: { book: mockBook() },
       global: { plugins: [TEST_ROUTER] },
     })
     const img = wrapper.find('img')
@@ -101,7 +116,7 @@ describe('Book — image', () => {
 describe('Book — content', () => {
   it('renders the book title', () => {
     const wrapper = mount(Book, {
-      props: TEST_BOOK,
+      props: { book: mockBook() },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).toContain('Test Book')
@@ -109,7 +124,7 @@ describe('Book — content', () => {
 
   it('renders subtitle when provided', () => {
     const wrapper = mount(Book, {
-      props: { ...TEST_BOOK, subtitle: 'A Subtitle' },
+      props: { book: mockBook({ subtitle: 'A Subtitle' }) },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).toContain('A Subtitle')
@@ -117,7 +132,7 @@ describe('Book — content', () => {
 
   it('renders the link text, defaulting to "Get the Book"', () => {
     const wrapper = mount(Book, {
-      props: TEST_BOOK,
+      props: { book: mockBook() },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).toContain('Get the Book')
@@ -125,7 +140,7 @@ describe('Book — content', () => {
 
   it('renders custom linkText when provided', () => {
     const wrapper = mount(Book, {
-      props: { ...TEST_BOOK, linkText: 'Buy Now' },
+      props: { book: mockBook(), linkText: 'Buy Now' },
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).toContain('Buy Now')

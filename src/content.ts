@@ -44,6 +44,7 @@ function parseBookMeta(toml: BookMetaToml): BookMeta {
     preorder: parseDate(toml.preorder),
     available: parseDate(toml.available),
     accolades: toml.accolade ?? [],
+    testimonials: toml.testimonial ?? [],
   }
 }
 
@@ -58,15 +59,14 @@ export function parseBooks(): Book[] {
     return {
       slug,
       meta: parseBookMeta(frontmatter),
-      testimonials: frontmatter.testimonial ?? [],
       body,
     }
   })
 }
 
 export function parseTestimonials(): Testimonial[] {
-  return parseBooks().flatMap(({ slug, testimonials }) =>
-    testimonials.map((t) => ({ ...t, book: slug })),
+  return parseBooks().flatMap(({ slug, meta }) =>
+    meta.testimonials.map((t) => ({ ...t, book: slug })),
   )
 }
 
