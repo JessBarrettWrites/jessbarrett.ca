@@ -21,7 +21,7 @@ watch(route, () => {
 <template>
   <div class="navbar-start mt-1 w-auto!">
     <RouterLink to="/" :aria-current="route.path === '/' ? 'page' : undefined">
-      <span v-if="props.title" class="btn btn-ghost text-lg md:text-xl">
+      <span v-if="props.title" class="btn btn-ghost text-lg md:text-xl [--btn-color:var(--color-neutral-content)]">
         <span v-if="props.title" class="lg:hidden">{{ props.title }}</span>
         <span v-if="props.title && props.subtitle" class="hidden lg:inline">
           {{ props.title }} <AmDash /> {{ props.subtitle }}
