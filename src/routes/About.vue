@@ -12,6 +12,7 @@ const { meta, body } = parseAbout()
 useHead({
   title: 'About',
   meta: [{ name: 'description', content: meta.subtitle ?? 'About Jessica Barrett.' }],
+  link: [{ rel: 'preload', href: meta.imageSrc, as: 'image' }],
 })
 </script>
 

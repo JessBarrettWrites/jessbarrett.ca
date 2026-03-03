@@ -7,6 +7,11 @@ import Nav from '@/components/Nav.vue'
 
 useHead({
   titleTemplate: (title) => title === 'Jessica Barrett' ? title : `${title} — Jessica Barrett`,
+  link: [
+    { rel: 'preload', href: '/fonts/timesnewhuman/TimesNewHuman-Reg.woff2', as: 'font', type: 'font/woff2', crossorigin: '' },
+    { rel: 'preload', href: '/fonts/timesnewhuman/TimesNewHuman-Bol.woff2', as: 'font', type: 'font/woff2', crossorigin: '' },
+    { rel: 'preload', href: '/fonts/areal/Areal.woff2', as: 'font', type: 'font/woff2', crossorigin: '' },
+  ],
 })
 </script>
 

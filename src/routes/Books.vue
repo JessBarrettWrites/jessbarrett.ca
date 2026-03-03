@@ -12,6 +12,7 @@ const books = parseBooks().sort(bookDateSort)
 useHead({
   title: 'Books',
   meta: [{ name: 'description', content: 'Books by Jessica Barrett, including No Place Like Home.' }],
+  link: books.map((b) => ({ rel: 'preload', href: b.meta.imageSrc, as: 'image' })),
 })
 </script>
 

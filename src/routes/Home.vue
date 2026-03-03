@@ -17,6 +17,7 @@ const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
 useHead({
   title: 'Jessica Barrett',
   meta: [{ name: 'description', content: featuredBooks[0]?.meta.synopsis ?? 'Award-winning journalist and author.' }],
+  link: featuredBooks.map((b) => ({ rel: 'preload', href: b.meta.imageSrc, as: 'image' })),
 })
 </script>
 
