@@ -20,24 +20,29 @@ watch(route, () => {
 
 <template>
   <div class="navbar-start mt-1 w-auto!">
-    <span v-if="props.title" class="btn btn-ghost text-lg md:text-xl">
-      <span v-if="props.title" class="lg:hidden">{{ props.title }}</span>
-      <span v-if="props.title && props.subtitle" class="hidden lg:inline">
-        {{ props.title }} <AmDash /> {{ props.subtitle }}
+    <RouterLink to="/" :aria-current="route.path === '/' ? 'page' : undefined">
+      <span v-if="props.title" class="btn btn-ghost text-lg md:text-xl">
+        <span v-if="props.title" class="lg:hidden">{{ props.title }}</span>
+        <span v-if="props.title && props.subtitle" class="hidden lg:inline">
+          {{ props.title }} <AmDash /> {{ props.subtitle }}
+        </span>
+        <span v-else-if="props.title" class="hidden lg:inline">{{ props.title }}</span>
+        <span v-else></span>
       </span>
-      <span v-else-if="props.title" class="hidden lg:inline">{{ props.title }}</span>
-      <span v-else></span>
-    </span>
+    </RouterLink>
   </div>
   <nav class="navbar-end text-right hidden md:flex items-center flex-1!">
-    <ul class="flex items-center px-2 mt-1" v-for="{ to, label } in nav" :key="to">
+    <ul class="flex items-center mt-1" v-for="{ to, label } in nav" :key="to">
       <li>
-        <RouterLink :to="to" :aria-current="route.path === to ? 'page' : undefined">{{
-          label
-        }}</RouterLink>
+        <RouterLink
+          class="btn btn-ghost px-2 [--btn-color:var(--color-neutral-content)]"
+          :to="to"
+          :aria-current="route.path === to ? 'page' : undefined"
+          >{{ label }}</RouterLink
+        >
       </li>
     </ul>
-    <div class="flex items-center gap-1 px-3">
+    <div class="flex items-center gap-1 px-2">
       <SocialMedia />
     </div>
     <div class="flex items-center px-2">
@@ -85,6 +90,7 @@ watch(route, () => {
       >
         <li v-for="{ to, label } in nav" :key="to">
           <RouterLink
+            class="btn btn-ghost px-2 [--btn-color:var(--color-neutral-content)]"
             :to="to"
             :aria-current="route.path === to ? 'page' : undefined"
             @click="isMenuOpen = false"
