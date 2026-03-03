@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed } from 'vue'
 import Markdown from '@/components/Markdown.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
 import type { BookAccolade } from '@/types'
