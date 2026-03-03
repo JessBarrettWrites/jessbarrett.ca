@@ -1,34 +1,28 @@
-import Home from '@/routes/Home.vue'
-import Books from '@/routes/Books.vue'
-import Journalism from '@/routes/Journalism.vue'
-import About from '@/routes/About.vue'
-import Talks from '@/routes/Talks.vue'
-
 export default [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: () => import('@/routes/Home.vue'),
   },
   {
     path: '/books',
     name: 'books',
-    component: Books,
+    component: () => import('@/routes/Books.vue'),
   },
   {
     path: '/journalism',
     name: 'journalism',
-    component: Journalism,
+    component: () => import('@/routes/Journalism.vue'),
   },
   {
     path: '/talks',
     name: 'talks',
-    component: Talks,
+    component: () => import('@/routes/Talks.vue'),
   },
   {
     path: '/about',
     name: 'about',
-    component: About,
+    component: () => import('@/routes/About.vue'),
   },
 ]
 
