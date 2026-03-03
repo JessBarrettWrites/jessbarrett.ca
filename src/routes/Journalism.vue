@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
-import AmDash from '@/components/AmDash.vue'
+import JournalismArticle from '@/components/JournalismArticle.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
 import { parseJournalismArticles } from '@/content'
-import { articleDateString, articleDateSort } from '@/presentation'
+import { articleDateSort } from '@/presentation'
 
 const locale = navigator.language
 const articles = parseJournalismArticles().sort(articleDateSort)
@@ -26,23 +26,16 @@ useHead({
         Coming soon.
       </div>
       <ul v-else class="flex flex-col">
-        <li v-for="article in articles" :key="article.url" class="py-4 flex flex-col gap-2">
-          <a
-            :href="article.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group flex flex-col gap-1"
-          >
-            <span class="font-serif text-xl font-bold group-hover:underline underline-offset-4">
-              {{ article.title }}
-            </span>
-            <span class="text-sm opacity-50"
-              >{{ article.publication }} <AmDash /> {{ articleDateString(article, locale) }}</span
-            >
-          </a>
-          <p v-if="article.description" class="text-sm opacity-70 leading-relaxed">
-            {{ article.description }}
-          </p>
+        <li v-for="(article, i) in articles" :key="article.url">
+          <hr v-if="i > 0" class="my-4 border-base-content/10" />
+          <JournalismArticle
+            :title="article.title"
+            :publication="article.publication"
+            :date="article.date"
+            :url="article.url"
+            :description="article.description"
+            :locale="locale"
+          />
         </li>
       </ul>
     </section>
