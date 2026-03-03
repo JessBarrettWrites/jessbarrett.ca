@@ -13,6 +13,7 @@ export const createApp = ViteSSG(
   { routes },
   // vite-ssg client setup
   ({ router }) => {
+    if (import.meta.env.SSR) return
     router.afterEach((to) => {
       const main = document.querySelector('#main')
       if (!main) return
