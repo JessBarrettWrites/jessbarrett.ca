@@ -34,37 +34,14 @@ const statusText = computed(() => {
 const COLLAPSED_HEIGHT = 500
 
 const expanded = ref(false)
-const imageEl = ref<HTMLImageElement | null>(null)
-const bodyEl = ref<HTMLDivElement | null>(null)
+const bodyElement = ref<HTMLDivElement | null>(null)
 const clampHeight = ref(COLLAPSED_HEIGHT)
 const overflows = ref(false)
 const expandedHeight = ref(0)
 
-function measure() {
-  if (!imageEl.value || !bodyEl.value) return
-  const imageBottom = imageEl.value.getBoundingClientRect().bottom
-  const bodyTop = bodyEl.value.getBoundingClientRect().top
-  const remaining = imageBottom - bodyTop
-  clampHeight.value = remaining > 0 ? remaining : COLLAPSED_HEIGHT
-  overflows.value = bodyEl.value.scrollHeight > clampHeight.value
-}
-
-onMounted(() => {
-  if (imageEl.value?.complete) {
-    measure()
-  } else {
-    imageEl.value?.addEventListener('load', measure)
-  }
-  window.addEventListener('resize', measure)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', measure)
-})
-
 function toggle() {
-  if (!expanded.value && bodyEl.value) {
-    expandedHeight.value = bodyEl.value.scrollHeight
+  if (!expanded.value && bodyElement.value) {
+    expandedHeight.value = bodyElement.value.scrollHeight
   }
   expanded.value = !expanded.value
 }
@@ -78,9 +55,10 @@ const bodyStyle = computed(() => ({
   <ProfileBlock :reverse="reverse" :id="slug">
     <template #image>
       <img
-        ref="imageEl"
         :src="imageSrc"
         :alt="imageAlt"
+        width="300"
+        height="450"
         :style="{ maxHeight: `${COLLAPSED_HEIGHT}px` }"
         class="shadow-2xl ring-1 ring-black/10"
       />
@@ -90,7 +68,12 @@ const bodyStyle = computed(() => ({
       Featured Book
     </p>
     <h2 class="font-serif text-4xl font-bold leading-tight">
-      <RouterLink v-if="titleLink && slug" :to="`/books#${slug}`" class="hover:underline underline-offset-4">{{ title }}</RouterLink>
+      <RouterLink
+        v-if="titleLink && slug"
+        :to="`/books#${slug}`"
+        class="hover:underline underline-offset-4"
+        >{{ title }}</RouterLink
+      >
       <template v-else>{{ title }}</template>
     </h2>
     <p v-if="subtitle" class="font-serif text-lg italic opacity-60 leading-tight -mt-3">
@@ -126,7 +109,7 @@ const bodyStyle = computed(() => ({
 
     <div class="relative">
       <div
-        ref="bodyEl"
+        ref="bodyElement"
         :style="bodyStyle"
         class="overflow-hidden transition-[max-height] duration-500 ease-in-out"
       >

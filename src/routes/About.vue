@@ -19,6 +19,8 @@ const { meta, body } = parseAbout()
         <img
           :src="meta.imageSrc"
           :alt="meta.imageAlt"
+          width="300"
+          height="450"
           class="w-full shadow-2xl ring-1 ring-black/10"
         />
       </template>
