@@ -10,11 +10,18 @@ export const createApp = ViteSSG(
   // the root component
   App,
   // vue-router options
-  {
-    routes,
-    scrollBehavior(to) {
-      if (to.hash) return { el: to.hash }
-      return { top: 0 }
-    },
+  { routes },
+  // vite-ssg client setup
+  ({ router }) => {
+    router.afterEach((to) => {
+      const main = document.querySelector('#main')
+      if (!main) return
+      if (to.hash) {
+        const target = main.querySelector(to.hash)
+        target?.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        main.scrollTop = 0
+      }
+    })
   },
 )

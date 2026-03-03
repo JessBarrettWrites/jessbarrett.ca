@@ -10,6 +10,7 @@ const props = defineProps<{ title?: string; subtitle?: string }>()
       <NavBar :title="props.title" :subtitle="props.subtitle" />
     </header>
     <main
+      id="main"
       class="relative flex flex-col flex-1 overflow-y-auto [&>article]:flex [&>article]:flex-col [&>article]:flex-1 [&>article]:min-h-full"
     >
       <slot></slot>

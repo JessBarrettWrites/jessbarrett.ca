@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import Markdown from '@/components/Markdown.vue'
 
 defineProps<{
+  slug: string
   title: string
   body: string
 }>()
@@ -33,7 +34,7 @@ const bodyStyle = computed(() => ({
 </script>
 
 <template>
-  <div class="card shadow-sm border border-neutral">
+  <div :id="slug" class="card shadow-sm border border-neutral">
     <div class="bg-neutral text-neutral-content px-6 py-4 rounded-t-[inherit]">
       <h3 class="font-serif text-xl font-bold">{{ title }}</h3>
     </div>
