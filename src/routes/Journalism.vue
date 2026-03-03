@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AmDash from '@/components/AmDash.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
 import { parseJournalismArticles } from '@/content'
@@ -30,7 +31,7 @@ const articles = parseJournalismArticles().sort(articleDateSort)
               {{ article.title }}
             </span>
             <span class="text-sm opacity-50"
-              >{{ article.publication }} &mdash; {{ articleDateString(article, locale) }}</span
+              >{{ article.publication }} <AmDash /> {{ articleDateString(article, locale) }}</span
             >
           </a>
           <p v-if="article.description" class="text-sm opacity-70 leading-relaxed">

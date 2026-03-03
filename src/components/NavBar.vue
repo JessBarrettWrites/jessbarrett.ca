@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+import AmDash from '@/components/AmDash.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import SocialMedia from '@/components/SocialMedia.vue'
 import { nav } from '@/routes'
-import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
@@ -14,23 +16,17 @@ const isMenuOpen = ref(false)
 watch(route, () => {
   isMenuOpen.value = false
 })
-
-const navbarText = computed(() => {
-  if (props.title && props.subtitle) {
-    return `${props.title} am- ${props.subtitle}`
-  } else if (props.title) {
-    return props.title
-  } else {
-    return ''
-  }
-})
 </script>
 
 <template>
   <div class="navbar-start mt-1 w-auto!">
     <span v-if="props.title" class="btn btn-ghost text-lg md:text-xl">
-      <span class="lg:hidden">{{ props.title }}</span>
-      <span class="hidden lg:inline">{{ navbarText }}</span>
+      <span v-if="props.title" class="lg:hidden">{{ props.title }}</span>
+      <span v-if="props.title && props.subtitle" class="hidden lg:inline">
+        {{ props.title }} <AmDash /> {{ props.subtitle }}
+      </span>
+      <span v-else-if="props.title" class="hidden lg:inline">{{ props.title }}</span>
+      <span v-else></span>
     </span>
   </div>
   <nav class="navbar-end text-right hidden md:flex items-center flex-1!">
@@ -52,7 +48,12 @@ const navbarText = computed(() => {
     <div class="inline-block px-2">
       <ThemeToggle />
     </div>
-    <div v-if="isMenuOpen" class="fixed inset-0 z-0" aria-hidden="true" @click="isMenuOpen = false" />
+    <div
+      v-if="isMenuOpen"
+      class="fixed inset-0 z-0"
+      aria-hidden="true"
+      @click="isMenuOpen = false"
+    />
     <nav class="relative z-10">
       <button
         type="button"

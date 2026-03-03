@@ -1,0 +1,26 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+// https://www.theamdash.com/
+// https://chriscoyier.net/2025/05/10/the-am-dash/
+const AMDASH_FONTS = ['TimesNewHuman', 'Areal']
+
+const root = ref<HTMLElement>()
+const useAmDash = ref(false)
+
+onMounted(async () => {
+  if (!root.value) return
+  await document.fonts?.ready
+  const fontFamily = getComputedStyle(root.value).fontFamily
+  useAmDash.value = AMDASH_FONTS.some((f) => fontFamily.includes(f))
+})
+</script>
+
+<template>
+  <span ref="root">
+    <template v-if="useAmDash">
+      <span aria-hidden="true">am-</span><span class="sr-only">&mdash;</span>
+    </template>
+    <template v-else>&mdash;</template>
+  </span>
+</template>
