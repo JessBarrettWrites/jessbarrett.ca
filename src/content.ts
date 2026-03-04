@@ -47,12 +47,18 @@ export function useBooks(): Book[] {
 }
 
 export function useTestimonials(): Testimonial[] {
-  return useBooks().flatMap((book) => book.testimonials.map((t) => ({ ...t, book: book.slug })))
+  return useBooks().flatMap((book) => {
+    return book.testimonials.map((testimonial) => {
+      return { ...testimonial, book: book.slug }
+    })
+  })
 }
 
 export function useJournalismArticles(): JournalismArticle[] {
-  const { article } = parseTyped<JournalismToml>(rawJournalism)
-  return article.map((a) => ({ ...a, date: parseDate(a.date)! }))
+  const { article: articles } = parseTyped<JournalismToml>(rawJournalism)
+  return articles.map((article) => {
+    return { ...article, date: parseDate(article.date)! }
+  })
 }
 
 export function useTalks(): Talk[] {
