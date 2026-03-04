@@ -16,15 +16,12 @@ const book = toRef(props, 'book')
 const today = new Date()
 
 const isFeatured = computed(() => {
-  const meta = toValue(book).meta
-  if (!meta) {
-    return false
-  }
-  return !!meta.featuredUntil && today <= meta.featuredUntil
+  const { featuredUntil } = toValue(book)
+  return !!featuredUntil && today <= featuredUntil
 })
 
 const statusText = computed(() => {
-  const { available, preorder } = toValue(book).meta
+  const { available, preorder } = toValue(book)
   if (available && today >= available) return 'Available Now'
   if (preorder && today >= preorder) return 'Available for Pre-Order'
   return null
@@ -62,9 +59,9 @@ const bodyStyle = computed(() => ({
   <ProfileBlock :reverse="reverse" :id="book.slug">
     <template #image>
       <img
-        v-if="book.meta?.imageSrc"
-        :src="book.meta.imageSrc"
-        :alt="book.meta.imageAlt"
+        v-if="book.imageSrc"
+        :src="book.imageSrc"
+        :alt="book.imageAlt"
         width="300"
         height="450"
         :style="{ maxHeight: `450px` }"
@@ -80,15 +77,15 @@ const bodyStyle = computed(() => ({
         v-if="titleLink && book.slug"
         :to="`/books#${book.slug}`"
         class="hover:underline underline-offset-4"
-        >{{ book.meta.title }}</RouterLink
+        >{{ book.title }}</RouterLink
       >
-      <template v-else>{{ book.meta.title }}</template>
+      <template v-else>{{ book.title }}</template>
     </h2>
-    <p v-if="book.meta.subtitle" class="font-serif text-lg italic opacity-60 leading-tight -mt-3">
-      {{ book.meta.subtitle }}
+    <p v-if="book.subtitle" class="font-serif text-lg italic opacity-60 leading-tight -mt-3">
+      {{ book.subtitle }}
     </p>
-    <ul v-if="book.meta.accolades?.length" class="flex flex-col gap-1">
-      <li v-for="accolade in book.meta.accolades" :key="accolade.text">
+    <ul v-if="book.accolades?.length" class="flex flex-col gap-1">
+      <li v-for="accolade in book.accolades" :key="accolade.text">
         <a
           :href="accolade.url"
           target="_blank"
@@ -102,7 +99,7 @@ const bodyStyle = computed(() => ({
 
     <div>
       <a
-        :href="book.meta.url"
+        :href="book.url"
         target="_blank"
         rel="noopener noreferrer"
         class="btn btn-neutral transition-all hover:translate-y-0.5 hover:shadow-inner active:translate-y-1"
@@ -112,10 +109,10 @@ const bodyStyle = computed(() => ({
     </div>
 
     <p
-      v-if="book.meta.synopsis"
+      v-if="book.synopsis"
       class="font-serif font-bold font-italic opacity-70 leading-relaxed"
     >
-      <AmDashMarkdown>{{ book.meta.synopsis }}</AmDashMarkdown>
+      <AmDashMarkdown>{{ book.synopsis }}</AmDashMarkdown>
     </p>
 
     <div class="relative">

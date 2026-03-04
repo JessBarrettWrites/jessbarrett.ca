@@ -1,21 +1,17 @@
-import { parse } from 'smol-toml'
-
-import { frontMatter } from '@/frontmatter'
 import type {
-  BookMeta,
-  BookMetaToml,
+  AboutPage,
+  AboutPageToml,
   Book,
-  Testimonial,
+  BookToml,
   JournalismArticle,
   JournalismToml,
-  AboutMeta,
-  About,
-  TalksPageMeta,
-  TalksPage,
-  TalkMeta,
   Talk,
+  TalksPage,
+  TalksPageToml,
+  TalkToml,
+  Testimonial,
 } from '@/types'
-import { parseDate } from '@/util'
+import { getSlug, parseDate, parseFront, parseTyped } from '@/parse.ts'
 
 import rawJournalism from '../content/journalism.toml?raw'
 import rawAbout from '../content/about.md?raw'
@@ -33,62 +29,46 @@ const rawBookFiles = import.meta.glob<string>('../content/books/*.md', {
   eager: true,
 })
 
-function parseTyped<T>(input: string): T {
-  return parse(input) as unknown as T
-}
-
-function parseBookMeta(toml: BookMetaToml): BookMeta {
-  return {
-    ...toml,
-    featuredUntil: parseDate(toml.featuredUntil),
-    preorder: parseDate(toml.preorder),
-    available: parseDate(toml.available),
-    accolades: toml.accolade ?? [],
-    testimonials: toml.testimonial ?? [],
-  }
-}
-
-function getSlug(path: string) {
-  return path.split('/').pop()!.replace(/\.md$/, '')
-}
-
-export function parseBooks(): Book[] {
+export function useBooks(): Book[] {
   return Object.entries(rawBookFiles).map(([path, raw]) => {
     const slug = getSlug(path)
-    const { frontmatter, body } = frontMatter<BookMetaToml>(raw)
+    const { frontmatter: toml, body } = parseFront<BookToml>(raw)
     return {
+      ...toml,
       slug,
-      meta: parseBookMeta(frontmatter),
+      featuredUntil: parseDate(toml.featuredUntil),
+      preorder: parseDate(toml.preorder),
+      available: parseDate(toml.available),
+      accolades: toml.accolade ?? [],
+      testimonials: toml.testimonial ?? [],
       body,
     }
   })
 }
 
-export function parseTestimonials(): Testimonial[] {
-  return parseBooks().flatMap(({ slug, meta }) =>
-    meta.testimonials.map((t) => ({ ...t, book: slug })),
-  )
+export function useTestimonials(): Testimonial[] {
+  return useBooks().flatMap((book) => book.testimonials.map((t) => ({ ...t, book: book.slug })))
 }
 
-export function parseJournalismArticles(): JournalismArticle[] {
+export function useJournalismArticles(): JournalismArticle[] {
   const { article } = parseTyped<JournalismToml>(rawJournalism)
   return article.map((a) => ({ ...a, date: parseDate(a.date)! }))
 }
 
-export function parseTalks(): Talk[] {
+export function useTalks(): Talk[] {
   return Object.entries(rawTalkFiles).map(([path, raw]) => {
     const slug = getSlug(path)
-    const { frontmatter, body } = frontMatter<TalkMeta>(raw)
-    return { slug, meta: frontmatter, body }
+    const { frontmatter, body } = parseFront<TalkToml>(raw)
+    return { slug, ...frontmatter, body }
   })
 }
 
-export function parseTalksPage(): TalksPage {
-  const { frontmatter: meta, body } = frontMatter<TalksPageMeta>(rawTalksPage)
-  return { meta, body }
+export function useTalksPage(): TalksPage {
+  const { frontmatter, body } = parseFront<TalksPageToml>(rawTalksPage)
+  return { ...frontmatter, body }
 }
 
-export function parseAbout(): About {
-  const { frontmatter: meta, body } = frontMatter<AboutMeta>(rawAbout)
-  return { meta, body }
+export function useAboutPage(): AboutPage {
+  const { frontmatter, body } = parseFront<AboutPageToml>(rawAbout)
+  return { ...frontmatter, body }
 }

@@ -37,7 +37,7 @@ const bodyStyle = computed(() => ({
 <template>
   <div :id="talk.slug" class="card shadow-sm border border-neutral">
     <div class="bg-neutral text-neutral-content px-6 py-4 rounded-t-[inherit]">
-      <h3 class="font-serif text-xl font-bold">{{ talk.meta.title }}</h3>
+      <h3 class="font-serif text-xl font-bold">{{ talk.title }}</h3>
     </div>
     <div class="card-body">
       <div class="relative">

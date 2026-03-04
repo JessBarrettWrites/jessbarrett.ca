@@ -2,8 +2,8 @@ import type { JournalismArticle, Book } from '@/types.ts'
 
 // Sort Books by preorder and availability date
 export function bookDateSort(left: Book, right: Book): number {
-  const leftKey = (left.meta.preorder ?? left.meta.available)?.getTime() ?? Infinity
-  const rightKey = (right.meta.preorder ?? right.meta.available)?.getTime() ?? Infinity
+  const leftKey = (left.preorder ?? left.available)?.getTime() ?? Infinity
+  const rightKey = (right.preorder ?? right.available)?.getTime() ?? Infinity
   return leftKey - rightKey
 }
 
@@ -19,4 +19,11 @@ export function articleDateString(article: JournalismArticle, locale: string | u
     day: 'numeric',
     year: 'numeric',
   })
+}
+
+// Filter books by featured
+export function featuredBookFilter(today: Date) {
+  return (book: Book) => {
+    return !!book.featuredUntil && today <= book.featuredUntil
+  }
 }

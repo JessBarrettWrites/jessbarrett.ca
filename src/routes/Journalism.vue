@@ -3,10 +3,10 @@ import { useHead } from '@unhead/vue'
 import JournalismArticle from '@/components/JournalismArticle.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
-import { parseJournalismArticles } from '@/content'
+import { useJournalismArticles } from '@/content'
 import { articleDateSort } from '@/presentation'
 
-const articles = parseJournalismArticles().sort(articleDateSort)
+const articles = useJournalismArticles().sort(articleDateSort)
 
 useHead({
   title: 'Journalism',

@@ -1,21 +1,19 @@
 import { describe, it, expect } from 'vitest'
-import { bookDateSort, articleDateSort, articleDateString } from '@/presentation'
-import { parseDate } from '@/util'
+import { bookDateSort, articleDateSort, articleDateString, featuredBookFilter } from '@/presentation'
+import { parseDate } from '@/parse'
 import type { Book, JournalismArticle } from '@/types'
 
 function makeBook(opts: { preorder?: string; available?: string }): Book {
   return {
     slug: 'test',
-    meta: {
-      title: 'Test',
-      imageSrc: '/test.jpg',
-      imageAlt: 'test',
-      url: 'https://example.com',
-      preorder: parseDate(opts.preorder),
-      available: parseDate(opts.available),
-      accolades: [],
-      testimonials: [],
-    },
+    title: 'Test',
+    imageSrc: '/test.jpg',
+    imageAlt: 'test',
+    url: 'https://example.com',
+    preorder: parseDate(opts.preorder),
+    available: parseDate(opts.available),
+    accolades: [],
+    testimonials: [],
     body: '',
   }
 }
@@ -105,5 +103,33 @@ describe('articleDateString', () => {
       year: 'numeric',
     })
     expect(articleDateString(article, 'fr-FR')).toBe(expected)
+  })
+})
+
+describe('featuredBookFilter', () => {
+  const today = parseDate('2025-06-01')!
+  const filter = featuredBookFilter(today)
+
+  it('returns true when featuredUntil is in the future', () => {
+    const book = makeBook({ available: '2024-01-01' })
+    book.featuredUntil = parseDate('2025-12-31')
+    expect(filter(book)).toBe(true)
+  })
+
+  it('returns false when featuredUntil is in the past', () => {
+    const book = makeBook({ available: '2024-01-01' })
+    book.featuredUntil = parseDate('2025-01-01')
+    expect(filter(book)).toBe(false)
+  })
+
+  it('returns true when featuredUntil is today', () => {
+    const book = makeBook({ available: '2024-01-01' })
+    book.featuredUntil = parseDate('2025-06-01')
+    expect(filter(book)).toBe(true)
+  })
+
+  it('returns false when featuredUntil is undefined', () => {
+    const book = makeBook({ available: '2024-01-01' })
+    expect(filter(book)).toBe(false)
   })
 })

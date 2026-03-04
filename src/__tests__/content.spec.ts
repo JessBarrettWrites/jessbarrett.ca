@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import {
-  parseBooks,
-  parseTestimonials,
-  parseJournalismArticles,
-  parseTalks,
-  parseTalksPage,
-  parseAbout,
+  useBooks,
+  useTestimonials,
+  useJournalismArticles,
+  useTalks,
+  useTalksPage,
+  useAboutPage,
 } from '@/content'
 
 // DEV NOTE: Extracted from content to have a reasonable test
@@ -14,53 +14,53 @@ const TEST_BOOK = {
   title: 'No Place Like Home',
 }
 
-describe('parseBooks', () => {
+describe('useBooks', () => {
   it('returns a non-empty array', () => {
-    const books = parseBooks()
+    const books = useBooks()
     expect(books.length).toBeGreaterThan(0)
   })
 
   it('each book has required fields', () => {
-    for (const book of parseBooks()) {
+    for (const book of useBooks()) {
       expect(book.slug).toBeTruthy()
-      expect(book.meta.title).toBeTruthy()
-      expect(book.meta.imageSrc).toBeTruthy()
-      expect(book.meta.imageAlt).toBeTruthy()
-      expect(book.meta.url).toBeTruthy()
+      expect(book.title).toBeTruthy()
+      expect(book.imageSrc).toBeTruthy()
+      expect(book.imageAlt).toBeTruthy()
+      expect(book.url).toBeTruthy()
     }
   })
 
   it('includes the expected TEST_BOOK', () => {
-    const books = parseBooks()
+    const books = useBooks()
     const found = books.find((b) => b.slug === TEST_BOOK.slug)
     expect(found).toBeDefined()
-    expect(found!.meta.title).toBe(TEST_BOOK.title)
+    expect(found!.title).toBe(TEST_BOOK.title)
   })
 
   it('converts date strings to Date objects', () => {
-    const books = parseBooks()
+    const books = useBooks()
     const book = books.find((b) => b.slug === TEST_BOOK.slug)!
-    if (book.meta.available) expect(book.meta.available).toBeInstanceOf(Date)
-    if (book.meta.preorder) expect(book.meta.preorder).toBeInstanceOf(Date)
-    if (book.meta.featuredUntil) expect(book.meta.featuredUntil).toBeInstanceOf(Date)
+    if (book.available) expect(book.available).toBeInstanceOf(Date)
+    if (book.preorder) expect(book.preorder).toBeInstanceOf(Date)
+    if (book.featuredUntil) expect(book.featuredUntil).toBeInstanceOf(Date)
   })
 
   it('maps accolade TOML array to accolades field', () => {
-    const book = parseBooks().find((b) => b.slug === TEST_BOOK.slug)!
-    expect(Array.isArray(book.meta.accolades)).toBe(true)
-    expect(book.meta.accolades!.length).toBeGreaterThan(0)
-    expect(book.meta.accolades![0]).toHaveProperty('text')
-    expect(book.meta.accolades![0]).toHaveProperty('url')
+    const book = useBooks().find((b) => b.slug === TEST_BOOK.slug)!
+    expect(Array.isArray(book.accolades)).toBe(true)
+    expect(book.accolades!.length).toBeGreaterThan(0)
+    expect(book.accolades![0]).toHaveProperty('text')
+    expect(book.accolades![0]).toHaveProperty('url')
   })
 })
 
-describe('parseTestimonials', () => {
+describe('useTestimonials', () => {
   it('returns a non-empty array', () => {
-    expect(parseTestimonials().length).toBeGreaterThan(0)
+    expect(useTestimonials().length).toBeGreaterThan(0)
   })
 
   it('each testimonial has quote, name, and book slug', () => {
-    for (const t of parseTestimonials()) {
+    for (const t of useTestimonials()) {
       expect(t.quote).toBeTruthy()
       expect(t.name).toBeTruthy()
       expect(t.book).toBeTruthy()
@@ -68,8 +68,8 @@ describe('parseTestimonials', () => {
   })
 
   it('testimonial book slug matches a real book slug', () => {
-    const slugs = new Set(parseBooks().map((b) => b.slug))
-    for (const t of parseTestimonials()) {
+    const slugs = new Set(useBooks().map((b) => b.slug))
+    for (const t of useTestimonials()) {
       expect(slugs.has(t.book)).toBe(true)
     }
   })
@@ -77,11 +77,11 @@ describe('parseTestimonials', () => {
 
 describe('parseJournalism', () => {
   it('returns a non-empty array', () => {
-    expect(parseJournalismArticles().length).toBeGreaterThan(0)
+    expect(useJournalismArticles().length).toBeGreaterThan(0)
   })
 
   it('each article has required fields', () => {
-    for (const article of parseJournalismArticles()) {
+    for (const article of useJournalismArticles()) {
       expect(article.title).toBeTruthy()
       expect(article.publication).toBeTruthy()
       expect(article.date).toBeInstanceOf(Date)
@@ -90,40 +90,40 @@ describe('parseJournalism', () => {
   })
 })
 
-describe('parseTalks', () => {
+describe('useTalks', () => {
   it('returns a non-empty array', () => {
-    expect(parseTalks().length).toBeGreaterThan(0)
+    expect(useTalks().length).toBeGreaterThan(0)
   })
 
   it('each talk has a slug and title', () => {
-    for (const talk of parseTalks()) {
+    for (const talk of useTalks()) {
       expect(talk.slug).toBeTruthy()
-      expect(talk.meta.title).toBeTruthy()
+      expect(talk.title).toBeTruthy()
     }
   })
 })
 
-describe('parseTalksPage', () => {
+describe('useTalksPage', () => {
   it('returns a title', () => {
-    const page = parseTalksPage()
-    expect(page.meta.title).toBeTruthy()
+    const page = useTalksPage()
+    expect(page.title).toBeTruthy()
   })
 })
 
-describe('parseAbout', () => {
+describe('useAbout', () => {
   it('returns the expected author name as title', () => {
-    const about = parseAbout()
-    expect(about.meta.title).toBe('Jessica Barrett')
+    const about = useAboutPage()
+    expect(about.title).toBe('Jessica Barrett')
   })
 
   it('has imageSrc and imageAlt', () => {
-    const about = parseAbout()
-    expect(about.meta.imageSrc).toBeTruthy()
-    expect(about.meta.imageAlt).toBeTruthy()
+    const about = useAboutPage()
+    expect(about.imageSrc).toBeTruthy()
+    expect(about.imageAlt).toBeTruthy()
   })
 
   it('has a non-empty body', () => {
-    const about = parseAbout()
+    const about = useAboutPage()
     expect(about.body.length).toBeGreaterThan(0)
   })
 })

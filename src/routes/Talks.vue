@@ -5,24 +5,24 @@ import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
 import Talk from '@/components/Talk.vue'
 import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
-import { parseTalks, parseTalksPage } from '@/content'
+import { useTalks, useTalksPage } from '@/content'
 
-const { meta, body: intro } = parseTalksPage()
-const talks = parseTalks()
+const talksPage = useTalksPage()
+const talks = useTalks()
 
 useHead({
   title: 'Talks',
-  meta: [{ name: 'description', content: meta.subtitle ?? 'Public speaking by Jessica Barrett.' }],
+  meta: [{ name: 'description', content: talksPage.subtitle ?? 'Public speaking by Jessica Barrett.' }],
 })
 </script>
 
 <template>
   <article>
-    <PageHeader :title="meta.title">
-      <template #subtitle>{{ meta.subtitle }}</template>
+    <PageHeader :title="talksPage.title">
+      <template #subtitle>{{ talksPage.subtitle }}</template>
       <template #default>
         <AmDashMarkdown class="[&_a]:underline [&_a]:underline-offset-2">
-          {{ intro }}
+          {{ talksPage.body }}
         </AmDashMarkdown>
       </template>
     </PageHeader>

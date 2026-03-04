@@ -9,7 +9,7 @@ export interface BookAccolade {
   url: string
 }
 
-export interface BookMetaToml {
+export interface BookToml {
   featuredUntil?: string
   title: string
   subtitle?: string
@@ -23,7 +23,8 @@ export interface BookMetaToml {
   accolade?: BookAccolade[]
 }
 
-export interface BookMeta {
+export interface Book {
+  slug: string
   featuredUntil?: Date
   title: string
   subtitle?: string
@@ -35,19 +36,11 @@ export interface BookMeta {
   available?: Date
   accolades?: BookAccolade[]
   testimonials: BookTestimonial[]
-}
-
-export interface Book {
-  slug: string
-  meta: BookMeta
   body: string
 }
 
-export interface Testimonial {
+export interface Testimonial extends BookTestimonial {
   book: string
-  quote: string
-  name: string
-  role?: string
 }
 
 export interface JournalismToml {
@@ -70,7 +63,7 @@ export interface JournalismArticle {
   description?: string
 }
 
-export interface AboutMeta {
+export interface AboutPageToml {
   title: string
   subtitle?: string
   imageSrc: string
@@ -78,27 +71,24 @@ export interface AboutMeta {
   pullQuote?: string
 }
 
-export interface About {
-  meta: AboutMeta
+export interface AboutPage extends AboutPageToml {
   body: string
 }
 
-export interface TalksPageMeta {
+export interface TalksPageToml {
   title: string
   subtitle?: string
 }
 
-export interface TalksPage {
-  meta: TalksPageMeta
+export interface TalksPage extends TalksPageToml {
   body: string
 }
 
-export interface TalkMeta {
+export interface TalkToml {
   title: string
 }
 
-export interface Talk {
+export interface Talk extends TalkToml {
   slug: string
-  meta: TalkMeta
   body: string
 }

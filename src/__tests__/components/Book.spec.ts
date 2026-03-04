@@ -12,7 +12,7 @@ const TEST_ROUTER = createRouter({
   ],
 })
 
-const TEST_BOOK_META = {
+const TEST_BOOK_DEFAULTS = {
   slug: 'test-book',
   title: 'Test Book',
   imageSrc: '/images/test.jpg',
@@ -20,16 +20,13 @@ const TEST_BOOK_META = {
   url: 'https://example.com',
   accolades: [],
   testimonials: [],
+  body: '',
 }
 
-function mockBook(meta: object = {}): BookType {
+function mockBook(overrides: object = {}): BookType {
   return {
-    slug: '',
-    body: '',
-    meta: {
-      ...TEST_BOOK_META,
-      ...meta,
-    },
+    ...TEST_BOOK_DEFAULTS,
+    ...overrides,
   }
 }
 
