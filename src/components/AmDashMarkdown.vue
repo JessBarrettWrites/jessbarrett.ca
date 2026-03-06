@@ -19,7 +19,14 @@ const root = ref<HTMLElement>()
 const useAmDash = ref(false)
 
 onMounted(async () => {
-  if (!root.value) return
+  if (!root.value) {
+    // EARLY EXIT: Element may not be present if conditionally mounted (v-if) or rapidly unmounted
+    return
+  }
+  if (!document || !document.fonts) {
+    // EARLY EXIT: Require document and document.fonts to properly determine style
+    return
+  }
   await document.fonts?.ready
   const fontFamily = getComputedStyle(root.value).fontFamily
   useAmDash.value = AMDASH_FONTS.some((f) => fontFamily.includes(f))
