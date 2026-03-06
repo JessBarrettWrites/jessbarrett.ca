@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useElementSize } from '@vueuse/core'
+import { useElementSize, useOnline } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
+
 import Book from '@/components/Book.vue'
 import YouTube from '@/components/YouTube.vue'
 import Testimonial from '@/components/Testimonial.vue'
@@ -31,11 +32,13 @@ useHead({
   ],
   link: featuredBooks.map((b) => ({ rel: 'preload', href: b.imageSrc, as: 'image' })),
 })
+
+const isOnline = useOnline()
 </script>
 
 <template>
   <div class="pt-6">
-    <section>
+    <section v-if="isOnline">
       <!-- https://www.youtube.com/watch?v=jPS8kGTKric -->
       <YouTube
         title="No Place Like Home Book Trailer"
