@@ -10,6 +10,10 @@ preorder = "2025-10-01"
 available = "2026-03-03"
 
 [[accolade]]
+text = "Toronto Star Top 10 Bestsellers - Canadian Non-Fiction"
+url = "https://www.thestar.com/entertainment/books/toronto-star-bestsellers-christina-applegate-memoir-makes-a-splashy-debut/article_f4b45542-9cf1-4f66-837e-3169041ecae1.html"
+
+[[accolade]]
 text = "Audible Most Anticipated Audiobooks of 2026"
 url = "https://www.audible.ca/blog/en/most-anticipated-2026"
 
