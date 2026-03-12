@@ -1,3 +1,4 @@
+/// <reference types="vite-ssg/node" />
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
@@ -5,6 +6,7 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 import { VitePWA } from 'vite-plugin-pwa'
+import generateSitemap from 'vite-ssg-sitemap'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -30,6 +32,11 @@ export default defineConfig({
       },
     }),
   ],
+  ssgOptions: {
+    onFinished() {
+      generateSitemap({ hostname: process.env.VITE_SITE_URL ?? 'https://jessbarrett.ca' })
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

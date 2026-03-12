@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jessbarrett.ca/sitemap.xml
