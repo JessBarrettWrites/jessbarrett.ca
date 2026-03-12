@@ -68,6 +68,7 @@
     "vite-ssg": "^28.3.0",
     "vite-ssg-sitemap": "^0.10.0",
     "vitest": "^4.0.18",
+    "vitest-github-actions-reporter": "^0.11.1",
     "vue-tsc": "^3.2.5"
   }
 }
