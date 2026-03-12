@@ -7,6 +7,7 @@ import Book from '@/components/Book.vue'
 import YouTube from '@/components/YouTube.vue'
 import Testimonial from '@/components/Testimonial.vue'
 import Footer from '@/components/Footer.vue'
+import { AUTHOR_NAME } from '@/constants'
 import { useBooks, useTestimonials } from '@/content'
 import { bookDateSort, featuredBookFilter } from '@/presentation'
 
@@ -22,15 +23,17 @@ const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
 const bookMeasureElement = ref<HTMLElement>()
 const { width: bookSectionWidth } = useElementSize(bookMeasureElement)
 
+const description = featuredBooks[0]?.synopsis ?? 'Award-winning journalist and author.'
+const metaDescription = `Home — ${AUTHOR_NAME}`
+
 useHead({
-  title: 'Jessica Barrett',
+  title: AUTHOR_NAME,
   meta: [
-    {
-      name: 'description',
-      content: featuredBooks[0]?.synopsis ?? 'Award-winning journalist and author.',
-    },
+    { name: 'description', content: description },
+    { property: 'og:title', content: metaDescription },
+    { property: 'og:description', content: description },
   ],
-  link: featuredBooks.map((b) => ({ rel: 'preload', href: b.imageSrc, as: 'image' })),
+  link: featuredBooks.map((b) => ({ rel: 'preload', href: b.imageSrc, as: 'image' as const })),
 })
 
 const isOnline = useOnline()

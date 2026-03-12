@@ -1,16 +1,49 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
+
 import JournalismArticle from '@/components/JournalismArticle.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import Footer from '@/components/Footer.vue'
+import { AUTHOR_NAME } from '@/constants'
 import { useJournalismArticles } from '@/content'
 import { articleDateSort } from '@/presentation'
+import { pageUrl } from '@/routes'
 
+const route = useRoute()
 const articles = useJournalismArticles().sort(articleDateSort)
+
+const description = `Selected reporting and essays by ${AUTHOR_NAME}.`
+const metaDescription = `Journalism — ${AUTHOR_NAME}`
 
 useHead({
   title: 'Journalism',
-  meta: [{ name: 'description', content: 'Selected reporting and essays by Jessica Barrett.' }],
+  meta: [
+    { name: 'description', content: description },
+    { property: 'og:title', content: metaDescription },
+    { property: 'og:description', content: description },
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: metaDescription,
+        url: pageUrl(route.path),
+        description,
+        mainEntity: articles.map((article) => ({
+          '@type': 'ReportageNewsArticle',
+          headline: article.title,
+          url: article.url,
+          datePublished: article.date.toISOString().slice(0, 10),
+          author: { '@type': 'Person', name: AUTHOR_NAME },
+          publisher: { '@type': 'Organization', name: article.publication },
+          ...(article.description && { description: article.description }),
+        })),
+      }),
+    },
+  ],
 })
 </script>
 

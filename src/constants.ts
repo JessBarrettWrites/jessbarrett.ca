@@ -1,3 +1,6 @@
+export const AUTHOR_NAME = 'Jessica Barrett'
+export const SITE_URL = import.meta.env.VITE_SITE_URL ?? 'https://jessbarrett.ca'
+
 export type Theme = 'lofi' | 'black'
 
 export const LIGHT_THEME: Theme = 'lofi'

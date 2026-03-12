@@ -46,6 +46,7 @@ jobs:
       - name: Build
         env:
           NODE_OPTIONS: --max_old_space_size=8192
+          VITE_SITE_URL: https://jessbarrett.ca
         run: pnpm run build
 
       - name: Upload static files as artifact

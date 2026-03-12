@@ -1,3 +1,5 @@
+import { SITE_URL } from '@/constants.ts'
+
 export default [
   {
     path: '/',
@@ -33,3 +35,7 @@ export const nav = [
   { to: '/talks', label: 'Talks' },
   { to: '/about', label: 'About' },
 ]
+
+export function pageUrl(path: string): string {
+  return `${SITE_URL}${path}`
+}
