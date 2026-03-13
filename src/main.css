@@ -11,8 +11,6 @@
   default: true;
   prefersdark: false;
   color-scheme: light;
-  --font-sans: Areal, Helvetica, Arial, sans-serif;
-  --font-serif: TimesNewHuman, 'Times New Roman', serif;
   --color-neutral: rgb(28, 124, 146);
   --color-neutral-content: rgb(243, 151, 68);
   --color-base-100: rgb(252, 250, 245);
@@ -22,9 +20,12 @@
   name: "black";
   prefersdark: true;
   color-scheme: dark;
-  --font-sans: Areal, Helvetica, Arial, sans-serif;
-  --font-serif: TimesNewHuman, 'Times New Roman', serif;
   --color-neutral: rgb(28, 124, 146);
   --color-neutral-content: rgb(243, 151, 68);
   --color-base-100: rgb(8, 30, 36);
+}
+
+@theme {
+  --font-sans: Areal, Helvetica, Arial, sans-serif;
+  --font-serif: TimesNewHuman, 'Times New Roman', serif;
 }
