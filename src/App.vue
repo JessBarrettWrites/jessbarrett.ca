@@ -7,10 +7,12 @@ import Nav from '@/components/Nav.vue'
 import { AUTHOR_NAME } from '@/constants'
 import { useBooks } from '@/content'
 import { pageUrl } from '@/routes'
+import { bookDateSort } from '@/presentation.ts'
 
 const route = useRoute()
 const canonicalUrl = computed(() => pageUrl(route.path))
-const noPlaceLikeHomeBook = useBooks().find((b) => b.slug === 'no-place-like-home')
+const books = useBooks().sort(bookDateSort)
+const latestBook = books[0]
 
 useHead({
   titleTemplate: (title) => (title === AUTHOR_NAME ? title : `${title} — ${AUTHOR_NAME}`),
@@ -21,9 +23,10 @@ useHead({
     { property: 'og:locale', content: 'en_CA' },
     {
       property: 'og:image',
-      content: pageUrl(noPlaceLikeHomeBook?.imageSrc ?? '/images/no-place-like-home.jpg'),
+      content: pageUrl(latestBook?.imageSrc ?? '/images/no-place-like-home.jpg'),
     },
     { property: 'og:url', content: canonicalUrl },
+    { property: 'og:logo', content: pageUrl('/favicon.ico') },
     { name: 'twitter:card', content: 'summary' },
   ],
   link: [
