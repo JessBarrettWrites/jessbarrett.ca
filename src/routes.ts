@@ -1,30 +1,40 @@
 import { SITE_URL } from '@/constants.ts'
 
+// Generic handler that will reload the page if the routing fails for some reason
+function loadRoute(
+  loader: () => Promise<{ default: ReturnType<(typeof import('vue'))['defineComponent']> }>,
+) {
+  return () =>
+    loader().catch(() => {
+      window.location.reload()
+    })
+}
+
 export default [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/routes/Home.vue'),
+    component: loadRoute(() => import('@/routes/Home.vue')),
   },
   {
     path: '/books',
     name: 'books',
-    component: () => import('@/routes/Books.vue'),
+    component: loadRoute(() => import('@/routes/Books.vue')),
   },
   {
     path: '/journalism',
     name: 'journalism',
-    component: () => import('@/routes/Journalism.vue'),
+    component: loadRoute(() => import('@/routes/Journalism.vue')),
   },
   {
     path: '/talks',
     name: 'talks',
-    component: () => import('@/routes/Talks.vue'),
+    component: loadRoute(() => import('@/routes/Talks.vue')),
   },
   {
     path: '/about',
     name: 'about',
-    component: () => import('@/routes/About.vue'),
+    component: loadRoute(() => import('@/routes/About.vue')),
   },
 ]
 

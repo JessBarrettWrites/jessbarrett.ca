@@ -29,6 +29,20 @@ export default defineConfig({
       workbox: {
         // Include all website assets in the pre-cache
         globPatterns: ['**/*.{js,css,html,ico,jpg,png,svg,woff2}'],
+        // Take control immediately on activate so new deploys aren't stuck
+        // behind a stale worker that references old chunk hashes
+        clientsClaim: true,
+        // Runtime caching for JS chunks — try cache, but fall back to network
+        // so stale-hashed chunks can still be fetched from the origin
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.destination === 'script',
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'js-chunks',
+            },
+          },
+        ],
       },
     }),
   ],
