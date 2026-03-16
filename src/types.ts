@@ -39,6 +39,11 @@ export interface Book {
   body: string
 }
 
+export interface Contact {
+  email?: string
+  instagram?: string
+}
+
 export interface Testimonial extends BookTestimonial {
   book: string
 }

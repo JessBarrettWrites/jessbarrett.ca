@@ -1,7 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useContacts } from '@/content.ts'
+import { computed } from 'vue'
+
+const contacts = useContacts()
+const mailTo = computed(() => 'mailto:' + contacts.email)
+</script>
 <template>
   <a
-    href="https://www.instagram.com/thewritelight"
+    v-if="contacts.instagram"
+    :href="contacts.instagram"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Instagram"
@@ -26,7 +33,8 @@
     </svg>
   </a>
   <a
-    href="mailto:jessica.barrett@gmail.com"
+    v-if="contacts.email"
+    :href="mailTo"
     aria-label="Email"
     class="btn btn-ghost btn-circle btn-sm [--btn-color:var(--color-neutral-content)]"
   >

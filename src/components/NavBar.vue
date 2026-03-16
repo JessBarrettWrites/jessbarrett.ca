@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 
 import AmDash from '@/components/AmDash.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
-import SocialMedia from '@/components/SocialMedia.vue'
+import SocialMedia from '@/nav/SocialMedia.vue'
 import { nav } from '@/routes'
 
 const route = useRoute()
@@ -21,7 +21,10 @@ watch(route, () => {
 <template>
   <div class="navbar-start mt-1 w-auto!">
     <RouterLink to="/" :aria-current="route.path === '/' ? 'page' : undefined">
-      <span v-if="props.title" class="btn btn-ghost text-lg md:text-xl [--btn-color:var(--color-neutral-content)]">
+      <span
+        v-if="props.title"
+        class="btn btn-ghost text-lg md:text-xl [--btn-color:var(--color-neutral-content)]"
+      >
         <span v-if="props.title" class="lg:hidden">{{ props.title }}</span>
         <span v-if="props.title && props.subtitle" class="hidden lg:inline">
           {{ props.title }} <AmDash /> {{ props.subtitle }}

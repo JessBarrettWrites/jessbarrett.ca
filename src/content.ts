@@ -3,6 +3,7 @@ import type {
   AboutPageToml,
   Book,
   BookToml,
+  Contact,
   JournalismArticle,
   JournalismToml,
   Talk,
@@ -13,6 +14,7 @@ import type {
 } from '@/types'
 import { getSlug, parseDate, parseFront, parseTyped } from '@/parse.ts'
 
+import rawContact from '../content/contact.toml?raw'
 import rawJournalism from '../content/journalism.toml?raw'
 import rawAbout from '../content/about.md?raw'
 import rawTalksPage from '../content/talks.md?raw'
@@ -44,6 +46,10 @@ export function useBooks(): Book[] {
       body,
     }
   })
+}
+
+export function useContacts(): Contact {
+  return parseTyped<Contact>(rawContact)
 }
 
 export function useTestimonials(): Testimonial[] {
