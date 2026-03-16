@@ -26,7 +26,7 @@
     </svg>
   </a>
   <a
-    href="mailto:jessicabarrett@gmail.com"
+    href="mailto:jessica.barrett@gmail.com"
     aria-label="Email"
     class="btn btn-ghost btn-circle btn-sm [--btn-color:var(--color-neutral-content)]"
   >
