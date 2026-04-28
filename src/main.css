@@ -1,10 +1,10 @@
 @import 'tailwindcss';
 
-@plugin "daisyui" {
+@plugin "daisyui/index.js" {
   themes: false;
 }
 
-@plugin "daisyui/theme" {
+@plugin "daisyui/theme/index.js" {
   name: "lofi";
   default: true;
   prefersdark: false;
@@ -14,7 +14,7 @@
   --color-base-100: rgb(252, 250, 245);
 }
 
-@plugin "daisyui/theme" {
+@plugin "daisyui/theme/index.js" {
   name: "black";
   prefersdark: true;
   color-scheme: dark;
