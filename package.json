@@ -34,7 +34,7 @@
   "devDependencies": {
     "@prettier/plugin-oxc": "^0.2.2",
     "@tailwindcss/vite": "^4.3.3",
-    "@tsconfig/node22": "^22.0.5",
+    "@tsconfig/node24": "^24.0.4",
     "@types/jsdom": "^28.0.3",
     "@types/node": "^26.1.1",
     "@vitejs/plugin-vue": "^6.0.8",
@@ -64,7 +64,6 @@
     "vite-ssg": "^28.3.0",
     "vite-ssg-sitemap": "^0.10.0",
     "vitest": "^4.1.10",
-    "vitest-github-actions-reporter": "^0.11.1",
     "vue-tsc": "^3.3.8"
   }
 }
