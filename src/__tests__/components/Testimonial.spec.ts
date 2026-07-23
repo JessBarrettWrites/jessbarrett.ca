@@ -38,7 +38,7 @@ describe('Testimonial', () => {
 
   it('renders the role when provided', () => {
     const wrapper = mount(Testimonial, {
-      props: { ...{ testimonial: mockTestimonial({ role: 'Author' }) } },
+      props: { testimonial: mockTestimonial({ role: 'Author' }) },
       global: { plugins: [router] },
     })
     expect(wrapper.text()).toContain('Author')
@@ -59,7 +59,10 @@ describe('Testimonial', () => {
 
   it('shows " on " and title text when onTitle is provided without a URL', () => {
     const wrapper = mount(Testimonial, {
-      props: { ...{ testimonial: mockTestimonial() }, onTitle: 'Some Book' },
+      props: {
+        testimonial: mockTestimonial(),
+        onTitle: 'Some Book',
+      },
       global: { plugins: [router] },
     })
     expect(wrapper.text()).toContain('on')
@@ -70,7 +73,7 @@ describe('Testimonial', () => {
   it('renders a RouterLink when both onTitle and onTitleUrl are provided', () => {
     const wrapper = mount(Testimonial, {
       props: {
-        ...{ testimonial: mockTestimonial() },
+        testimonial: mockTestimonial(),
         onTitle: 'Some Book',
         onTitleUrl: '/books#some-book',
       },

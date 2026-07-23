@@ -5,7 +5,7 @@
 }
 
 @plugin "daisyui/theme/index.js" {
-  name: "lofi";
+  name: 'lofi';
   default: true;
   prefersdark: false;
   color-scheme: light;
@@ -15,7 +15,7 @@
 }
 
 @plugin "daisyui/theme/index.js" {
-  name: "black";
+  name: 'black';
   prefersdark: true;
   color-scheme: dark;
   --color-neutral: rgb(28, 124, 146);

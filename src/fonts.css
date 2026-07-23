@@ -1,63 +1,63 @@
 @font-face {
-    font-family: TimesNewHuman;
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-    src: url("/fonts/timesnewhuman/TimesNewHuman-Reg.woff2") format("woff2");
+  font-family: TimesNewHuman;
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/timesnewhuman/TimesNewHuman-Reg.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: TimesNewHuman;
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-    src: url("/fonts/timesnewhuman/TimesNewHuman-RegIta.woff2") format("woff2");
+  font-family: TimesNewHuman;
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/timesnewhuman/TimesNewHuman-RegIta.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: TimesNewHuman;
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-    src: url("/fonts/timesnewhuman/TimesNewHuman-Bol.woff2") format("woff2");
+  font-family: TimesNewHuman;
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/timesnewhuman/TimesNewHuman-Bol.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: TimesNewHuman;
-    font-weight: bold;
-    font-style: italic;
-    font-display: swap;
-    src: url("/fonts/timesnewhuman/TimesNewHuman-BolIta.woff2") format("woff2");
+  font-family: TimesNewHuman;
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/timesnewhuman/TimesNewHuman-BolIta.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: Areal;
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-    src: url("/fonts/areal/Areal.woff2") format("woff2");
+  font-family: Areal;
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/areal/Areal.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: Areal;
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-    src: url("/fonts/areal/Areal-Italic.woff2") format("woff2");
+  font-family: Areal;
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/areal/Areal-Italic.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: Areal;
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-    src: url("/fonts/areal/Areal-Bold.woff2") format("woff2");
+  font-family: Areal;
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/areal/Areal-Bold.woff2') format('woff2');
 }
 
 @font-face {
-    font-family: Areal;
-    font-weight: bold;
-    font-style: italic;
-    font-display: swap;
-    src: url("/fonts/areal/Areal-BoldItalic.woff2") format("woff2");
+  font-family: Areal;
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/areal/Areal-BoldItalic.woff2') format('woff2');
 }

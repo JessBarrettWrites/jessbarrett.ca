@@ -108,10 +108,7 @@ const bodyStyle = computed(() => ({
       </a>
     </div>
 
-    <p
-      v-if="book.synopsis"
-      class="font-serif font-bold font-italic opacity-70 leading-relaxed"
-    >
+    <p v-if="book.synopsis" class="font-serif font-bold font-italic opacity-70 leading-relaxed">
       <AmDashMarkdown>{{ book.synopsis }}</AmDashMarkdown>
     </p>
 

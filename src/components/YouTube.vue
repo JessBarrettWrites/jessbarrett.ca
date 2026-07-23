@@ -14,7 +14,10 @@ const height = computed(() => Math.round((props.maxWidth * 9) / 16))
 </script>
 
 <template>
-  <div class="mx-auto aspect-video w-full rounded-lg bg-neutral ring-1 ring-base-content/10" :style="{ maxWidth: `${props.maxWidth}px` }">
+  <div
+    class="mx-auto aspect-video w-full rounded-lg bg-neutral ring-1 ring-base-content/10"
+    :style="{ maxWidth: `${props.maxWidth}px` }"
+  >
     <iframe
       :width="props.maxWidth"
       :height="height"

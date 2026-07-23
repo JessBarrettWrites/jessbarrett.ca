@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest'
-import { bookDateSort, articleDateSort, articleDateString, featuredBookFilter } from '@/presentation'
+import {
+  bookDateSort,
+  articleDateSort,
+  articleDateString,
+  featuredBookFilter,
+} from '@/presentation'
 import { parseDate } from '@/parse'
 import type { Book, JournalismArticle } from '@/types'
 
