@@ -5,6 +5,8 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
 
+    "rootDir": "./",
+
     "lib": [],
     "types": ["node", "jsdom"],
 
