@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Local storage file created by `pnpm build-local-storage` for Node's --localstorage-file
+.tmp/

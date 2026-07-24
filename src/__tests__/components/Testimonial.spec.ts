@@ -6,7 +6,10 @@ import type { Testimonial as TestimonialType } from '@/types.ts'
 
 const router = createRouter({
   history: createMemoryHistory(),
-  routes: [{ path: '/', component: { template: '<div/>' } }],
+  routes: [
+    { path: '/', component: { template: '<div/>' } },
+    { path: '/books', component: { template: '<div/>' } },
+  ],
 })
 
 const MOCK_TESTIMONIAL = {
