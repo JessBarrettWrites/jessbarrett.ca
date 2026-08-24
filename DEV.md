@@ -9,6 +9,7 @@
 * `pnpm run dev`: Run dev server
 * `pnpm run build`: Build static page output
 * `pnpm run preview`: Run server to server whatever was built with `pnpm run build`
+* `pnpm update` to update dependencies
 
 ## Content
 
