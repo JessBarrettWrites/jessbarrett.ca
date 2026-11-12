@@ -8,8 +8,11 @@
     "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "dev": "run-p dev:*",
+    "dev:site": "vite",
+    "dev:admin": "vite build --config vite.admin.config.ts --watch --mode development",
+    "build": "pnpm build-admin && run-p type-check \"build-only {@}\" --",
+    "build-admin": "vite build --config vite.admin.config.ts",
     "preview": "vite preview",
     "build-local-storage": "mkdir -p .tmp",
     "test": "pnpm build-local-storage && NODE_OPTIONS='--localstorage-file=.tmp/testlocalstorage.sqlite' vitest run",

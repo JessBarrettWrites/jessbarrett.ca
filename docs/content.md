@@ -2,6 +2,9 @@
 
 The `/content` folder contains most of the content for the final website.  Files use **TOML frontmatter** (delimited by `+++`) with optional Markdown bodies.
 
+Dates are native TOML dates, written without quotes (`available = 2026-03-03`). This is the format the
+CMS (`/admin/`, see [editing.md](editing.md)) writes. Quoted date strings still parse.
+
 ## Content Types
 
 ### Books (`books/*.md`)
@@ -18,9 +21,9 @@ Each `.md` file in `books/` represents a book.
 | `imageSrc`      | string                | yes      | Path to cover image (e.g. `/images/cover.jpg`) |
 | `imageAlt`      | string                | yes      | Alt text for the cover image         |
 | `url`           | string                | yes      | Link to purchase or info page        |
-| `featuredUntil` | string (ISO date)     | no       | Feature the book on the homepage until this date |
-| `preorder`      | string (ISO date)     | no       | Date preorders open                  |
-| `available`     | string (ISO date)     | no       | Date the book is available           |
+| `featuredUntil` | TOML date             | no       | Feature the book on the homepage until this date |
+| `preorder`      | TOML date             | no       | Date preorders open                  |
+| `available`     | TOML date             | no       | Date the book is available           |
 | `accolade`      | list of `Accolade`    | no       | Notable mentions or awards           |
 | `testimonial`   | list of `Testimonial` | no       | Endorsement quotes                   |
 
@@ -45,15 +48,15 @@ Each `.md` file in `books/` represents a book.
 
 ```markdown
 +++
-featuredUntil = "2027-03-03"
+featuredUntil = 2027-03-03
 title = "No Place Like Home"
 subtitle = "The Missing Key to Our Housing Crisis"
 synopsis = "An honest and urgent look at our housing crisis."
 imageSrc = "/images/no-place-like-home.jpg"
 imageAlt = "No Place Like Home Book Cover"
 url = "https://www.penguinrandomhouse.ca/books/no-place-like-home"
-preorder = "2025-10-01"
-available = "2026-03-03"
+preorder = 2025-10-01
+available = 2026-03-03
 
 [[accolade]]
 text = "Audible Most Anticipated Audiobooks of 2026"
@@ -102,18 +105,25 @@ Jessica Barrett is an award-winning journalist and author...
 
 ---
 
-### Talks Page (`talks.md`)
+### Talks Page (`talks.toml`)
 
-A single file for the Talks page introduction.
+A single TOML file (no Markdown body) for the Talks page introduction.
 
-#### Talks Page Frontmatter
+#### Talks Page Fields
 
-| Field      | Type   | Required | Description    |
-| ---------- | ------ | -------- | -------------- |
-| `title`    | string | yes      | Page title     |
-| `subtitle` | string | no       | Page subtitle  |
+| Field         | Type   | Required | Description                         |
+| ------------- | ------ | -------- | ----------------------------------- |
+| `title`       | string | yes      | Page title                          |
+| `subtitle`    | string | no       | Page subtitle                       |
+| `description` | string | no       | Markdown intro text below the title |
 
-**Body:** Markdown intro text for the talks page.
+**Example:**
+
+```toml
+title = "Talks"
+subtitle = "Public speaking on housing, home, and community"
+description = "Jessica is available for public speaking engagements..."
+```
 
 ---
 
@@ -144,7 +154,12 @@ and moved across the country...
 
 ### Journalism (`journalism.toml`)
 
-A single TOML file (no Markdown body) containing an array of articles.
+A single TOML file (no Markdown body) containing a page description and an array of articles.
+
+| Field         | Type               | Required | Description                     |
+| ------------- | ------------------ | -------- | ------------------------------- |
+| `description` | string             | no       | Shown under the page title      |
+| `article`     | list of `Article`  | yes      | Articles, in any order (sorted newest first on the page) |
 
 #### Article
 
@@ -152,23 +167,25 @@ A single TOML file (no Markdown body) containing an array of articles.
 | ------------- | ------ | -------- | ------------------------------------ |
 | `title`       | string | yes      | Article title                        |
 | `publication` | string | yes      | Publication name                     |
-| `date`        | string | yes      | Publication date (ISO format, e.g. "2026-01-26") |
+| `date`        | TOML date | yes   | Publication date (e.g. `2026-01-26`, unquoted) |
 | `url`         | string | yes      | Link to the article                  |
 | `description` | string | no       | Short description                    |
 
 **Example:**
 
 ```toml
+description = "Selected reporting and essays"
+
 [[article]]
 title = "Canada's Housing Supply Is In Crisis. Can Robots Help?"
 publication = "Betakit"
-date = "2026-01-26"
+date = 2026-01-26
 url = "https://betakit.com/example"
 
 [[article]]
 title = "Is Calgary's Transit Keeping The City From Moving Forward?"
 publication = "Avenue Magazine"
-date = "2023-03-02"
+date = 2023-03-02
 url = "https://www.avenuecalgary.com/example"
 ```
 

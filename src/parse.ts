@@ -46,9 +46,16 @@ export function getSlug(path: string) {
   return path.split('/').pop()!.replace(/\.md$/, '')
 }
 
-/** Parses a date string, returning undefined if the value is missing or invalid.
- *  Appends T0:00:00 to date-only strings so they are parsed as local time rather than UTC. */
-export function parseDate(value: string | undefined): Date | undefined {
+/** Parses a date string or native TOML date, returning undefined if the value is missing or invalid.
+ *  Appends T0:00:00 to date-only strings so they are parsed as local time rather than UTC.
+ *
+ *  smol-toml stores a native local date (`2026-03-03`) as UTC midnight, which is the previous day in
+ *  Pacific time, so dates are re-parsed from their ISO text (`TomlDate.toISOString()` keeps the
+ *  date-only form) to land on local midnight like strings do. */
+export function parseDate(value: Date | string | undefined): Date | undefined {
+  if (value instanceof Date) {
+    return isNaN(value.getTime()) ? undefined : parseDate(value.toISOString())
+  }
   if (!value) return undefined
   const local = value.includes('T') ? value : `${value}T00:00:00`
   const d = new Date(local)

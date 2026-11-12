@@ -2,13 +2,9 @@
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 
-import PageHeader from '@/components/PageHeader.vue'
-import ProfileBlock from '@/components/ProfileBlock.vue'
-import FooterQuote from '@/components/FooterQuote.vue'
-import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
+import AboutContent from '@/components/AboutContent.vue'
 import { AUTHOR_NAME } from '@/constants'
 import { useAboutPage } from '@/content'
-import Footer from '@/components/Footer.vue'
 import { pageUrl } from '@/routes'
 
 const route = useRoute()
@@ -48,32 +44,7 @@ useHead({
 </script>
 
 <template>
-  <article>
-    <PageHeader :title="about.title">
-      <template #subtitle>{{ about.subtitle }}</template>
-    </PageHeader>
-    <ProfileBlock>
-      <template #image>
-        <img
-          :src="about.imageSrc"
-          :alt="about.imageAlt"
-          width="300"
-          height="450"
-          class="w-full shadow-2xl ring-1 ring-black/10"
-        />
-      </template>
-
-      <AmDashMarkdown
-        class="[&_p]:text-lg [&_p]:leading-relaxed [&_p]:opacity-90 [&_p+p]:mt-5 [&_a]:underline [&_a]:underline-offset-2"
-        >{{ about.body }}</AmDashMarkdown
-      >
-    </ProfileBlock>
-
-    <FooterQuote v-if="about.pullQuote">
-      {{ about.pullQuote }}
-    </FooterQuote>
-    <Footer v-else />
-  </article>
+  <AboutContent :about="about" />
 </template>
 
 <style scoped></style>

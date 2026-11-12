@@ -1,3 +1,7 @@
+/** A date as it appears in TOML: a native TOML date (parsed as a `Date`), or a quoted string. The
+ *  CMS writes native dates, and an empty string for a cleared optional date. */
+export type TomlDateValue = Date | string
+
 export interface BookTestimonial {
   quote: string
   name: string
@@ -10,15 +14,15 @@ export interface BookAccolade {
 }
 
 export interface BookToml {
-  featuredUntil?: string
+  featuredUntil?: TomlDateValue
   title: string
   subtitle?: string
   synopsis?: string
   imageSrc?: string
   imageAlt?: string
   url: string
-  preorder?: string
-  available?: string
+  preorder?: TomlDateValue
+  available?: TomlDateValue
   testimonial?: BookTestimonial[]
   accolade?: BookAccolade[]
 }
@@ -49,13 +53,14 @@ export interface Testimonial extends BookTestimonial {
 }
 
 export interface JournalismToml {
+  description?: string
   article: JournalismArticleToml[]
 }
 
 export interface JournalismArticleToml {
   title: string
   publication: string
-  date: string
+  date: TomlDateValue
   url: string
   description?: string
 }
@@ -66,6 +71,11 @@ export interface JournalismArticle {
   date: Date
   url: string
   description?: string
+}
+
+export interface JournalismPage {
+  description?: string
+  articles: JournalismArticle[]
 }
 
 export interface AboutPageToml {
@@ -83,11 +93,10 @@ export interface AboutPage extends AboutPageToml {
 export interface TalksPageToml {
   title: string
   subtitle?: string
+  description?: string
 }
 
-export interface TalksPage extends TalksPageToml {
-  body: string
-}
+export type TalksPage = TalksPageToml
 
 export interface TalkToml {
   title: string

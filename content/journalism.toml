@@ -1,59 +1,71 @@
+description = "Selected reporting and essays"
+
 [[article]]
 title = "Why Canada’s Empty Condos Won’t Solve the Housing Crisis"
 publication = "The Walrus"
-date = "2026-07-22"
+date = 2026-07-22
 url = "https://thewalrus.ca/bc-condos-housing-crisis/"
+description = ""
 
 [[article]]
 title = "The Housing Shortage Made Many Boomers Rich.  Here's Why They Might Dismantale The System Anyhow."
 publication = "Toronto Star"
-date = "2026-03-29"
+date = 2026-03-29
 url = "https://www.thestar.com/news/insight/boomers-are-often-the-winners-from-the-housing-shortage-heres-why-they-might-dismantle-the-system-anyhow/article_1a4bbd68-3c92-45e7-a1fb-5c95d1cf08fc.html"
+description = ""
 
 [[article]]
 title = "Cramped Condos And The Rise Of Unfriendly Neighbours"
 publication = "The Walrus"
-date = "2026-03-03"
+date = 2026-03-03
 url = "https://thewalrus.ca/cramped-condos-and-the-rise-of-unfriendly-neighbours/"
+description = ""
 
 [[article]]
 title = "Canada’s Housing Market Has Frayed Our Social Fabric. How Did This Happen?"
 publication = "The Globe and Mail"
-date = "2026-02-27"
+date = 2026-02-27
 url = "https://www.theglobeandmail.com/opinion/article-canadas-housing-market-frayed-our-social-fabric-how-did-this-happen/"
+description = ""
 
 [[article]]
 title = "Canada's Housing Supply Is In Crisis. Can Robots Help?"
 publication = "Betakit"
-date = "2026-01-26"
+date = 2026-01-26
 url = "https://betakit.com/canadas-housing-supply-is-in-crisis-can-robots-help"
+description = ""
 
 [[article]]
 title = "Is Calgary's Public Transit System Keeping The City From Moving Forward?"
 publication = "Avenue Magazine"
-date = "2023-03-02"
+date = 2023-03-02
 url = "https://www.avenuecalgary.com/city-life/is-calgarys-public-transit-system-keeping-the-city-from-moving-forward/"
+description = ""
 
 [[article]]
 title = "Opinion: The Queen's Death Is A Reminder Of How Few Women Leaders There Are"
 publication = "CBC"
-date = "2022-09-18"
+date = 2022-09-18
 url = "https://www.cbc.ca/news/canada/calgary/opinion-queen-death-women-leaders-feminism-1.6585597"
+description = ""
 
 [[article]]
 title = "Why Dating In Calgary Is Such A Crazy Mix Of Energy And Anxiety — Part 1"
 publication = "CBC"
-date = "2019-02-10"
+date = 2019-02-10
 url = "https://www.cbc.ca/news/canada/calgary/opinion-why-dating-in-calgary-is-such-a-crazy-mix-of-energy-and-anxiety-1.5012469"
+description = ""
 
 [[article]]
 title = "How A Culture Of Coupledom, Some Loneliness, And Just Getting Older Complicates Dating In Calgary — Part 2"
 publication = "CBC"
-date = "2019-02-14"
+date = 2019-02-14
 url = "https://www.cbc.ca/news/canada/calgary/opinion-dating-calgary-jessica-barrett-part-2-1.5016665"
+description = ""
 
 [[article]]
 title = "I Left Vancouver Because Vancouver Left Me"
 publication = "The Tyee"
-date = "2017-10-30"
+date = 2017-10-30
 url = "https://thetyee.ca/Opinion/2017/10/30/I-Left-Vancouver"
+description = ""

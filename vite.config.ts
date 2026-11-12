@@ -29,6 +29,9 @@ export default defineConfig({
       workbox: {
         // Include all website assets in the pre-cache
         globPatterns: ['**/*.{js,css,html,ico,jpg,png,svg,woff2}'],
+        // The CMS loads from the network: never pre-cache it or serve the site shell in its place
+        globIgnores: ['admin/**'],
+        navigateFallbackDenylist: [/^\/admin/],
         // Take control immediately on activate so new deploys aren't stuck
         // behind a stale worker that references old chunk hashes
         clientsClaim: true,
@@ -48,7 +51,11 @@ export default defineConfig({
   ],
   ssgOptions: {
     onFinished() {
-      generateSitemap({ hostname: process.env.VITE_SITE_URL ?? 'https://jessbarrett.ca' })
+      generateSitemap({
+        hostname: process.env.VITE_SITE_URL ?? 'https://jessbarrett.ca',
+        // The CMS (public/admin) is copied into the build, but isn't a page of the site
+        exclude: ['/admin'],
+      })
     },
   },
   resolve: {

@@ -1,0 +1,163 @@
+# Sveltia CMS configuration: https://sveltiacms.app/en/docs
+#
+# Field order matches the content files, as the CMS writes keys in this order. Dates use the
+# `datetime` field with `type: date`, which writes native TOML dates (`available = 2026-03-03`).
+
+backend:
+  name: github
+  repo: JessBarrettWrites/jessbarrett.ca
+  branch: main
+  # Sign in with a GitHub personal access token only (no OAuth server is deployed)
+  auth_methods: [token]
+  commit_messages:
+    create: 'Create {{collection}} “{{slug}}”'
+    update: 'Update {{collection}} “{{slug}}”'
+    delete: 'Delete {{collection}} “{{slug}}”'
+    uploadMedia: 'Upload “{{path}}”'
+    deleteMedia: 'Delete “{{path}}”'
+
+site_url: https://jessbarrett.ca
+display_url: https://jessbarrett.ca
+
+media_folder: public/images
+public_folder: /images
+
+media_libraries:
+  default:
+    config:
+      max_file_size: 5242880 # 5 MB
+      slugify_filename: true
+
+collections:
+  - name: books-list
+    label: Books
+    label_singular: Book
+    folder: content/books
+    format: toml-frontmatter
+    extension: md
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    preview_path: '/books#{{slug}}'
+    fields:
+      - name: featuredUntil
+        label: Featured Until
+        widget: datetime
+        type: date
+        required: false
+        hint: Feature this book on the home page until this date
+      - { name: title, label: Title, widget: string }
+      - { name: subtitle, label: Subtitle, widget: string, required: false }
+      - name: synopsis
+        label: Synopsis
+        widget: text
+        required: false
+        hint: Short description used for search engines and link previews
+      - name: imageSrc
+        label: Cover Image
+        widget: image
+        hint: Upload at a 2:3 ratio (e.g. 600×900). Displayed at 300×450.
+      - { name: imageAlt, label: Cover Image Alt Text, widget: string }
+      - { name: url, label: Purchase / Info Link, widget: string }
+      - { name: preorder, label: Pre-Order Date, widget: datetime, type: date, required: false }
+      - { name: available, label: Available Date, widget: datetime, type: date, required: false }
+      - name: accolade
+        label: Accolades
+        label_singular: Accolade
+        widget: list
+        required: false
+        collapsed: auto
+        summary: '{{fields.text}}'
+        fields:
+          - { name: text, label: Text, widget: string }
+          - { name: url, label: Link, widget: string }
+      - name: testimonial
+        label: Testimonials
+        label_singular: Testimonial
+        widget: list
+        required: false
+        collapsed: auto
+        summary: '{{fields.name}}'
+        fields:
+          - { name: quote, label: Quote, widget: text }
+          - { name: name, label: Name, widget: string }
+          - { name: role, label: Role, widget: string, required: false }
+      - { name: body, label: Description, widget: markdown }
+
+  - name: talks-detail
+    label: Talks
+    label_singular: Talk
+    folder: content/talks
+    format: toml-frontmatter
+    extension: md
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    preview_path: '/talks#{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: body, label: Description, widget: markdown }
+
+  - name: pages
+    label: Pages
+    label_singular: Page
+    files:
+      - name: about
+        label: About Page
+        file: content/about.md
+        format: toml-frontmatter
+        preview_path: /about
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: subtitle, label: Subtitle, widget: string, required: false }
+          - name: imageSrc
+            label: Portrait
+            widget: image
+            hint: Upload at a 2:3 ratio (e.g. 600×900). Displayed at 300×450.
+          - { name: imageAlt, label: Portrait Alt Text, widget: string }
+          - { name: pullQuote, label: Pull Quote, widget: text, required: false }
+          - { name: body, label: Body, widget: markdown }
+
+      - name: talks-list
+        label: Talks Page
+        file: content/talks.toml
+        format: toml
+        preview_path: /talks
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: subtitle, label: Subtitle, widget: string, required: false }
+          - { name: description, label: Description, widget: markdown, required: false }
+
+      - name: journalism-detail
+        label: Journalism
+        file: content/journalism.toml
+        format: toml
+        preview_path: /journalism
+        fields:
+          - name: description
+            label: Description
+            widget: string
+            required: false
+            hint: Shown under the page title
+          - name: article
+            label: Articles
+            label_singular: Article
+            widget: list
+            add_to_top: true
+            collapsed: auto
+            summary: '{{fields.publication}}: {{fields.title}}'
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: publication, label: Publication, widget: string }
+              - { name: date, label: Date, widget: datetime, type: date }
+              - { name: url, label: Link, widget: string }
+              - { name: description, label: Description, widget: text, required: false }
+
+      - name: contact
+        label: Contact
+        file: content/contact.toml
+        format: toml
+        editor: { preview: false }
+        fields:
+          - { name: email, label: Email, widget: string, required: false }
+          - { name: instagram, label: Instagram URL, widget: string, required: false }

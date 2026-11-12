@@ -3,6 +3,7 @@ import {
   useBooks,
   useTestimonials,
   useJournalismArticles,
+  useJournalismPage,
   useTalks,
   useTalksPage,
   useAboutPage,
@@ -90,6 +91,16 @@ describe('parseJournalism', () => {
   })
 })
 
+describe('useJournalismPage', () => {
+  it('has a description', () => {
+    expect(useJournalismPage().description).toBe('Selected reporting and essays')
+  })
+
+  it('has the same articles as useJournalismArticles', () => {
+    expect(useJournalismPage().articles).toEqual(useJournalismArticles())
+  })
+})
+
 describe('useTalks', () => {
   it('returns a non-empty array', () => {
     expect(useTalks().length).toBeGreaterThan(0)
@@ -107,6 +118,10 @@ describe('useTalksPage', () => {
   it('returns a title', () => {
     const page = useTalksPage()
     expect(page.title).toBeTruthy()
+  })
+
+  it('returns a description', () => {
+    expect(useTalksPage().description).toBeTruthy()
   })
 })
 

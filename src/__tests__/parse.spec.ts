@@ -131,4 +131,36 @@ describe('parseDate', () => {
     expect(result.getMonth()).toBe(2) // 0-indexed
     expect(result.getDate()).toBe(3)
   })
+  it('returns local midnight for a native TOML date', () => {
+    const { frontmatter } = parseFront<{ available: Date }>('+++\navailable = 2026-03-03\n+++\n')
+    const result = parseDate(frontmatter.available)!
+    expect(result.getFullYear()).toBe(2026)
+    expect(result.getMonth()).toBe(2) // 0-indexed
+    expect(result.getDate()).toBe(3)
+    expect(result.getHours()).toBe(0)
+  })
+
+  it('matches the quoted string form for a native TOML date', () => {
+    const { frontmatter } = parseFront<{ native: Date; quoted: string }>(
+      '+++\nnative = 2026-03-03\nquoted = "2026-03-03"\n+++\n',
+    )
+    expect(parseDate(frontmatter.native)!.getTime()).toBe(parseDate(frontmatter.quoted)!.getTime())
+  })
+
+  it('keeps the local time of a native TOML local date-time', () => {
+    const { frontmatter } = parseFront<{ at: Date }>('+++\nat = 2026-03-03T14:30:00\n+++\n')
+    const result = parseDate(frontmatter.at)!
+    expect(result.getDate()).toBe(3)
+    expect(result.getHours()).toBe(14)
+    expect(result.getMinutes()).toBe(30)
+  })
+
+  it('returns the same instant for a plain Date', () => {
+    const date = new Date('2026-03-03T12:00:00Z')
+    expect(parseDate(date)!.getTime()).toBe(date.getTime())
+  })
+
+  it('returns undefined for an invalid Date', () => {
+    expect(parseDate(new Date('nope'))).toBeUndefined()
+  })
 })

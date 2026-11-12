@@ -10,4 +10,4 @@ Jessica Barrett is an award-winning journalist and author of [No Place Like Home
 
 Jessica continues to write and think about how to bring about systemic change for a more just, joyful and functional society. When not writing, she spends her time gardening, devouring podcasts and attempting to wrangle her young son into bed.
 
-She is represented by Rob Firing at [Transatlantic Agency](https://transatlanticagency.com/) [rob@transatlanticagency.com](mailto:rob@transatlanticagency.com) 
+She is represented by Rob Firing at [Transatlantic Agency](https://transatlanticagency.com/) [rob@transatlanticagency.com](mailto:rob@transatlanticagency.com)

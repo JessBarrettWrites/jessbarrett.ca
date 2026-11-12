@@ -11,6 +11,9 @@ node_modules
 .DS_Store
 dist
 dist-ssr
+
+# Built CMS previews (pnpm build-admin)
+public/admin/preview
 coverage
 *.local
 

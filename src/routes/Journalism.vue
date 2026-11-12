@@ -2,18 +2,17 @@
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 
-import JournalismArticle from '@/components/JournalismArticle.vue'
-import PageHeader from '@/components/PageHeader.vue'
-import Footer from '@/components/Footer.vue'
+import JournalismContent from '@/components/JournalismContent.vue'
 import { AUTHOR_NAME } from '@/constants'
-import { useJournalismArticles } from '@/content'
+import { useJournalismPage } from '@/content'
 import { articleDateSort } from '@/presentation'
 import { pageUrl } from '@/routes'
 
 const route = useRoute()
-const articles = useJournalismArticles().sort(articleDateSort)
+const page = useJournalismPage()
+const articles = [...page.articles].sort(articleDateSort)
 
-const description = `Selected reporting and essays by ${AUTHOR_NAME}.`
+const description = `${page.description ?? 'Reporting and essays'} by ${AUTHOR_NAME}.`
 const metaDescription = `Journalism — ${AUTHOR_NAME}`
 
 useHead({
@@ -48,25 +47,7 @@ useHead({
 </script>
 
 <template>
-  <article>
-    <PageHeader title="Journalism">
-      <template #subtitle>Selected reporting and essays</template>
-    </PageHeader>
-
-    <section class="mx-auto max-w-4xl px-6 py-6 pb-6">
-      <div v-if="articles.length === 0" class="py-12 text-center opacity-50 font-serif italic">
-        Coming soon.
-      </div>
-      <ul v-else class="flex flex-col">
-        <li v-for="(article, i) in articles" :key="article.url">
-          <hr v-if="i > 0" class="my-4 border-base-content/10" />
-          <JournalismArticle :article="article" />
-        </li>
-      </ul>
-    </section>
-
-    <Footer />
-  </article>
+  <JournalismContent :page="page" />
 </template>
 
 <style scoped></style>
