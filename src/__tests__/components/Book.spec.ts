@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest'
+import { afterEach, describe, it, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import Book from '@/components/Book.vue'
@@ -141,5 +142,43 @@ describe('Book — content', () => {
       global: { plugins: [TEST_ROUTER] },
     })
     expect(wrapper.text()).toContain('Buy Now')
+  })
+})
+
+describe('Book — expanded', () => {
+  // DEV NOTE: jsdom has no layout, so make the description taller than the clamp
+  const tallBody = () => vi.spyOn(Element.prototype, 'scrollHeight', 'get').mockReturnValue(400)
+  afterEach(() => vi.restoreAllMocks())
+
+  const body = (wrapper: ReturnType<typeof mount>) => wrapper.find('.overflow-hidden')
+
+  it('clamps a long description by default', async () => {
+    tallBody()
+    const wrapper = mount(Book, {
+      props: { book: mockBook() },
+      slots: { default: 'Long description' },
+      global: { plugins: [TEST_ROUTER] },
+    })
+    await nextTick() // overflow is measured once mounted
+    expect(body(wrapper).attributes('style')).toContain('max-height: 150px')
+    expect(wrapper.find('button').text()).toBe('Read more')
+    expect(wrapper.find('button').attributes('aria-expanded')).toBe('false')
+  })
+
+  it('shows the whole description when expanded, and can still collapse', async () => {
+    tallBody()
+    const wrapper = mount(Book, {
+      props: { book: mockBook(), expanded: true },
+      slots: { default: 'Long description' },
+      global: { plugins: [TEST_ROUTER] },
+    })
+    await nextTick() // overflow is measured once mounted
+    expect(body(wrapper).attributes('style') ?? '').not.toContain('max-height')
+    expect(wrapper.find('button').text()).toBe('Show less')
+    expect(wrapper.find('button').attributes('aria-expanded')).toBe('true')
+
+    await wrapper.find('button').trigger('click')
+    expect(body(wrapper).attributes('style')).toContain('max-height: 150px')
+    expect(wrapper.find('button').text()).toBe('Read more')
   })
 })

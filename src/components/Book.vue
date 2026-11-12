@@ -7,12 +7,16 @@ import { useMessages } from '@/messages'
 import { pagePath } from '@/routes'
 import type { Book } from '@/types'
 
-const props = defineProps<{
-  book: Book
-  titleLink?: boolean
-  linkText?: string
-  reverse?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    book: Book
+    titleLink?: boolean
+    linkText?: string
+    reverse?: boolean
+    expanded?: boolean
+  }>(),
+  { expanded: false },
+)
 
 const book = toRef(props, 'book')
 const locale = useLocale()
@@ -34,7 +38,7 @@ const statusText = computed(() => {
 
 const CLAMP_HEIGHT = 150
 
-const expanded = ref(false)
+const isExpanded = ref(props.expanded)
 const bodyElement = ref<HTMLDivElement | null>(null)
 const clampHeight = ref(CLAMP_HEIGHT)
 const overflows = ref(false)
@@ -49,15 +53,20 @@ onMounted(() => {
 
 function toggle() {
   const bodyEl = toValue(bodyElement)
-  if (!toValue(expanded) && bodyEl) {
+  if (!toValue(isExpanded) && bodyEl) {
     expandedHeight.value = bodyEl.scrollHeight
   }
-  expanded.value = !toValue(expanded)
+  isExpanded.value = !toValue(isExpanded)
 }
 
-const bodyStyle = computed(() => ({
-  maxHeight: `${toValue(expanded) ? toValue(expandedHeight) : toValue(clampHeight)}px`,
-}))
+const bodyStyle = computed(() => {
+  // DEV NOTE: Starting expanded, nothing has been measured yet, so don't limit the height (which
+  //           also lets the description grow while it's edited in the CMS preview)
+  if (toValue(isExpanded) && !toValue(expandedHeight)) return {}
+  return {
+    maxHeight: `${toValue(isExpanded) ? toValue(expandedHeight) : toValue(clampHeight)}px`,
+  }
+})
 </script>
 
 <template>
@@ -126,7 +135,7 @@ const bodyStyle = computed(() => ({
         <slot />
       </div>
       <div
-        v-if="overflows && !expanded"
+        v-if="overflows && !isExpanded"
         class="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-base-100 to-transparent pointer-events-none"
       />
     </div>
@@ -134,10 +143,10 @@ const bodyStyle = computed(() => ({
     <button
       v-if="overflows"
       @click="toggle"
-      :aria-expanded="expanded"
+      :aria-expanded="isExpanded"
       class="btn btn-ghost btn-md font-serif italic opacity-50 hover:opacity-100"
     >
-      {{ expanded ? messages.showLess : messages.readMore }}
+      {{ isExpanded ? messages.showLess : messages.readMore }}
     </button>
   </ProfileBlock>
 </template>

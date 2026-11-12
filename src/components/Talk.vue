@@ -4,16 +4,20 @@ import { ref, computed, toRef, onMounted } from 'vue'
 import { useMessages } from '@/messages'
 import type { Talk } from '@/types'
 
-const props = defineProps<{
-  talk: Talk
-}>()
+const props = withDefaults(
+  defineProps<{
+    talk: Talk
+    expanded?: boolean
+  }>(),
+  { expanded: false },
+)
 
 const talk = toRef(props, 'talk')
 const messages = useMessages()
 
 const COLLAPSED_HEIGHT = 200
 
-const expanded = ref(false)
+const isExpanded = ref(props.expanded)
 const bodyElement = ref<HTMLDivElement | null>(null)
 const overflows = ref(false)
 const expandedHeight = ref(0)
@@ -25,15 +29,18 @@ onMounted(() => {
 })
 
 function toggle() {
-  if (!expanded.value && bodyElement.value) {
+  if (!isExpanded.value && bodyElement.value) {
     expandedHeight.value = bodyElement.value.scrollHeight
   }
-  expanded.value = !expanded.value
+  isExpanded.value = !isExpanded.value
 }
 
-const bodyStyle = computed(() => ({
-  maxHeight: `${expanded.value ? expandedHeight.value : COLLAPSED_HEIGHT}px`,
-}))
+const bodyStyle = computed(() => {
+  // DEV NOTE: Starting expanded, nothing has been measured yet, so don't limit the height (which
+  //           also lets the description grow while it's edited in the CMS preview)
+  if (isExpanded.value && !expandedHeight.value) return {}
+  return { maxHeight: `${isExpanded.value ? expandedHeight.value : COLLAPSED_HEIGHT}px` }
+})
 </script>
 
 <template>
@@ -53,17 +60,17 @@ const bodyStyle = computed(() => ({
           </div>
         </div>
         <div
-          v-if="overflows && !expanded"
+          v-if="overflows && !isExpanded"
           class="absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-base-100 to-transparent pointer-events-none"
         />
       </div>
       <div v-if="overflows" class="card-actions justify-center">
         <button
           @click="toggle"
-          :aria-expanded="expanded"
+          :aria-expanded="isExpanded"
           class="btn btn-ghost btn-md font-serif italic opacity-70 hover:opacity-100"
         >
-          {{ expanded ? messages.showLess : messages.readMore }}
+          {{ isExpanded ? messages.showLess : messages.readMore }}
         </button>
       </div>
     </div>
