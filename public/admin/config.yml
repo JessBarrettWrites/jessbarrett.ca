@@ -29,6 +29,11 @@ i18n:
 site_url: https://jessbarrett.ca
 display_url: https://jessbarrett.ca
 
+# Branding on the sign-in screen, browser tab and app header (replaces "Sveltia CMS")
+app_title: jessbarrett.ca
+logo:
+  src: /favicon.ico
+
 media_folder: public/images
 public_folder: /images
 
