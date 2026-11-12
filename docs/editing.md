@@ -21,12 +21,21 @@ workflow tests, builds and deploys, so **changes go live about 2–3 minutes aft
 
 | In the CMS | File(s) | Shown on |
 | --- | --- | --- |
-| Books | `content/books/*.md` | Home (featured), Books |
-| Talks | `content/talks/*.md` | Talks |
-| Pages → About Page | `content/about.md` | About |
-| Pages → Talks Page | `content/talks.toml` | Talks (title and intro) |
-| Pages → Journalism | `content/journalism.toml` | Journalism |
-| Pages → Contact | `content/contact.toml` | — |
+| Books | `content/<lang>/books/*.md` | Home (featured), Books |
+| Talks | `content/<lang>/talks/*.md` | Talks |
+| Pages → About | `content/<lang>/about.md` | About |
+| Pages → Talks Page | `content/<lang>/talks.toml` | Talks (title and intro) |
+| Pages → Journalism | `content/<lang>/journalism.toml` | Journalism |
+| General → User Interface (UI) | `content/<lang>/ui.toml` | Navigation, buttons, page titles |
+| Pages → Contact | `content/contact.toml` (shared) | — |
+
+## Languages: English, French and Spanish
+
+Each entry has English, French and Spanish versions; switch between them with the language menu in
+the editor. Only text fields can be translated. Links, dates, images and lists are set in English
+and shared with the other languages. A translated field left empty shows the English text, so an
+entry can be translated a bit at a time. New entries start in English only; turn a language on for
+the entry when you're ready to translate it.
 
 The preview pane shows the entry with the site's own components and styles. Talks are listed
 alphabetically by their file name, which comes from the title when the talk is created.

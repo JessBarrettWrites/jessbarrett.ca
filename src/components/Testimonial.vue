@@ -2,6 +2,7 @@
 import { toRef } from 'vue'
 import { RouterLink } from 'vue-router'
 import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
+import { useMessages } from '@/messages'
 import type { Testimonial } from '@/types'
 
 const props = defineProps<{
@@ -11,6 +12,7 @@ const props = defineProps<{
 }>()
 
 const testimonial = toRef(props, 'testimonial')
+const messages = useMessages()
 </script>
 
 <template>
@@ -22,8 +24,13 @@ const testimonial = toRef(props, 'testimonial')
     </blockquote>
     <figcaption class="flex flex-col gap-1">
       <p>
+        <!-- DEV NOTE: Explicit {{ ' ' }} spaces, at the caption's text size rather than text-xs: Vue
+                       drops the whitespace between tags on separate lines -->
         <span class="font-serif text-lg font-bold">{{ testimonial.name }}</span>
-        <span class="text-xs opacity-50" v-if="onTitle"> on </span>
+        <template v-if="onTitle"
+          >{{ ' ' }}<span class="text-xs opacity-50">{{ messages.testimonialOn }}</span
+          >{{ ' ' }}</template
+        >
         <RouterLink
           v-if="onTitle && onTitleUrl"
           :to="onTitleUrl"

@@ -2,6 +2,10 @@
 #
 # Field order matches the content files, as the CMS writes keys in this order. Dates use the
 # `datetime` field with `type: date`, which writes native TOML dates (`available = 2026-03-03`).
+#
+# Translations: content lives in `content/<locale>/`. Fields marked `i18n: true` are translated;
+# the others (links, dates, images, lists) are only stored in English and shared by every locale,
+# as is any field or entry that hasn't been translated yet (see `mergeLocalized` in src/content.ts).
 
 backend:
   name: github
@@ -15,6 +19,12 @@ backend:
     delete: 'Delete {{collection}} “{{slug}}”'
     uploadMedia: 'Upload “{{path}}”'
     deleteMedia: 'Delete “{{path}}”'
+
+i18n:
+  locales: [en, fr, es]
+  default_locale: en
+  # New entries start in English only; other languages can be turned on per entry when translated
+  initial_locales: [en]
 
 site_url: https://jessbarrett.ca
 display_url: https://jessbarrett.ca
@@ -32,13 +42,14 @@ collections:
   - name: books-list
     label: Books
     label_singular: Book
-    folder: content/books
+    folder: content/{{locale}}/books
     format: toml-frontmatter
     extension: md
+    i18n: true
     create: true
     slug: '{{slug}}'
     summary: '{{title}}'
-    preview_path: '/books#{{slug}}'
+    preview_path: '/{{locale}}/books#{{slug}}'
     fields:
       - name: featuredUntil
         label: Featured Until
@@ -46,18 +57,19 @@ collections:
         type: date
         required: false
         hint: Feature this book on the home page until this date
-      - { name: title, label: Title, widget: string }
-      - { name: subtitle, label: Subtitle, widget: string, required: false }
+      - { name: title, label: Title, widget: string, i18n: true }
+      - { name: subtitle, label: Subtitle, widget: string, required: false, i18n: true }
       - name: synopsis
         label: Synopsis
         widget: text
         required: false
+        i18n: true
         hint: Short description used for search engines and link previews
       - name: imageSrc
         label: Cover Image
         widget: image
         hint: Upload at a 2:3 ratio (e.g. 600×900). Displayed at 300×450.
-      - { name: imageAlt, label: Cover Image Alt Text, widget: string }
+      - { name: imageAlt, label: Cover Image Alt Text, widget: string, i18n: true }
       - { name: url, label: Purchase / Info Link, widget: string }
       - { name: preorder, label: Pre-Order Date, widget: datetime, type: date, required: false }
       - { name: available, label: Available Date, widget: datetime, type: date, required: false }
@@ -78,66 +90,79 @@ collections:
         required: false
         collapsed: auto
         summary: '{{fields.name}}'
+        # Only the role is translated: the quote stays in the words it was given in, and the name
+        # is the same everywhere (`duplicate` copies them from English and locks them in translations)
+        i18n: true
         fields:
-          - { name: quote, label: Quote, widget: text }
-          - { name: name, label: Name, widget: string }
-          - { name: role, label: Role, widget: string, required: false }
-      - { name: body, label: Description, widget: markdown }
+          - { name: quote, label: Quote, widget: text, i18n: duplicate }
+          - { name: name, label: Name, widget: string, i18n: duplicate }
+          - { name: role, label: Role, widget: string, required: false, i18n: true }
+      - { name: body, label: Description, widget: markdown, i18n: true }
 
   - name: talks-detail
     label: Talks
     label_singular: Talk
-    folder: content/talks
+    folder: content/{{locale}}/talks
     format: toml-frontmatter
     extension: md
+    i18n: true
     create: true
     slug: '{{slug}}'
     summary: '{{title}}'
-    preview_path: '/talks#{{slug}}'
+    preview_path: '/{{locale}}/talks#{{slug}}'
     fields:
-      - { name: title, label: Title, widget: string }
-      - { name: body, label: Description, widget: markdown }
+      - { name: title, label: Title, widget: string, i18n: true }
+      - { name: body, label: Description, widget: markdown, i18n: true }
 
   - name: pages
     label: Pages
     label_singular: Page
+    i18n: true
     files:
       - name: about
-        label: About Page
-        file: content/about.md
+        label: About
+        file: content/{{locale}}/about.md
         format: toml-frontmatter
-        preview_path: /about
+        i18n: true
+        preview_path: '/{{locale}}/about'
         fields:
-          - { name: title, label: Title, widget: string }
-          - { name: subtitle, label: Subtitle, widget: string, required: false }
+          - { name: title, label: Title, widget: string, i18n: true }
+          - { name: subtitle, label: Subtitle, widget: string, required: false, i18n: true }
           - name: imageSrc
             label: Portrait
             widget: image
             hint: Upload at a 2:3 ratio (e.g. 600×900). Displayed at 300×450.
-          - { name: imageAlt, label: Portrait Alt Text, widget: string }
-          - { name: pullQuote, label: Pull Quote, widget: text, required: false }
-          - { name: body, label: Body, widget: markdown }
+          - { name: imageAlt, label: Portrait Alt Text, widget: string, i18n: true }
+          - { name: pullQuote, label: Pull Quote, widget: text, required: false, i18n: true }
+          - { name: body, label: Body, widget: markdown, i18n: true }
 
       - name: talks-list
-        label: Talks Page
-        file: content/talks.toml
+        label: Talks
+        file: content/{{locale}}/talks.toml
         format: toml
-        preview_path: /talks
+        i18n: true
+        preview_path: '/{{locale}}/talks'
         fields:
-          - { name: title, label: Title, widget: string }
-          - { name: subtitle, label: Subtitle, widget: string, required: false }
-          - { name: description, label: Description, widget: markdown, required: false }
+          - { name: title, label: Title, widget: string, i18n: true }
+          - { name: subtitle, label: Subtitle, widget: string, required: false, i18n: true }
+          - name: description
+            label: Description
+            widget: markdown
+            required: false
+            i18n: true
 
       - name: journalism-detail
         label: Journalism
-        file: content/journalism.toml
+        file: content/{{locale}}/journalism.toml
         format: toml
-        preview_path: /journalism
+        i18n: true
+        preview_path: '/{{locale}}/journalism'
         fields:
           - name: description
             label: Description
             widget: string
             required: false
+            i18n: true
             hint: Shown under the page title
           - name: article
             label: Articles
@@ -155,9 +180,106 @@ collections:
 
       - name: contact
         label: Contact
+        # Shared by every locale
         file: content/contact.toml
         format: toml
+        i18n: false
         editor: { preview: false }
         fields:
           - { name: email, label: Email, widget: string, required: false }
           - { name: instagram, label: Instagram URL, widget: string, required: false }
+
+  # Site-wide settings that aren't a page of their own
+  - name: general
+    label: General
+    i18n: true
+    files:
+      # Navigation, buttons, labels and page metadata around the content. `{author}` becomes the
+      # author's name; a translated text left empty uses the English one (see src/messages.ts)
+      - name: ui
+        label: User Interface (UI)
+        file: content/{{locale}}/ui.toml
+        format: toml
+        i18n: true
+        editor: { preview: false }
+        fields:
+          - { name: author, label: Author, widget: string, i18n: true }
+          - { name: readMore, label: Read more, widget: string, i18n: true }
+          - { name: showLess, label: Show less, widget: string, i18n: true }
+          - { name: testimonialOn, label: Testimonial on, widget: string, i18n: true }
+          - name: nav
+            label: Nav
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: home, label: Home, widget: string, i18n: true }
+              - { name: books, label: Books, widget: string, i18n: true }
+              - { name: journalism, label: Journalism, widget: string, i18n: true }
+              - { name: talks, label: Talks, widget: string, i18n: true }
+              - { name: about, label: About, widget: string, i18n: true }
+              - { name: openMenu, label: Open menu, widget: string, i18n: true }
+              - { name: toggleDarkMode, label: Toggle dark mode, widget: string, i18n: true }
+              - { name: email, label: Email, widget: string, i18n: true }
+              - { name: language, label: Language, widget: string, i18n: true }
+          - name: book
+            label: Book
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: featured, label: Featured, widget: string, i18n: true }
+              - { name: getTheBook, label: Get the book, widget: string, i18n: true }
+              - { name: availableNow, label: Available now, widget: string, i18n: true }
+              - { name: preorder, label: Preorder, widget: string, i18n: true }
+          - name: home
+            label: Home
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: description, label: Description, widget: string, i18n: true }
+              - { name: trailerTitle, label: Trailer title, widget: string, i18n: true }
+          - name: books
+            label: Books
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - { name: description, label: Description, widget: string, i18n: true }
+          - name: journalism
+            label: Journalism
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - { name: comingSoon, label: Coming soon, widget: string, i18n: true }
+              - { name: description, label: Description, widget: string, i18n: true }
+              - { name: defaultSummary, label: Default summary, widget: string, i18n: true }
+          - name: talks
+            label: Talks
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - { name: description, label: Description, widget: string, i18n: true }
+          - name: about
+            label: About
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - { name: description, label: Description, widget: string, i18n: true }
+              - { name: jobTitle, label: Job title, widget: string, i18n: true }
+              - { name: personDescription, label: Person description, widget: string, i18n: true }
+          - name: redirect
+            label: Redirect
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }

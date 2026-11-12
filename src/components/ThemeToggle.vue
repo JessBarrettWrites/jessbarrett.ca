@@ -2,6 +2,9 @@
 import { usePreferredDark, useStorage } from '@vueuse/core'
 import { computed, toValue, watchEffect } from 'vue'
 import { DARK_THEME, LIGHT_THEME, type Theme } from '@/constants.ts'
+import { useMessages } from '@/messages'
+
+const messages = useMessages()
 
 const prefersDark = usePreferredDark()
 const theme = useStorage<Theme | null>('theme', null)
@@ -26,7 +29,7 @@ function toggleTheme() {
 
 <template>
   <label class="flex cursor-pointer items-center gap-2">
-    <span class="sr-only">Toggle dark mode</span>
+    <span class="sr-only">{{ messages.nav.toggleDarkMode }}</span>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"

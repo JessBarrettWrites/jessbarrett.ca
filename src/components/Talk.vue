@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, toRef, onMounted } from 'vue'
 
+import { useMessages } from '@/messages'
 import type { Talk } from '@/types'
 
 const props = defineProps<{
@@ -8,6 +9,7 @@ const props = defineProps<{
 }>()
 
 const talk = toRef(props, 'talk')
+const messages = useMessages()
 
 const COLLAPSED_HEIGHT = 200
 
@@ -61,7 +63,7 @@ const bodyStyle = computed(() => ({
           :aria-expanded="expanded"
           class="btn btn-ghost btn-md font-serif italic opacity-70 hover:opacity-100"
         >
-          {{ expanded ? 'Show less' : 'Read more' }}
+          {{ expanded ? messages.showLess : messages.readMore }}
         </button>
       </div>
     </div>

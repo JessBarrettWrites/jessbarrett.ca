@@ -1,9 +1,25 @@
 # Content Guide
 
-The `/content` folder contains most of the content for the final website.  Files use **TOML frontmatter** (delimited by `+++`) with optional Markdown bodies.
+The `/content` folder contains most of the content for the final website, with one folder per
+language: `content/en/` (English, the default), `content/fr/` (French) and `content/es/` (Spanish).
+`content/contact.toml` is shared by every language.  Files use **TOML frontmatter** (delimited by `+++`) with optional Markdown bodies.
 
 Dates are native TOML dates, written without quotes (`available = 2026-03-03`). This is the format the
 CMS (`/admin/`, see [editing.md](editing.md)) writes. Quoted date strings still parse.
+
+## Languages
+
+Pages are served per language: `/en/books`, `/fr/books`, `/es/books`, and so on. The unprefixed paths (`/`,
+`/books`, ...) send visitors to the language they last read, or else their browser's language.
+
+A translation only needs the fields it translates. Any field or file missing from `content/fr/` or
+`content/es/`, or left empty there, comes from `content/en/`. For example, `content/fr/about.md` has
+no `title` or `imageSrc`, so it uses the English ones. Links, dates, images and lists are only kept in English.
+
+Root-relative links in Markdown, such as `[the book](/books#no-place-like-home)`, point to the
+page in the reader's language.
+
+The paths below are relative to a language folder (e.g. `content/en/books/*.md`).
 
 ## Content Types
 
@@ -192,3 +208,29 @@ url = "https://www.avenuecalgary.com/example"
 ## Images
 
 Place images in `public/images/`. They are served at `/images/` (e.g. `public/images/cover.jpg` becomes `/images/cover.jpg`).
+
+---
+
+### User Interface Text (`ui.toml`)
+
+Edited in the CMS under **General → User Interface (UI)**.
+
+The text around the content: navigation labels, buttons ("Get the Book", "Read more"), and page
+titles and descriptions used for search engines. `{author}` is replaced with the author's name. The
+journalism `description` also takes `{summary}`, which is the description from `journalism.toml`,
+or `defaultSummary` when there isn't one.
+
+Each language's `ui.toml` must have the same keys as `content/en/ui.toml` (a test checks this). A
+missing or empty translated text uses the English one.
+
+---
+
+## Adding a language
+
+1. Add its code to `LOCALES` (plus `LOCALE_TAGS` and `LOCALE_NAMES`) in `src/locale.ts`, and to
+   `i18n.locales` in `public/admin/config.yml`.
+2. Create `content/<code>/ui.toml` with every key from `content/en/ui.toml`.
+3. Add translated content files as they're ready; anything missing shows in English.
+
+Routes, the language menu, hreflang links and the sitemap pick up the new language automatically.
+`pnpm test` checks the new files against the CMS config.

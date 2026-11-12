@@ -3,6 +3,7 @@ import { marked } from 'marked'
 import { ref, useSlots, computed, onMounted } from 'vue'
 import type { VNode } from 'vue'
 import { AMDASH_FONTS, AMDASH_HTML, EMDASH_RE } from '@/constants.ts'
+import { localizeHref, useLocale } from '@/locale'
 
 function extractText(vnodes: VNode[]): string {
   return vnodes
@@ -15,6 +16,7 @@ function extractText(vnodes: VNode[]): string {
 }
 
 const slots = useSlots()
+const locale = useLocale()
 const root = ref<HTMLElement>()
 const useAmDash = ref(false)
 
@@ -33,7 +35,11 @@ onMounted(async () => {
 })
 
 const rendered = computed(() => {
-  const html = marked(extractText(slots.default?.() ?? [])) as string
+  // Root-relative page links in content (e.g. `/books#slug`) point at the page's own locale
+  const html = (marked(extractText(slots.default?.() ?? [])) as string).replace(
+    /href="([^"]*)"/g,
+    (_, href: string) => `href="${localizeHref(href, locale.value)}"`,
+  )
   return useAmDash.value ? html.replace(EMDASH_RE, AMDASH_HTML) : html
 })
 </script>

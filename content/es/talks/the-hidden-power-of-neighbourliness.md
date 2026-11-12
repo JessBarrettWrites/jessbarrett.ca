@@ -1,0 +1,5 @@
++++
+title = "El poder oculto de la buena vecindad"
++++
+
+Los canadienses pasamos mucho menos tiempo con nuestros vecinos que hace apenas unas décadas. En la era de Amazon e Instacart, la falta de vínculos con los vecinos puede parecer algo triste, pero en gran medida intrascendente para nuestras vidas — ya no necesitamos que nos presten la proverbial taza de azúcar. Pero sí necesitamos a nuestros vecinos, y más que nunca. En esta conferencia, Jessica se adentra en las sorprendentes investigaciones sobre el papel que la buena vecindad desempeña en nuestra salud, nuestra seguridad y nuestro tejido social, y explica por qué recuperarla es una de las grandes soluciones sin explotar para algunos de los problemas más urgentes de nuestro tiempo — desde la epidemia de soledad hasta la polarización política o la supervivencia ante el cambio climático. Después señala algunas acciones sorprendentes, y sorprendentemente sencillas, que podemos emprender para fomentar la buena vecindad en todos los ámbitos de nuestra vida, de lo personal a lo político.

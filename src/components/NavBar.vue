@@ -1,15 +1,26 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 import AmDash from '@/components/AmDash.vue'
+import LanguageMenu from '@/components/LanguageMenu.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import SocialMedia from '@/nav/SocialMedia.vue'
-import { nav } from '@/routes'
+import { useLocale } from '@/locale'
+import { useMessages } from '@/messages'
+import { NAV_PAGES, pagePath } from '@/routes'
 
 const route = useRoute()
+const locale = useLocale()
+const messages = useMessages()
 
 const props = defineProps<{ title?: string; subtitle?: string }>()
+
+const homePath = computed(() => pagePath('home', locale.value))
+
+const nav = computed(() =>
+  NAV_PAGES.map((page) => ({ to: pagePath(page, locale.value), label: messages.value.nav[page] })),
+)
 
 const isMenuOpen = ref(false)
 
@@ -20,7 +31,7 @@ watch(route, () => {
 
 <template>
   <div class="navbar-start mt-1 w-auto!">
-    <RouterLink to="/" :aria-current="route.path === '/' ? 'page' : undefined">
+    <RouterLink :to="homePath" :aria-current="route.path === homePath ? 'page' : undefined">
       <span
         v-if="props.title"
         class="btn btn-ghost text-lg md:text-xl [--btn-color:var(--color-neutral-content)]"
@@ -48,11 +59,17 @@ watch(route, () => {
     <div class="flex items-center gap-1 px-2">
       <SocialMedia />
     </div>
+    <div class="flex items-center">
+      <LanguageMenu />
+    </div>
     <div class="flex items-center px-2">
       <ThemeToggle />
     </div>
   </nav>
   <div class="navbar-end visible lg:hidden flex-1!">
+    <div class="inline-block">
+      <LanguageMenu />
+    </div>
     <div class="inline-block px-2">
       <ThemeToggle />
     </div>
@@ -65,7 +82,7 @@ watch(route, () => {
     <nav class="relative z-10">
       <button
         type="button"
-        aria-label="Open menu"
+        :aria-label="messages.nav.openMenu"
         aria-haspopup="menu"
         :aria-expanded="isMenuOpen"
         class="btn btn-ghost btn-circle"

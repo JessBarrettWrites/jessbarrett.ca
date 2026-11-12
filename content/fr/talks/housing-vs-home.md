@@ -1,0 +1,5 @@
++++
+title = "Le logement contre le chez-soi"
++++
+
+Après avoir vécu toute sa vie d’adulte à Vancouver, Jessica Barrett a fait ses boîtes, quitté l’emploi de rêve qu’elle occupait comme rédactrice de magazine et mis le cap sur Calgary à la recherche d’un endroit plus abordable où se sentir chez elle. Depuis que les prix l’ont chassée de Vancouver, l’abordabilité du logement est devenue une crise nationale qui attise les inégalités sociales et nous mène tout droit à la ruine financière. Mais notre obsession pour la hausse des prix de l’immobilier masque un problème plus complexe et plus pressant : nous avons perdu notre respect pour le chez-soi, et notre compréhension de ce qu’il représente. Dans cette conférence, Jessica présente au public ses recherches sur les éléments fondamentaux du chez-soi et examine dans quelle mesure notre système de logement actuel en tient compte, ou non. Elle présente ensuite des exemples, d’ici et d’ailleurs dans le monde, de façons de revenir à l’essentiel du chez-soi et de produire des logements meilleurs et plus abordables pour tous.

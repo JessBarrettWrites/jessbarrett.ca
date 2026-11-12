@@ -5,16 +5,21 @@ import { useHead } from '@unhead/vue'
 import AboutContent from '@/components/AboutContent.vue'
 import { AUTHOR_NAME } from '@/constants'
 import { useAboutPage } from '@/content'
+import { LOCALE_TAGS, useLocale } from '@/locale'
+import { useMessages } from '@/messages'
 import { pageUrl } from '@/routes'
 
 const route = useRoute()
-const about = useAboutPage()
+const locale = useLocale()
+const messages = useMessages()
+const about = useAboutPage(locale.value)
 
-const description = about.subtitle ?? `About ${AUTHOR_NAME}.`
-const metaDescription = `About — ${AUTHOR_NAME}`
+const title = messages.value.about.title
+const description = about.subtitle ?? messages.value.about.description
+const metaDescription = `${title} — ${AUTHOR_NAME}`
 
 useHead({
-  title: 'About',
+  title,
   meta: [
     { name: 'description', content: description },
     { property: 'og:title', content: metaDescription },
@@ -30,12 +35,13 @@ useHead({
         '@type': 'AboutPage',
         name: metaDescription,
         url: pageUrl(route.path),
+        inLanguage: LOCALE_TAGS[locale.value],
         mainEntity: {
           '@type': 'Person',
           name: AUTHOR_NAME,
           image: pageUrl(about.imageSrc),
-          jobTitle: 'Author',
-          description: 'Award-winning journalist and author of No Place Like Home.',
+          jobTitle: messages.value.about.jobTitle,
+          description: messages.value.about.personDescription,
         },
       }),
     },

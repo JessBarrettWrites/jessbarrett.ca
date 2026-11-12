@@ -1,4 +1,4 @@
-import { toBook, toJournalismPage, toTalk } from '@/content'
+import { toBook, toJournalismPage, toTalk, withoutEmpty } from '@/content'
 import type {
   AboutPage,
   AboutPageToml,
@@ -14,17 +14,12 @@ import type {
 
 // Convert CMS entry data (the fields from `public/admin/config.yml`) into the site's models, using
 // the same transforms as the content files. Markdown entries hold their body as a `body` field.
+// Optional fields that were cleared in the editor are empty strings, which count as missing.
 
 type EntryData = Record<string, any>
 
 /** Resolve an image path to a displayable URL, e.g. a blob URL for an upload that isn't saved yet */
 export type AssetUrl = (path: string) => string
-
-// DEV NOTE: Optional fields that were cleared in the editor are empty strings, which the site treats
-//           as missing (for dates, `parseDate` already does)
-function withoutEmpty<T extends EntryData>(data: T): T {
-  return Object.fromEntries(Object.entries(data).filter(([, value]) => value !== '')) as T
-}
 
 export function bookFromEntry(data: EntryData, slug: string, assetUrl: AssetUrl): Book {
   const { body = '', ...toml } = withoutEmpty(data)

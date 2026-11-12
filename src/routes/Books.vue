@@ -8,17 +8,22 @@ import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
 import Footer from '@/components/Footer.vue'
 import { AUTHOR_NAME } from '@/constants'
 import { useBooks } from '@/content'
+import { LOCALE_TAGS, useLocale } from '@/locale'
+import { useMessages } from '@/messages'
 import { bookDateSort } from '@/presentation'
 import { pageUrl } from '@/routes'
 
 const route = useRoute()
-const books = useBooks().sort(bookDateSort)
+const locale = useLocale()
+const messages = useMessages()
+const books = useBooks(locale.value).sort(bookDateSort)
 
-const description = `Books by ${AUTHOR_NAME}, including No Place Like Home.`
-const metaDescription = `Books — ${AUTHOR_NAME}`
+const title = messages.value.books.title
+const description = messages.value.books.description
+const metaDescription = `${title} — ${AUTHOR_NAME}`
 
 useHead({
-  title: 'Books',
+  title,
   meta: [
     { name: 'description', content: description },
     { property: 'og:title', content: metaDescription },
@@ -33,6 +38,7 @@ useHead({
         '@type': 'CollectionPage',
         name: metaDescription,
         url: pageUrl(route.path),
+        inLanguage: LOCALE_TAGS[locale.value],
         mainEntity: books.map((book) => ({
           '@type': 'Book',
           name: book.title,
@@ -51,7 +57,7 @@ useHead({
 
 <template>
   <article>
-    <PageHeader title="Books" />
+    <PageHeader :title="title" />
 
     <Book v-for="(book, i) in books" :key="book.title" :book="book" :reverse="i % 2 !== 0">
       <AmDashMarkdown v-if="book.body" class="[&_p]:leading-relaxed [&_p]:opacity-75 [&_p+p]:mt-4">

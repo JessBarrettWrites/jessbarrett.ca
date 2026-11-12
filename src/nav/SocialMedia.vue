@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useContacts } from '@/content.ts'
+import { useMessages } from '@/messages'
 import { computed } from 'vue'
 
 const contacts = useContacts()
+const messages = useMessages()
 const mailTo = computed(() => 'mailto:' + contacts.email)
 </script>
 <template>
@@ -35,7 +37,7 @@ const mailTo = computed(() => 'mailto:' + contacts.email)
   <a
     v-if="contacts.email"
     :href="mailTo"
-    aria-label="Email"
+    :aria-label="messages.nav.email"
     class="btn btn-ghost btn-circle btn-sm [--btn-color:var(--color-neutral-content)]"
   >
     <svg

@@ -1,0 +1,5 @@
++++
+title = "Le pouvoir caché du bon voisinage"
++++
+
+Les Canadiens passent beaucoup moins de temps avec leurs voisins qu’il y a à peine quelques décennies. À l’ère d’Amazon et d’Instacart, le manque de liens avec nos voisins peut sembler un peu triste, mais sans grande conséquence dans nos vies — nous n’avons plus besoin d’aller emprunter la proverbiale tasse de sucre. Pourtant, nous avons besoin de nos voisins, et plus que jamais. Dans cette conférence, Jessica se penche sur les recherches étonnantes portant sur le rôle du bon voisinage dans notre santé, notre sécurité et notre tissu social, et explique pourquoi renouer avec le bon voisinage est l’une des grandes solutions inexploitées à certains des enjeux les plus pressants de notre époque — de l’épidémie de solitude à la polarisation politique, en passant par l’adaptation aux changements climatiques. Elle propose ensuite des gestes surprenants, et d’une simplicité surprenante, que nous pouvons poser pour cultiver le bon voisinage à tous les niveaux de nos vies, du personnel au politique.

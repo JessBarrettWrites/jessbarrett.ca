@@ -9,11 +9,18 @@ import Testimonial from '@/components/Testimonial.vue'
 import Footer from '@/components/Footer.vue'
 import { AUTHOR_NAME } from '@/constants'
 import { useBooks, useTestimonials } from '@/content'
+import { useLocale } from '@/locale'
+import { useMessages } from '@/messages'
 import { bookDateSort, featuredBookFilter } from '@/presentation'
+import { pagePath } from '@/routes'
+
+const locale = useLocale()
+const messages = useMessages()
+const booksPath = pagePath('books', locale.value)
 
 const today = new Date()
-const books = useBooks().sort(bookDateSort)
-const testimonials = useTestimonials()
+const books = useBooks(locale.value).sort(bookDateSort)
+const testimonials = useTestimonials(locale.value)
 const bookBySlug = new Map(books.map((b) => [b.slug, b]))
 const featured = books.filter(featuredBookFilter(today))
 const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
@@ -23,8 +30,8 @@ const featuredBooks = featured.length > 0 ? featured : books.slice(0, 1)
 const bookMeasureElement = ref<HTMLElement>()
 const { width: bookSectionWidth } = useElementSize(bookMeasureElement)
 
-const description = featuredBooks[0]?.synopsis ?? 'Award-winning journalist and author.'
-const metaDescription = `Home — ${AUTHOR_NAME}`
+const description = featuredBooks[0]?.synopsis ?? messages.value.home.description
+const metaDescription = `${messages.value.nav.home} — ${AUTHOR_NAME}`
 
 useHead({
   title: AUTHOR_NAME,
@@ -44,7 +51,7 @@ const isOnline = useOnline()
     <section v-if="isOnline">
       <!-- https://www.youtube.com/watch?v=jPS8kGTKric -->
       <YouTube
-        title="No Place Like Home Book Trailer"
+        :title="messages.home.trailerTitle"
         videoId="jPS8kGTKric"
         :maxWidth="bookSectionWidth"
       />
@@ -62,7 +69,7 @@ const isOnline = useOnline()
           :key="testimonial.name"
           :testimonial="testimonial"
           :onTitle="bookBySlug.get(testimonial.book)?.title"
-          :onTitleUrl="`/books#${testimonial.book}`"
+          :onTitleUrl="`${booksPath}#${testimonial.book}`"
         />
       </div>
     </section>

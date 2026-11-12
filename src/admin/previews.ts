@@ -10,6 +10,8 @@ import TalksContent from '@/components/TalksContent.vue'
 import BookPreview from '@/admin/previews/BookPreview.vue'
 import TalkPreview from '@/admin/previews/TalkPreview.vue'
 import { vuePreview } from '@/admin/bridge'
+import { mergeLocalized } from '@/content'
+import { DEFAULT_LOCALE, type Locale } from '@/locale'
 import {
   aboutPageFromEntry,
   bookFromEntry,
@@ -23,7 +25,24 @@ const { CMS } = window
 
 CMS.registerPreviewStyle(new URL('./previews.css', import.meta.url).href)
 
-const data = ({ entry }: PreviewTemplateProps) => entry.get('data')?.toJS() ?? {}
+const fieldsOf = (map: ImmutableMap | undefined): Record<string, any> => map?.toJS() ?? {}
+
+// The entry being edited holds the previewed locale's fields in `data` and the other locales' in
+// `i18n`. Like the site, a translation shows the default locale's fields where it has none.
+function data({ entry }: PreviewTemplateProps, locale: Locale) {
+  const own = fieldsOf(entry.get('data'))
+  if (locale === DEFAULT_LOCALE) return mergeLocalized({}, own)
+  const base = fieldsOf(entry.get('i18n')?.get(DEFAULT_LOCALE)?.get('data'))
+  return mergeLocalized(base, own)
+}
+
+// Entries from `getCollection()` hold the default locale's fields in `data` instead
+function collectionData(entry: ImmutableMap, locale: Locale) {
+  const base = fieldsOf(entry.get('data'))
+  if (locale === DEFAULT_LOCALE) return mergeLocalized(base, {})
+  return mergeLocalized(base, fieldsOf(entry.get('i18n')?.get(locale)?.get('data')))
+}
+
 const slug = ({ entry }: PreviewTemplateProps) => entry.get('slug') || 'preview'
 const assetUrl =
   ({ getAsset }: PreviewTemplateProps) =>
@@ -33,36 +52,40 @@ const assetUrl =
 // Names match `public/admin/config.yml`: collection names for folders, file names for single files
 CMS.registerPreviewTemplate(
   'books-list',
-  vuePreview(BookPreview, (props) => ({
-    book: bookFromEntry(data(props), slug(props), assetUrl(props)),
+  vuePreview(BookPreview, (props, locale) => ({
+    book: bookFromEntry(data(props, locale), slug(props), assetUrl(props)),
   })),
 )
 
 CMS.registerPreviewTemplate(
   'talks-detail',
-  vuePreview(TalkPreview, (props) => ({ talk: talkFromEntry(data(props), slug(props)) })),
+  vuePreview(TalkPreview, (props, locale) => ({
+    talk: talkFromEntry(data(props, locale), slug(props)),
+  })),
 )
 
 CMS.registerPreviewTemplate(
   'talks-list',
-  vuePreview(TalksContent, async (props) => {
+  vuePreview(TalksContent, async (props, locale) => {
     const entries = (await props.getCollection('talks-detail')) as ImmutableMap[]
     const talks = entries
-      .map((entry) => talkFromEntry(entry.get('data').toJS(), entry.get('slug')))
+      .map((entry) => talkFromEntry(collectionData(entry, locale), entry.get('slug')))
       // Same order as the site, which loads talks by filename
       .sort((left, right) => left.slug.localeCompare(right.slug))
-    return { page: talksPageFromEntry(data(props)), talks }
+    return { page: talksPageFromEntry(data(props, locale)), talks }
   }),
 )
 
 CMS.registerPreviewTemplate(
   'journalism-detail',
-  vuePreview(JournalismContent, (props) => ({ page: journalismPageFromEntry(data(props)) })),
+  vuePreview(JournalismContent, (props, locale) => ({
+    page: journalismPageFromEntry(data(props, locale)),
+  })),
 )
 
 CMS.registerPreviewTemplate(
   'about',
-  vuePreview(AboutContent, (props) => ({
-    about: aboutPageFromEntry(data(props), assetUrl(props)),
+  vuePreview(AboutContent, (props, locale) => ({
+    about: aboutPageFromEntry(data(props, locale), assetUrl(props)),
   })),
 )

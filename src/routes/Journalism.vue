@@ -5,18 +5,25 @@ import { useHead } from '@unhead/vue'
 import JournalismContent from '@/components/JournalismContent.vue'
 import { AUTHOR_NAME } from '@/constants'
 import { useJournalismPage } from '@/content'
+import { LOCALE_TAGS, useLocale } from '@/locale'
+import { format, useMessages } from '@/messages'
 import { articleDateSort } from '@/presentation'
 import { pageUrl } from '@/routes'
 
 const route = useRoute()
-const page = useJournalismPage()
+const locale = useLocale()
+const messages = useMessages()
+const page = useJournalismPage(locale.value)
 const articles = [...page.articles].sort(articleDateSort)
 
-const description = `${page.description ?? 'Reporting and essays'} by ${AUTHOR_NAME}.`
-const metaDescription = `Journalism — ${AUTHOR_NAME}`
+const title = messages.value.journalism.title
+const description = format(messages.value.journalism.description, {
+  summary: page.description ?? messages.value.journalism.defaultSummary,
+})
+const metaDescription = `${title} — ${AUTHOR_NAME}`
 
 useHead({
-  title: 'Journalism',
+  title,
   meta: [
     { name: 'description', content: description },
     { property: 'og:title', content: metaDescription },
@@ -30,6 +37,7 @@ useHead({
         '@type': 'CollectionPage',
         name: metaDescription,
         url: pageUrl(route.path),
+        inLanguage: LOCALE_TAGS[locale.value],
         description,
         mainEntity: articles.map((article) => ({
           '@type': 'ReportageNewsArticle',

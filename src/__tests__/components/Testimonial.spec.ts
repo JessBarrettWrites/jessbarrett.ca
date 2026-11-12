@@ -73,6 +73,17 @@ describe('Testimonial', () => {
     expect(wrapper.find('a').exists()).toBe(false)
   })
 
+  it('separates the name, " on " and the title with spaces', () => {
+    for (const onTitleUrl of [undefined, '/en/books#some-book']) {
+      const wrapper = mount(Testimonial, {
+        props: { testimonial: mockTestimonial(), onTitle: 'Some Book', onTitleUrl },
+        global: { plugins: [router] },
+      })
+      const name = mockTestimonial().name
+      expect(wrapper.find('figcaption p').element.textContent).toBe(`${name} on Some Book`)
+    }
+  })
+
   it('renders a RouterLink when both onTitle and onTitleUrl are provided', () => {
     const wrapper = mount(Testimonial, {
       props: {

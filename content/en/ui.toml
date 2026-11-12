@@ -1,0 +1,53 @@
+# Interface text: navigation, buttons, labels and page metadata around the content.
+# The French version is ../fr/ui.toml; any key missing there falls back to this file.
+# `{author}` is replaced with the author's name, and `{summary}` with the value described by its key.
+
+author = "Author"
+readMore = "Read more"
+showLess = "Show less"
+testimonialOn = "on"
+
+[nav]
+home = "Home"
+books = "Books"
+journalism = "Journalism"
+talks = "Talks"
+about = "About"
+openMenu = "Open menu"
+toggleDarkMode = "Toggle dark mode"
+email = "Email"
+language = "Language"
+
+[book]
+featured = "Featured Book"
+getTheBook = "Get the Book"
+availableNow = "Available Now"
+preorder = "Available for Pre-Order"
+
+[home]
+description = "Award-winning journalist and author."
+trailerTitle = "No Place Like Home Book Trailer"
+
+[books]
+title = "Books"
+description = "Books by {author}, including No Place Like Home."
+
+[journalism]
+title = "Journalism"
+comingSoon = "Coming soon."
+# {summary} is the page description from journalism.toml, or `defaultSummary`
+description = "{summary} by {author}."
+defaultSummary = "Reporting and essays"
+
+[talks]
+title = "Talks"
+description = "Public speaking by {author}."
+
+[about]
+title = "About"
+description = "About {author}."
+jobTitle = "Author"
+personDescription = "Award-winning journalist and author of No Place Like Home."
+
+[redirect]
+title = "Choose a language"

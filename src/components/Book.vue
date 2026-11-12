@@ -2,6 +2,9 @@
 import { ref, computed, toRef, toValue, onMounted } from 'vue'
 import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
+import { useLocale } from '@/locale'
+import { useMessages } from '@/messages'
+import { pagePath } from '@/routes'
 import type { Book } from '@/types'
 
 const props = defineProps<{
@@ -12,6 +15,8 @@ const props = defineProps<{
 }>()
 
 const book = toRef(props, 'book')
+const locale = useLocale()
+const messages = useMessages()
 
 const today = new Date()
 
@@ -22,8 +27,8 @@ const isFeatured = computed(() => {
 
 const statusText = computed(() => {
   const { available, preorder } = toValue(book)
-  if (available && today >= available) return 'Available Now'
-  if (preorder && today >= preorder) return 'Available for Pre-Order'
+  if (available && today >= available) return messages.value.book.availableNow
+  if (preorder && today >= preorder) return messages.value.book.preorder
   return null
 })
 
@@ -70,12 +75,12 @@ const bodyStyle = computed(() => ({
     </template>
 
     <p v-if="isFeatured" class="font-serif text-sm uppercase tracking-widest opacity-50">
-      Featured Book
+      {{ messages.book.featured }}
     </p>
     <h2 class="font-serif text-4xl font-bold leading-tight">
       <RouterLink
         v-if="titleLink && book.slug"
-        :to="`/books#${book.slug}`"
+        :to="`${pagePath('books', locale)}#${book.slug}`"
         class="hover:underline underline-offset-4"
         >{{ book.title }}</RouterLink
       >
@@ -104,7 +109,7 @@ const bodyStyle = computed(() => ({
         rel="noopener noreferrer"
         class="btn btn-neutral transition-all hover:translate-y-0.5 hover:shadow-inner active:translate-y-1"
       >
-        {{ linkText ?? 'Get the Book' }}
+        {{ linkText ?? messages.book.getTheBook }}
       </a>
     </div>
 
@@ -132,7 +137,7 @@ const bodyStyle = computed(() => ({
       :aria-expanded="expanded"
       class="btn btn-ghost btn-md font-serif italic opacity-50 hover:opacity-100"
     >
-      {{ expanded ? 'Show less' : 'Read more' }}
+      {{ expanded ? messages.showLess : messages.readMore }}
     </button>
   </ProfileBlock>
 </template>

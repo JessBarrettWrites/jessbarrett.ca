@@ -1,8 +1,9 @@
-import { createApp, h, shallowRef } from 'vue'
-import type { Component, ShallowRef } from 'vue'
+import { createApp, h, ref, shallowRef } from 'vue'
+import type { Component, Ref, ShallowRef } from 'vue'
 import { createMemoryHistory, createRouter, START_LOCATION } from 'vue-router'
 
 import { DARK_THEME, LIGHT_THEME } from '@/constants'
+import { DEFAULT_LOCALE, isLocale, LOCALE_KEY, type Locale } from '@/locale'
 import type { PreviewTemplate, PreviewTemplateProps } from '@/admin/sveltia'
 
 // DEV NOTE: Sveltia renders preview templates with its bundled React, so each template is a thin React
@@ -33,25 +34,36 @@ function applyTheme(doc: Document) {
   }
 }
 
+/** Locale of the pane being previewed: Sveltia sets it as the preview iframe's `<html lang>` */
+export function previewLocale({ document }: PreviewTemplateProps): Locale {
+  const language = document.documentElement.lang.split('-')[0]
+  return isLocale(language) ? language : DEFAULT_LOCALE
+}
+
 export function vuePreview<P extends Record<string, unknown>>(
   component: Component,
-  toProps: (props: PreviewTemplateProps) => P | Promise<P>,
+  toProps: (props: PreviewTemplateProps, locale: Locale) => P | Promise<P>,
 ): PreviewTemplate {
   return function VuePreview(props: PreviewTemplateProps) {
     const { createElement, useLayoutEffect, useRef } = window.CMS.React
     const container = useRef<HTMLDivElement | null>(null)
     const state = useRef<ShallowRef<P | undefined> | null>(null)
+    const localeRef = useRef<Ref<Locale> | null>(null)
 
     // Mount once
     useLayoutEffect(() => {
       const current = shallowRef<P>()
+      const locale = ref<Locale>(previewLocale(props))
       const app = createApp({ render: () => current.value && h(component, current.value) })
       app.use(previewRouter())
+      app.provide(LOCALE_KEY, locale)
       applyTheme(props.document)
       app.mount(container.current!)
       state.current = current
+      localeRef.current = locale
       return () => {
         state.current = null
+        localeRef.current = null
         app.unmount()
       }
     }, [])
@@ -59,8 +71,10 @@ export function vuePreview<P extends Record<string, unknown>>(
     // Update on every render (every edit); ignore async results that a newer edit has replaced
     useLayoutEffect(() => {
       const current = state.current
+      const locale = previewLocale(props)
+      if (localeRef.current) localeRef.current.value = locale
       let stale = false
-      const next = toProps(props)
+      const next = toProps(props, locale)
       if (next instanceof Promise) {
         next.then(
           (resolved) => {

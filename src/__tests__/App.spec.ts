@@ -17,4 +17,12 @@ describe('App', () => {
     await router.isReady()
     expect(wrapper.text()).toContain('Jessica Barrett')
   })
+
+  it('renders the navigation in the route locale', async () => {
+    await router.push('/fr/books')
+    const wrapper = mount(App, { global: { plugins: [router] } })
+    await router.isReady()
+    expect(wrapper.text()).toContain('Livres')
+    expect(wrapper.find('a[hreflang="en-CA"]').attributes('href')).toBe('/en/books')
+  })
 })

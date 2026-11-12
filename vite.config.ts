@@ -53,8 +53,9 @@ export default defineConfig({
     onFinished() {
       generateSitemap({
         hostname: process.env.VITE_SITE_URL ?? 'https://jessbarrett.ca',
-        // The CMS (public/admin) is copied into the build, but isn't a page of the site
-        exclude: ['/admin'],
+        // Only list the localized pages: not the CMS (public/admin), nor the unprefixed paths, which
+        // redirect to a locale (see src/routes/LocaleRedirect.vue)
+        exclude: ['/admin', '/', '/books', '/journalism', '/talks', '/about'],
       })
     },
   },

@@ -1,0 +1,53 @@
+# Texte de l’interface : navigation, boutons, étiquettes et métadonnées des pages.
+# Toute clé absente ici reprend le texte anglais de ../en/ui.toml.
+# `{author}` est remplacé par le nom de l’autrice, et `{summary}` par la valeur décrite à sa clé.
+
+author = "Autrice"
+readMore = "Lire la suite"
+showLess = "Voir moins"
+testimonialOn = "à propos de"
+
+[nav]
+home = "Accueil"
+books = "Livres"
+journalism = "Journalisme"
+talks = "Conférences"
+about = "À propos"
+openMenu = "Ouvrir le menu"
+toggleDarkMode = "Activer ou désactiver le mode sombre"
+email = "Courriel"
+language = "Langue"
+
+[book]
+featured = "Livre en vedette"
+getTheBook = "Se procurer le livre"
+availableNow = "Maintenant disponible"
+preorder = "Disponible en précommande"
+
+[home]
+description = "Journaliste et autrice primée."
+trailerTitle = "Bande-annonce du livre No Place Like Home"
+
+[books]
+title = "Livres"
+description = "Livres de {author}, dont No Place Like Home."
+
+[journalism]
+title = "Journalisme"
+comingSoon = "À venir."
+# {summary} est la description de la page (journalism.toml), ou `defaultSummary`
+description = "{summary} de {author}."
+defaultSummary = "Reportages et essais"
+
+[talks]
+title = "Conférences"
+description = "Conférences de {author}."
+
+[about]
+title = "À propos"
+description = "À propos de {author}."
+jobTitle = "Autrice"
+personDescription = "Journaliste primée et autrice de No Place Like Home."
+
+[redirect]
+title = "Choisissez une langue"

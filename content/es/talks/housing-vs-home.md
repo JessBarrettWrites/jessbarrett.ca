@@ -1,0 +1,5 @@
++++
+title = "Vivienda frente a hogar"
++++
+
+Tras vivir en Vancouver toda su vida adulta, Jessica Barrett empacó sus cosas, dejó el trabajo de sus sueños como editora de revista y se marchó a Calgary en busca de un lugar más asequible al que llamar hogar. En los años transcurridos desde que los precios la expulsaron de Vancouver, la asequibilidad de la vivienda se ha convertido en una crisis nacional que aviva la desigualdad social y nos encamina hacia la ruina financiera. Pero nuestra obsesión por el alza de los precios de la vivienda oculta un problema más complejo y urgente: hemos perdido el respeto por el hogar y la comprensión de lo que significa. En esta conferencia, Jessica presenta al público su investigación sobre los elementos fundamentales del hogar y analiza en qué medida nuestro sistema de vivienda actual les da prioridad, o no. A continuación, presenta ejemplos locales y de todo el mundo sobre cómo volver a lo esencial del hogar y construir viviendas mejores y más asequibles para todos.

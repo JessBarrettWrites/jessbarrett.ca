@@ -1,0 +1,5 @@
++++
+title = "C de comunidad"
++++
+
+Cuando se habla de nuestra crisis de vivienda, la mayoría de las soluciones propuestas provienen de uno de dos lugares: el mercado o el gobierno. Ambos son problemáticos, aunque por razones distintas. Los promotores privados no siempre construyen viviendas que la gente pueda pagar — ni viviendas que la gente quiera. Y los gobiernos son notoriamente volubles. Basta un giro ideológico o un cambio de partido en el poder para diezmar sistemas y organizaciones que dependen de fondos públicos. Pero existe una tercera opción: un amplio término medio entre lo público y lo privado sobre el que podemos construir viviendas asequibles, atractivas y sostenibles en lo social y lo ambiental. Y hay un grupo de interés olvidado, motivado por naturaleza y perfectamente capaz de encabezar este esfuerzo: nosotros. En esta conferencia, Jessica presenta al público el concepto de vivienda impulsada por la comunidad, con ejemplos de todo Canadá y de todo el mundo que muestran cómo la gente común puede resolver la crisis de vivienda uniéndose en busca de una mejor forma de vivir.

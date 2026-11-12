@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
+  mergeLocalized,
   useBooks,
   useTestimonials,
   useJournalismArticles,
@@ -140,5 +141,66 @@ describe('useAbout', () => {
   it('has a non-empty body', () => {
     const about = useAboutPage()
     expect(about.body.length).toBeGreaterThan(0)
+  })
+})
+
+describe('localized content', () => {
+  it('uses translated fields where they exist', () => {
+    expect(useTalksPage('fr').title).toBe('Conférences')
+    expect(useJournalismPage('fr').description).toBe('Reportages et essais choisis')
+    expect(useAboutPage('fr').body).toContain('journaliste primée')
+    expect(useTalks('fr').map((t) => t.title)).toContain('Le pouvoir caché du bon voisinage')
+    expect(useBooks('fr')[0]!.body).toContain('chez-soi')
+    expect(useTalksPage('es').title).toBe('Conferencias')
+    expect(useTalks('es').map((t) => t.title)).toContain('El poder oculto de la buena vecindad')
+    expect(useBooks('es')[0]!.body).toContain('hogar')
+  })
+
+  it('falls back to the default locale for untranslated fields and entries', () => {
+    expect(useAboutPage('fr').title).toBe(useAboutPage('en').title)
+    expect(useAboutPage('fr').imageSrc).toBe(useAboutPage('en').imageSrc)
+    expect(useBooks('fr').map((b) => b.slug)).toEqual(useBooks('en').map((b) => b.slug))
+    expect(useTalks('fr').map((t) => t.slug)).toEqual(useTalks('en').map((t) => t.slug))
+    // The published (English) title, cover, dates and lists are shared
+    const [frBook, enBook] = [useBooks('fr')[0]!, useBooks('en')[0]!]
+    expect(frBook.title).toBe(enBook.title)
+    expect(frBook.imageSrc).toBe(enBook.imageSrc)
+    expect(frBook.available).toEqual(enBook.available)
+    // Testimonials keep their quotes and names, with translated roles
+    const pick = (book: typeof enBook) =>
+      book.testimonials.map(({ quote, name }) => ({ quote, name }))
+    expect(pick(frBook)).toEqual(pick(enBook))
+    expect(frBook.testimonials[0]!.role).toBe('Économiste et autrice de In This Economy?')
+    expect(useBooks('es')[0]!.testimonials[0]!.role).toBe('Economista y autora de In This Economy?')
+    expect(useJournalismPage('fr').articles).toEqual(useJournalismPage('en').articles)
+  })
+})
+
+describe('mergeLocalized', () => {
+  it("merges translated list items by position, keeping the default list's items", () => {
+    const base = {
+      list: [
+        { quote: 'Q1', role: 'R1' },
+        { quote: 'Q2', role: 'R2' },
+      ],
+    }
+    expect(mergeLocalized(base, { list: [{ role: 'Rôle 1' }] })).toEqual({
+      list: [
+        { quote: 'Q1', role: 'Rôle 1' },
+        { quote: 'Q2', role: 'R2' },
+      ],
+    })
+    expect(
+      mergeLocalized(base, { list: [{ role: '' }, { role: 'Rôle 2' }, { role: 'extra' }] }),
+    ).toEqual({
+      list: [
+        { quote: 'Q1', role: 'R1' },
+        { quote: 'Q2', role: 'Rôle 2' },
+      ],
+    })
+  })
+
+  it('lets translations override fields, ignoring empty ones', () => {
+    expect(mergeLocalized({ a: 'A', b: 'B', c: '' }, { a: 'Á', b: '' })).toEqual({ a: 'Á', b: 'B' })
   })
 })
