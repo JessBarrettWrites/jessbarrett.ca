@@ -15,6 +15,11 @@ export const createApp = ViteSSG(
   ({ router }) => {
     if (import.meta.env.SSR) return
 
+    // Register the service worker ourselves (instead of the injected registerSW.js) so that, with
+    // registerType 'autoUpdate', the page reloads as soon as a newly deployed worker takes control.
+    // Otherwise the old worker keeps serving the previous precached HTML until a forced reload.
+    import('virtual:pwa-register').then(({ registerSW }) => registerSW({ immediate: true }))
+
     // If a dynamically imported chunk fails to load (e.g. stale service worker
     // serving old hashed filenames after a deploy), unregister the worker and reload.
     router.onError((error) => {
