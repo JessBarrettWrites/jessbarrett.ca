@@ -34,11 +34,11 @@ watch(route, () => {
       </span>
     </RouterLink>
   </div>
-  <nav class="navbar-end text-right hidden md:flex items-center flex-1!">
+  <nav class="navbar-end text-right hidden lg:flex items-center flex-1!">
     <ul class="flex items-center mt-1" v-for="{ to, label } in nav" :key="to">
       <li>
         <RouterLink
-          class="btn btn-ghost px-2 [--btn-color:var(--color-neutral-content)]"
+          class="btn btn-ghost mx-1 px-2 whitespace-nowrap [--btn-color:var(--color-neutral-content)]"
           :to="to"
           :aria-current="route.path === to ? 'page' : undefined"
           >{{ label }}</RouterLink
@@ -52,7 +52,7 @@ watch(route, () => {
       <ThemeToggle />
     </div>
   </nav>
-  <div class="navbar-end visible md:hidden flex-1!">
+  <div class="navbar-end visible lg:hidden flex-1!">
     <div class="inline-block px-2">
       <ThemeToggle />
     </div>
@@ -75,7 +75,7 @@ watch(route, () => {
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
-          class="h-5 w-5"
+          class="h-5 w-5 text-neutral-content"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -95,7 +95,7 @@ watch(route, () => {
       >
         <li v-for="{ to, label } in nav" :key="to">
           <RouterLink
-            class="btn btn-ghost px-2 [--btn-color:var(--color-neutral-content)]"
+            class="btn btn-ghost my-1 px-2 [--btn-color:var(--color-neutral-content)]"
             :to="to"
             :aria-current="route.path === to ? 'page' : undefined"
             @click="isMenuOpen = false"

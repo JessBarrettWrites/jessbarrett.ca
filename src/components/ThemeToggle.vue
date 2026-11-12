@@ -25,7 +25,7 @@ function toggleTheme() {
 </script>
 
 <template>
-  <label class="flex cursor-pointer gap-2">
+  <label class="flex cursor-pointer items-center gap-2">
     <span class="sr-only">Toggle dark mode</span>
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,18 @@ function toggleTheme() {
         d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"
       />
     </svg>
-    <input type="checkbox" class="toggle toggle-neutral" :checked="isDark" @change="toggleTheme" />
+    <!-- DEV NOTE: Always round (the dark theme's selector radius is 0), drawn in the navbar's content
+                   colour in both states (the toggle's border and knob use --input-color), with no
+                   fill of its own (daisyUI fills it with the page colour when checked), and small
+                   enough to match the 20px navbar icons. The knob's padding is a whole 2px: the
+                   small toggle's default (2.5px) puts the knob's edges between pixels, so it looks
+                   blurry and off-centre -->
+    <input
+      type="checkbox"
+      class="toggle toggle-sm bg-transparent [--input-color:var(--color-neutral-content)] [--radius-selector:1rem] [--toggle-p:2px]"
+      :checked="isDark"
+      @change="toggleTheme"
+    />
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"
