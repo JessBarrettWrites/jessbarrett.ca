@@ -100,8 +100,10 @@ useHead({
 
 <template>
   <Nav :title="AUTHOR_NAME" :subtitle="MESSAGES[locale].author">
+    <!-- DEV NOTE: Pages read the locale once in setup, and /en/x and /fr/x share a component, so key
+                   by locale to remount the page when the language changes -->
     <router-view v-slot="{ Component }">
-      <component :is="Component" />
+      <component :is="Component" :key="locale" />
     </router-view>
   </Nav>
 </template>
