@@ -1,6 +1,4 @@
 allowBuilds:
-  # Vite's bundler backend — post-install fetches the platform-specific native binary.
-  esbuild: true
   # libvips binding used by vite-plugin-image-optimizer — post-install builds/fetches native binaries.
   sharp: true
 
