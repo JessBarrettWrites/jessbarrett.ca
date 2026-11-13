@@ -1,4 +1,5 @@
 /// <reference types="vite-ssg/node" />
+import { readdirSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
@@ -51,11 +52,15 @@ export default defineConfig({
   ],
   ssgOptions: {
     onFinished() {
+      // DEV NOTE: Exclude all English (en) pages from the sitemap, since they are already at the
+      //           root path.  They only exist to be consistent for search indexing.
+      //
+      const enPages = readdirSync('dist/en').map((file) => `/en/${file.replace(/\.html$/, '')}`)
       generateSitemap({
         hostname: process.env.VITE_SITE_URL ?? 'https://jessbarrett.ca',
-        // Only list the localized pages: not the CMS (public/admin), nor the unprefixed paths, which
-        // redirect to a locale (see src/routes/LocaleRedirect.vue)
-        exclude: ['/admin', '/', '/books', '/journalism', '/talks', '/about'],
+        // Not the CMS (public/admin), nor the /en copies: English is indexed at the plain paths
+        // (see indexedPath in src/routes.ts)
+        exclude: ['/admin', '/en', ...enPages],
       })
     },
   },

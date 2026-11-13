@@ -2,6 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <!-- DEV NOTE: Pages are pre-built in one locale and switch to the visitor's once the app starts
+                   (src/App.vue), so hide the page until then if they differ. Mirrors
+                   preferredLocale() and isCrawler() in src/locale.ts. -->
+    <style>html.locale-pending body { visibility: hidden; }</style>
+    <script>
+      ;(function () {
+        if (/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent)) return
+        var locales = ['en', 'fr', 'es']
+        var cookie = document.cookie.match(/(?:^|;\s*)locale=([^;]*)/)
+        var preferred = cookie && locales.indexOf(cookie[1]) >= 0 ? cookie[1] : null
+        for (var i = 0; !preferred && i < navigator.languages.length; i++) {
+          var base = navigator.languages[i].split('-')[0]
+          if (locales.indexOf(base) >= 0) preferred = base
+        }
+        var html = document.documentElement
+        if ((preferred || 'en') === html.lang.split('-')[0]) return
+        html.classList.add('locale-pending')
+        // Show the page anyway if the app fails to start
+        setTimeout(function () {
+          html.classList.remove('locale-pending')
+        }, 3000)
+      })()
+    </script>
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jessica Barrett &mdash; Author</title>

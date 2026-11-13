@@ -6,20 +6,18 @@ import AmDash from '@/components/AmDash.vue'
 import LanguageMenu from '@/components/LanguageMenu.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import SocialMedia from '@/nav/SocialMedia.vue'
-import { useLocale } from '@/locale'
 import { useMessages } from '@/messages'
 import { NAV_PAGES, pagePath } from '@/routes'
 
 const route = useRoute()
-const locale = useLocale()
 const messages = useMessages()
 
 const props = defineProps<{ title?: string; subtitle?: string }>()
 
-const homePath = computed(() => pagePath('home', locale.value))
+const homePath = computed(() => pagePath('home'))
 
 const nav = computed(() =>
-  NAV_PAGES.map((page) => ({ to: pagePath(page, locale.value), label: messages.value.nav[page] })),
+  NAV_PAGES.map((page) => ({ to: pagePath(page), label: messages.value.nav[page] })),
 )
 
 const isMenuOpen = ref(false)

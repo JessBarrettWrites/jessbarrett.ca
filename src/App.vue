@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, provide, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, nextTick, onMounted, provide, readonly, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import { useHead } from '@unhead/vue'
 import Nav from '@/components/Nav.vue'
@@ -8,48 +8,68 @@ import { AUTHOR_NAME } from '@/constants'
 import { useBooks } from '@/content'
 import {
   DEFAULT_LOCALE,
+  isCrawler,
   LOCALE_KEY,
-  LOCALE_STORAGE_KEY,
   LOCALE_TAGS,
   LOCALES,
   type Locale,
+  preferredLocale,
+  saveLocale,
+  SELECT_LOCALE_KEY,
 } from '@/locale'
 import { MESSAGES } from '@/messages'
-import { pagePath, pageUrl } from '@/routes'
+import { indexedPath, pagePath, pageUrl } from '@/routes'
 import { bookDateSort } from '@/presentation.ts'
 
 const route = useRoute()
-const locale = computed<Locale>(() => route.meta.locale ?? DEFAULT_LOCALE)
-provide(LOCALE_KEY, locale)
+const router = useRouter()
 
-// Remember the locale being read, so unprefixed links (/books) go back to it
-watchEffect(() => {
-  if (typeof window === 'undefined' || !route.meta.locale) return
-  try {
-    localStorage.setItem(LOCALE_STORAGE_KEY, route.meta.locale)
-  } catch {
-    // Storage may be unavailable; the browser language is used instead
-  }
+// DEV NOTE: Pages are pre-built in their route's locale (English at the plain paths), so hydrate in
+//           that locale, then switch to the visitor's. index.html hides the page until then.
+const locale = ref<Locale>(route.meta.locale ?? DEFAULT_LOCALE)
+provide(LOCALE_KEY, readonly(locale))
+provide(SELECT_LOCALE_KEY, (l: Locale) => {
+  locale.value = l
+  saveLocale(l)
 })
 
-const canonicalUrl = computed(() => pageUrl(route.path))
+// Visitors arriving on a search engine copy (/fr/books) read it at the plain path (/books) instead,
+// in their own locale, so the address they share works for anyone
+async function leaveSearchCopy() {
+  const { meta, query, hash } = route
+  if (meta.locale && meta.page) await router.replace({ path: pagePath(meta.page), query, hash })
+}
+
+onMounted(async () => {
+  if (!isCrawler()) {
+    locale.value = preferredLocale()
+    await leaveSearchCopy()
+  }
+  await nextTick()
+  document.documentElement.classList.remove('locale-pending')
+})
+
+const canonicalUrl = computed(() =>
+  pageUrl(route.meta.page ? indexedPath(route.meta.page, locale.value) : route.path),
+)
 const books = useBooks().sort(bookDateSort)
 const latestBook = books[0]
 
-// The same page in every locale, for search engines; `x-default` is the language chooser
+// The same page in every locale, for search engines; `x-default` is the plain path, which shows
+// visitors their preferred locale
 const alternates = computed(() => {
   const { page } = route.meta
-  if (!page || !route.meta.locale) return []
+  if (!page) return []
   return [
     ...LOCALES.map((l) => ({
       rel: 'alternate' as const,
       hreflang: LOCALE_TAGS[l],
-      href: pageUrl(pagePath(page, l)),
+      href: pageUrl(indexedPath(page, l)),
     })),
     {
       rel: 'alternate' as const,
       hreflang: 'x-default',
-      href: pageUrl(pagePath(page, DEFAULT_LOCALE)),
+      href: pageUrl(pagePath(page)),
     },
   ]
 })

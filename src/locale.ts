@@ -15,36 +15,39 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   es: 'Español',
 }
 
+// Cookie holding the language the visitor chose in the language menu
+export const LOCALE_COOKIE = 'locale'
+const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365
+
+/* Accept the value as unknown, and validate it as a real Locale (string) on return */
 export function isLocale(value: unknown): value is Locale {
   return LOCALES.includes(value as Locale)
 }
 
-// Key in localStorage for the last locale the visitor viewed, used by unprefixed URLs
-export const LOCALE_STORAGE_KEY = 'locale'
-
-/** Path of a page in a locale, e.g. `localePath('fr', '/books')` → `/fr/books` */
+/** Path of a page's search engine copy in a locale, e.g. `localePath('fr', '/books')` → `/fr/books` */
 export function localePath(locale: Locale, path: string): string {
   return path === '/' ? `/${locale}` : `/${locale}${path}`
 }
 
-/** Prefix a root-relative page link (e.g. `/books#slug` in Markdown content) with the locale. Links
- *  that already have a locale, protocol-relative links and files (`/images/a.jpg`) are left alone. */
-export function localizeHref(href: string, locale: Locale): string {
-  if (!href.startsWith('/') || href.startsWith('//')) return href
-  const [path = '/', ...rest] = href.split(/(?=[?#])/)
-  const segment = path.split('/')[1] ?? ''
-  if (isLocale(segment) || path.includes('.')) return href
-  return localePath(locale, path) + rest.join('')
+/** The locale chosen in the language menu, if any */
+export function selectedLocale(): Locale | undefined {
+  if (typeof document === 'undefined') {
+    // Document isn't available, so nothing to search for
+    return undefined
+  }
+  const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${LOCALE_COOKIE}=([^;]*)`))
+  return isLocale(match?.[1]) ? match[1] : undefined
 }
 
-/** The locale a visitor most likely wants: the last one they viewed, then their browser languages */
+/** Remember the locale chosen in the language menu */
+export function saveLocale(locale: Locale): void {
+  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax`
+}
+
+/** The locale a visitor most likely wants: the one they chose, then their browser languages */
 export function preferredLocale(): Locale {
-  try {
-    const saved = localStorage.getItem(LOCALE_STORAGE_KEY)
-    if (isLocale(saved)) return saved
-  } catch {
-    // Storage may be unavailable; fall back to the browser languages
-  }
+  const selected = selectedLocale()
+  if (selected) return selected
   const languages = typeof navigator === 'undefined' ? [] : navigator.languages
   for (const language of languages) {
     const base = language.split('-')[0]
@@ -53,10 +56,24 @@ export function preferredLocale(): Locale {
   return DEFAULT_LOCALE
 }
 
-// DEV NOTE: App.vue provides the current route's locale; components rendered without it (tests, CMS
+/** Whether the visitor is a search engine or other crawler, which reads each locale's own pages */
+export function isCrawler(): boolean {
+  if (typeof navigator === 'undefined') return false
+  return /bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent)
+}
+
+// DEV NOTE: App.vue provides the locale being shown; components rendered without it (tests, CMS
 //           previews before they provide one) get the default locale
 export const LOCALE_KEY: InjectionKey<Readonly<Ref<Locale>>> = Symbol('locale')
 
 export function useLocale(): Readonly<Ref<Locale>> {
   return inject(LOCALE_KEY, ref(DEFAULT_LOCALE))
+}
+
+// DEV NOTE: App.vue provides this to switch the page's locale in place; without it (tests, CMS
+//           previews) choosing a language does nothing
+export const SELECT_LOCALE_KEY: InjectionKey<(locale: Locale) => void> = Symbol('selectLocale')
+
+export function useSelectLocale(): (locale: Locale) => void {
+  return inject(SELECT_LOCALE_KEY, () => {})
 }

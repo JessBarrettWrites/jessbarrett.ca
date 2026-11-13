@@ -1,48 +1,46 @@
-import { describe, it, expect } from 'vitest'
-import { computed } from 'vue'
+import { describe, it, expect, vi } from 'vitest'
+import { ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { createMemoryHistory, createRouter } from 'vue-router'
 import LanguageMenu from '@/components/LanguageMenu.vue'
-import { LOCALE_KEY } from '@/locale'
+import { LOCALE_KEY, SELECT_LOCALE_KEY, type Locale } from '@/locale'
 
-const router = createRouter({
-  history: createMemoryHistory(),
-  routes: [
-    { path: '/fr/books', component: { template: '<div/>' }, meta: { locale: 'fr', page: 'books' } },
-    { path: '/en/books', component: { template: '<div/>' }, meta: { locale: 'en', page: 'books' } },
-  ],
-})
-
-async function mountAt(path: string) {
-  await router.push(path)
-  await router.isReady()
+function mountIn(locale: Locale, selectLocale = vi.fn()) {
   return mount(LanguageMenu, {
     global: {
-      plugins: [router],
-      provide: { [LOCALE_KEY as symbol]: computed(() => router.currentRoute.value.meta.locale) },
+      provide: {
+        [LOCALE_KEY as symbol]: ref(locale),
+        [SELECT_LOCALE_KEY as symbol]: selectLocale,
+      },
     },
   })
 }
 
 describe('LanguageMenu', () => {
-  it('links to the current page in every language, keeping the hash', async () => {
-    const wrapper = await mountAt('/fr/books#no-place-like-home')
-    const links = wrapper.findAll('a').map((a) => [a.attributes('hreflang'), a.attributes('href')])
-    expect(links).toEqual([
-      ['en-CA', '/en/books#no-place-like-home'],
-      ['fr-CA', '/fr/books#no-place-like-home'],
-      ['es', '/es/books#no-place-like-home'],
+  it('offers every language, each labelled in itself', () => {
+    const wrapper = mountIn('fr')
+    const options = wrapper.findAll('button').map((b) => [b.attributes('lang'), b.text()])
+    expect(options).toEqual([
+      ['en-CA', 'ENEnglish'],
+      ['fr-CA', 'FRFrançais'],
+      ['es', 'ESEspañol'],
     ])
   })
 
-  it('marks the current language', async () => {
-    const wrapper = await mountAt('/fr/books')
-    const current = wrapper.findAll('a').filter((a) => a.attributes('aria-current') === 'true')
-    expect(current.map((a) => a.text())).toEqual(['FRFrançais'])
+  it('chooses the clicked language', async () => {
+    const selectLocale = vi.fn()
+    const wrapper = mountIn('fr', selectLocale)
+    await wrapper.find('button[lang="es"]').trigger('click')
+    expect(selectLocale).toHaveBeenCalledWith('es')
   })
 
-  it('labels the button in the current language', async () => {
-    const wrapper = await mountAt('/fr/books')
+  it('marks the current language', () => {
+    const wrapper = mountIn('fr')
+    const current = wrapper.findAll('button').filter((b) => b.attributes('aria-current') === 'true')
+    expect(current.map((b) => b.text())).toEqual(['FRFrançais'])
+  })
+
+  it('labels the button in the current language', () => {
+    const wrapper = mountIn('fr')
     expect(wrapper.find('[role="button"]').attributes('aria-label')).toBe('Langue')
   })
 })

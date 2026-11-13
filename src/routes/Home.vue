@@ -16,7 +16,7 @@ import { pagePath } from '@/routes'
 
 const locale = useLocale()
 const messages = useMessages()
-const booksPath = pagePath('books', locale.value)
+const booksPath = pagePath('books')
 
 const today = new Date()
 const books = useBooks(locale.value).sort(bookDateSort)

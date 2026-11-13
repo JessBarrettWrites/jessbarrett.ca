@@ -1,22 +1,26 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
 
-import { LOCALE_NAMES, LOCALE_TAGS, LOCALES, useLocale } from '@/locale'
+import {
+  LOCALE_NAMES,
+  LOCALE_TAGS,
+  LOCALES,
+  type Locale,
+  useLocale,
+  useSelectLocale,
+} from '@/locale'
 import { useMessages } from '@/messages'
-import { pagePath } from '@/routes'
 
-// Globe button with a dropdown of languages, like the one in the daisyUI docs header. Each language
-// links to the current page (and #hash) in that language.
+// Globe button with a dropdown of languages, like the one in the daisyUI docs header. Choosing a
+// language shows the current page in it, without changing the URL.
 
-const route = useRoute()
 const locale = useLocale()
+const selectLocale = useSelectLocale()
 const messages = useMessages()
 
 const languages = computed(() =>
   LOCALES.map((l) => ({
     locale: l,
-    to: { path: pagePath(route.meta.page ?? 'home', l), hash: route.hash },
     name: LOCALE_NAMES[l],
     tag: LOCALE_TAGS[l],
     current: l === locale.value,
@@ -24,7 +28,8 @@ const languages = computed(() =>
 )
 
 // DEV NOTE: The dropdown opens while it has focus, so drop focus once a language is chosen
-function close() {
+function choose(l: Locale) {
+  selectLocale(l)
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
 }
 </script>
@@ -74,19 +79,18 @@ function close() {
       class="dropdown-content menu z-10 mt-3 w-48 rounded-box bg-neutral p-2 text-neutral-content shadow [html[data-theme=black]_&]:shadow-white/20 [--menu-active-bg:var(--color-neutral-content)] [--menu-active-fg:var(--color-neutral)]"
     >
       <li v-for="language in languages" :key="language.locale">
-        <RouterLink
-          :to="language.to"
+        <button
+          type="button"
           :lang="language.tag"
-          :hreflang="language.tag"
           :aria-current="language.current ? 'true' : undefined"
-          @click="close"
+          @click="choose(language.locale)"
         >
           <span
             class="badge badge-sm badge-outline w-8 font-mono text-[.6rem] font-bold tracking-widest"
             >{{ language.locale.toUpperCase() }}</span
           >
           <span>{{ language.name }}</span>
-        </RouterLink>
+        </button>
       </li>
     </ul>
   </div>

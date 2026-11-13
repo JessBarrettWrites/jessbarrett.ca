@@ -1,11 +1,17 @@
 import { afterEach, describe, it, expect, vi } from 'vitest'
 import {
   DEFAULT_LOCALE,
-  LOCALE_STORAGE_KEY,
+  isCrawler,
+  LOCALE_COOKIE,
   localePath,
-  localizeHref,
   preferredLocale,
+  saveLocale,
+  selectedLocale,
 } from '@/locale'
+
+function clearCookie() {
+  document.cookie = `${LOCALE_COOKIE}=; path=/; max-age=0`
+}
 
 describe('localePath', () => {
   it('prefixes page paths', () => {
@@ -17,35 +23,30 @@ describe('localePath', () => {
   })
 })
 
-describe('localizeHref', () => {
-  it('prefixes root-relative page links, keeping the hash and query', () => {
-    expect(localizeHref('/books#no-place-like-home', 'fr')).toBe('/fr/books#no-place-like-home')
-    expect(localizeHref('/talks?x=1', 'fr')).toBe('/fr/talks?x=1')
-    expect(localizeHref('/', 'fr')).toBe('/fr')
+describe('selectedLocale', () => {
+  afterEach(clearCookie)
+
+  it('reads the locale saved by saveLocale', () => {
+    expect(selectedLocale()).toBeUndefined()
+    saveLocale('es')
+    expect(selectedLocale()).toBe('es')
   })
 
-  it('leaves links that already have a locale', () => {
-    expect(localizeHref('/en/books', 'fr')).toBe('/en/books')
-    expect(localizeHref('/fr', 'en')).toBe('/fr')
-  })
-
-  it('leaves files, external, protocol-relative, and fragment links', () => {
-    expect(localizeHref('/images/cover.jpg', 'fr')).toBe('/images/cover.jpg')
-    expect(localizeHref('https://example.com/books', 'fr')).toBe('https://example.com/books')
-    expect(localizeHref('//example.com/books', 'fr')).toBe('//example.com/books')
-    expect(localizeHref('#top', 'fr')).toBe('#top')
-    expect(localizeHref('mailto:a@example.com', 'fr')).toBe('mailto:a@example.com')
+  it('ignores unknown locales', () => {
+    document.cookie = `${LOCALE_COOKIE}=de; path=/`
+    expect(selectedLocale()).toBeUndefined()
   })
 })
 
 describe('preferredLocale', () => {
   afterEach(() => {
-    localStorage.removeItem(LOCALE_STORAGE_KEY)
+    clearCookie()
     vi.restoreAllMocks()
   })
 
-  it('uses the last locale viewed', () => {
-    localStorage.setItem(LOCALE_STORAGE_KEY, 'fr')
+  it('uses the chosen locale over the browser languages', () => {
+    vi.spyOn(navigator, 'languages', 'get').mockReturnValue(['es-MX'])
+    saveLocale('fr')
     expect(preferredLocale()).toBe('fr')
   })
 
@@ -59,5 +60,25 @@ describe('preferredLocale', () => {
   it('falls back to the default locale', () => {
     vi.spyOn(navigator, 'languages', 'get').mockReturnValue(['de-DE'])
     expect(preferredLocale()).toBe(DEFAULT_LOCALE)
+  })
+})
+
+describe('isCrawler', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('detects search engine crawlers', () => {
+    vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(
+      'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+    )
+    expect(isCrawler()).toBe(true)
+  })
+
+  it('passes regular browsers', () => {
+    vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15',
+    )
+    expect(isCrawler()).toBe(false)
   })
 })

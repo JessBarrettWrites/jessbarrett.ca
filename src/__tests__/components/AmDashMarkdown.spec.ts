@@ -1,8 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { ref } from 'vue'
 import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
-import { LOCALE_KEY } from '@/locale'
 
 describe('Markdown', () => {
   it('renders plain text wrapped in a paragraph', () => {
@@ -45,16 +43,5 @@ describe('Markdown', () => {
   it('renders empty slot as empty content', () => {
     const wrapper = mount(AmDashMarkdown, { slots: { default: '' } })
     expect(wrapper.text()).toBe('')
-  })
-})
-
-describe('Markdown links', () => {
-  it('points root-relative page links at the current locale', () => {
-    const wrapper = mount(AmDashMarkdown, {
-      slots: { default: '[book](/books#slug) [site](https://example.com)' },
-      global: { provide: { [LOCALE_KEY as symbol]: ref('fr') } },
-    })
-    const hrefs = wrapper.findAll('a').map((a) => a.attributes('href'))
-    expect(hrefs).toEqual(['/fr/books#slug', 'https://example.com'])
   })
 })

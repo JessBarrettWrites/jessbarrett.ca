@@ -74,7 +74,7 @@ describe('Testimonial', () => {
   })
 
   it('separates the name, " on " and the title with spaces', () => {
-    for (const onTitleUrl of [undefined, '/en/books#some-book']) {
+    for (const onTitleUrl of [undefined, '/books#some-book']) {
       const wrapper = mount(Testimonial, {
         props: { testimonial: mockTestimonial(), onTitle: 'Some Book', onTitleUrl },
         global: { plugins: [router] },

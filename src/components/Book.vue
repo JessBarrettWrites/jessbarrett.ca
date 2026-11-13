@@ -2,7 +2,6 @@
 import { ref, computed, toRef, toValue, onMounted } from 'vue'
 import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
 import ProfileBlock from '@/components/ProfileBlock.vue'
-import { useLocale } from '@/locale'
 import { useMessages } from '@/messages'
 import { pagePath } from '@/routes'
 import type { Book } from '@/types'
@@ -19,7 +18,6 @@ const props = withDefaults(
 )
 
 const book = toRef(props, 'book')
-const locale = useLocale()
 const messages = useMessages()
 
 const today = new Date()
@@ -89,7 +87,7 @@ const bodyStyle = computed(() => {
     <h2 class="font-serif text-4xl font-bold leading-tight">
       <RouterLink
         v-if="titleLink && book.slug"
-        :to="`${pagePath('books', locale)}#${book.slug}`"
+        :to="`${pagePath('books')}#${book.slug}`"
         class="hover:underline underline-offset-4"
         >{{ book.title }}</RouterLink
       >

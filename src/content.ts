@@ -16,6 +16,7 @@ import type {
 } from '@/types'
 import { DEFAULT_LOCALE, type Locale } from '@/locale'
 import { getSlug, parseDate, parseFront, parseTyped } from '@/parse.ts'
+import { uniqueSortedArray } from '@/util'
 
 import rawContact from '../content/contact.toml?raw'
 
@@ -58,6 +59,7 @@ function readMarkdown(raw: string): Fields {
   return { ...frontmatter, body }
 }
 
+/** Read the TOML string into a structured type **/
 function readToml(raw: string): Fields {
   return parseTyped<Fields>(raw)
 }
@@ -78,8 +80,12 @@ export function mergeLocalized(base: Fields, translation: Fields): Fields {
   return merged
 }
 
-const isFields = (value: unknown): value is Fields =>
-  typeof value === 'object' && value !== null && !Array.isArray(value) && !(value instanceof Date)
+/** True if the given value is a set of Fields (key-value pairs) **/
+function isFields(value: unknown): value is Fields {
+  return (
+    typeof value === 'object' && value !== null && !Array.isArray(value) && !(value instanceof Date)
+  )
+}
 
 // DEV NOTE: A translated list (e.g. testimonials, where only the `role` is translated) lines up with
 //           the default locale's list by position. The default locale decides which items there are,
@@ -96,10 +102,14 @@ function localeOf(path: string): string | undefined {
   return path.split('/')[2]
 }
 
+/** Contents of the locale's copy of a file, if it has one */
+function findLocaleFile(files: RawFiles, locale: Locale): string | undefined {
+  return Object.entries(files).find(([path]) => localeOf(path) === locale)?.[1]
+}
+
 function localizedFile(files: RawFiles, locale: Locale, read: (raw: string) => Fields): Fields {
-  const find = (l: Locale) => Object.entries(files).find(([path]) => localeOf(path) === l)?.[1]
-  const base = find(DEFAULT_LOCALE)
-  const translation = locale === DEFAULT_LOCALE ? undefined : find(locale)
+  const base = findLocaleFile(files, DEFAULT_LOCALE)
+  const translation = locale === DEFAULT_LOCALE ? undefined : findLocaleFile(files, locale)
   return mergeLocalized(base ? read(base) : {}, translation ? read(translation) : {})
 }
 
@@ -117,7 +127,7 @@ function localizedFolder(
     )
   const base = bySlug(DEFAULT_LOCALE)
   const translations = locale === DEFAULT_LOCALE ? new Map<string, string>() : bySlug(locale)
-  const slugs = [...new Set([...base.keys(), ...translations.keys()])].sort()
+  const slugs = uniqueSortedArray(base.keys(), translations.keys())
 
   return slugs.map((slug) => {
     const baseRaw = base.get(slug)
@@ -131,7 +141,6 @@ function localizedFolder(
 
 // DEV NOTE: The `to*` transforms are shared with the CMS previews (`src/admin`), which get the same
 //           fields from the editor instead of from the files on disk
-
 export function toBook(slug: string, toml: BookToml, body: string): Book {
   return {
     ...toml,
