@@ -6,3 +6,17 @@ outlet = "The Strong Towns Podcast"
 date = 2026-11-15
 url = "https://podcast.strongtowns.org/e/why-more-housing-isnt-the-same-as-home/"
 description = ""
+
+[[appearance]]
+title = "Journalist Jessica Barrett On The Keys To Solving The Housing Crisis"
+outlet = "Broadview Magazine"
+date = 2026-03-05
+url = "https://broadview.org/jessica-barrett-housing-interview/"
+description = ""
+
+[[appearance]]
+title = "‘A Whole World Thing’: Calgary Author Jessica Barrett Explores Housing Crisis"
+outlet = "CTV News Calgary"
+date = 2026-03-03
+url = "https://www.ctvnews.ca/calgary/article/a-whole-world-thing-calgary-author-jessica-barrett-explores-housing-crisis/"
+description = ""
