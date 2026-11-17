@@ -8,6 +8,7 @@ import AmDashMarkdown from '@/components/AmDashMarkdown.vue'
 import Footer from '@/components/Footer.vue'
 import { AUTHOR_NAME } from '@/constants'
 import { useBooks } from '@/content'
+import { usePageHead } from '@/head'
 import { LOCALE_TAGS, useLocale } from '@/locale'
 import { useMessages } from '@/messages'
 import { bookDateSort } from '@/presentation'
@@ -20,15 +21,9 @@ const books = useBooks(locale.value).sort(bookDateSort)
 
 const title = messages.value.books.title
 const description = messages.value.books.description
-const metaDescription = `${title} — ${AUTHOR_NAME}`
+const fullTitle = usePageHead({ title, description })
 
 useHead({
-  title,
-  meta: [
-    { name: 'description', content: description },
-    { property: 'og:title', content: metaDescription },
-    { property: 'og:description', content: description },
-  ],
   link: books.map((b) => ({ rel: 'preload', href: b.imageSrc, as: 'image' as const })),
   script: [
     {
@@ -36,7 +31,7 @@ useHead({
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: metaDescription,
+        name: fullTitle.value,
         url: pageUrl(route.path),
         inLanguage: LOCALE_TAGS[locale.value],
         mainEntity: books.map((book) => ({

@@ -7,8 +7,8 @@ import Book from '@/components/Book.vue'
 import YouTube from '@/components/YouTube.vue'
 import Testimonial from '@/components/Testimonial.vue'
 import Footer from '@/components/Footer.vue'
-import { AUTHOR_NAME } from '@/constants'
 import { useBooks, useTestimonials } from '@/content'
+import { usePageHead } from '@/head'
 import { useLocale } from '@/locale'
 import { useMessages } from '@/messages'
 import { bookDateSort, featuredBookFilter } from '@/presentation'
@@ -31,15 +31,10 @@ const bookMeasureElement = ref<HTMLElement>()
 const { width: bookSectionWidth } = useElementSize(bookMeasureElement)
 
 const description = featuredBooks[0]?.synopsis ?? messages.value.home.description
-const metaDescription = `${messages.value.nav.home} — ${AUTHOR_NAME}`
+// The author's name alone, as the site's own title
+usePageHead({ description })
 
 useHead({
-  title: AUTHOR_NAME,
-  meta: [
-    { name: 'description', content: description },
-    { property: 'og:title', content: metaDescription },
-    { property: 'og:description', content: description },
-  ],
   link: featuredBooks.map((b) => ({ rel: 'preload', href: b.imageSrc, as: 'image' as const })),
 })
 

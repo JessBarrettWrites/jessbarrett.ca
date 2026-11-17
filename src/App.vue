@@ -20,6 +20,7 @@ import {
 import { MESSAGES } from '@/messages'
 import { indexedPath, pagePath, pageUrl } from '@/routes'
 import { bookDateSort } from '@/presentation.ts'
+import { pageEntering } from '@/transition'
 
 const route = useRoute()
 const router = useRouter()
@@ -40,6 +41,9 @@ async function leaveSearchCopy() {
   if (meta.locale && meta.page) await router.replace({ path: pagePath(meta.page), query, hash })
 }
 
+// No fade while the pre-built page switches to the visitor's locale, only between pages after that
+const pageTransition = ref('none')
+
 onMounted(async () => {
   if (!isCrawler()) {
     locale.value = preferredLocale()
@@ -47,6 +51,7 @@ onMounted(async () => {
   }
   await nextTick()
   document.documentElement.classList.remove('locale-pending')
+  pageTransition.value = 'page'
 })
 
 const canonicalUrl = computed(() =>
@@ -74,9 +79,9 @@ const alternates = computed(() => {
   ]
 })
 
+// Site-wide tags; each page sets its own title and description (usePageHead in src/head.ts)
 useHead({
   htmlAttrs: { lang: computed(() => LOCALE_TAGS[locale.value]) },
-  titleTemplate: (title) => (title === AUTHOR_NAME ? title : `${title} — ${AUTHOR_NAME}`),
   meta: [
     { name: 'robots', content: 'index, follow' },
     { property: 'og:site_name', content: AUTHOR_NAME },
@@ -121,11 +126,42 @@ useHead({
 <template>
   <Nav :title="AUTHOR_NAME" :subtitle="MESSAGES[locale].author">
     <!-- DEV NOTE: Pages read the locale once in setup, and /en/x and /fr/x share a component, so key
-                   by locale to remount the page when the language changes -->
-    <router-view v-slot="{ Component }">
-      <component :is="Component" :key="locale" />
+                   by locale to remount the page when the language changes. Also by path, so that
+                   the page fades between pages, but not for a #hash on the same page. -->
+    <router-view v-slot="{ Component, route: shown }">
+      <Transition
+        :name="pageTransition"
+        :duration="{ enter: 250, leave: 150 }"
+        mode="out-in"
+        @before-enter="pageEntering"
+      >
+        <component :is="Component" :key="`${locale}:${shown.path}`" />
+      </Transition>
     </router-view>
   </Nav>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Between pages, the old one fades out quickly and the new one fades in. The page header's band
+   matches the toolbar and stays put, so only its text fades: fading the band would flash the page
+   background between two pages that both have one. The fade is on the page's children, not the
+   page, so the Transition's `duration` says how long it takes. */
+@media (prefers-reduced-motion: no-preference) {
+  .page-leave-active > :deep(:not(.page-header)),
+  .page-leave-active > :deep(.page-header > *) {
+    transition: opacity 0.15s ease-in;
+  }
+
+  .page-enter-active > :deep(:not(.page-header)),
+  .page-enter-active > :deep(.page-header > *) {
+    transition: opacity 0.25s ease-out;
+  }
+
+  .page-enter-from > :deep(:not(.page-header)),
+  .page-enter-from > :deep(.page-header > *),
+  .page-leave-to > :deep(:not(.page-header)),
+  .page-leave-to > :deep(.page-header > *) {
+    opacity: 0;
+  }
+}
+</style>

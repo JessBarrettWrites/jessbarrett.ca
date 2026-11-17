@@ -44,7 +44,9 @@ describe('App', () => {
   })
 
   it('leaves crawlers on the search engine copies', async () => {
-    vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Mozilla/5.0 (compatible; Googlebot/2.1)')
+    vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(
+      'Mozilla/5.0 (compatible; Googlebot/2.1)',
+    )
     const { router, wrapper } = await mountAt('/fr/books')
     expect(router.currentRoute.value.path).toBe('/fr/books')
     expect(wrapper.text()).toContain('Livres')

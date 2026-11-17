@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, inject, type InjectionKey, type Ref } from 'vue'
 
 import { AUTHOR_NAME } from '@/constants'
 import { DEFAULT_LOCALE, LOCALES, useLocale, type Locale } from '@/locale'
@@ -43,19 +43,26 @@ const rawUiFiles = import.meta.glob<string>('../content/*/ui.toml', {
   eager: true,
 })
 
-type Tree = { [key: string]: string | Tree }
+export type Tree = { [key: string]: string | Tree | Tree[] }
 
 function rawUi(locale: Locale): Tree {
   const raw = Object.entries(rawUiFiles).find(([path]) => path.split('/')[2] === locale)?.[1]
   return raw ? parseTyped<Tree>(raw) : {}
 }
 
-/** Translated text over the default text, key by key, ignoring empty translations */
+/** Translated text over the default text, key by key, ignoring empty translations. Lists are
+ *  taken whole from the translation when it has them. */
 export function mergeText(base: Tree, translation: Tree): Tree {
   const merged: Tree = { ...base }
   for (const [key, value] of Object.entries(translation)) {
     const baseValue = base[key]
-    if (typeof value === 'object' && typeof baseValue === 'object') {
+    if (Array.isArray(value)) {
+      if (value.length > 0) merged[key] = value
+    } else if (
+      typeof value === 'object' &&
+      typeof baseValue === 'object' &&
+      !Array.isArray(baseValue)
+    ) {
       merged[key] = mergeText(baseValue, value)
     } else if (value !== '') {
       merged[key] = value
@@ -64,11 +71,16 @@ export function mergeText(base: Tree, translation: Tree): Tree {
   return merged
 }
 
-function withAuthor(tree: Tree): Tree {
+/** The text with `{author}` filled in, including in lists */
+export function withAuthor(tree: Tree): Tree {
   return Object.fromEntries(
     Object.entries(tree).map(([key, value]) => [
       key,
-      typeof value === 'string' ? format(value, { author: AUTHOR_NAME }) : withAuthor(value),
+      typeof value === 'string'
+        ? format(value, { author: AUTHOR_NAME })
+        : Array.isArray(value)
+          ? value.map(withAuthor)
+          : withAuthor(value),
     ]),
   )
 }
@@ -85,8 +97,13 @@ export const MESSAGES = Object.fromEntries(
   ]),
 ) as Record<Locale, Messages>
 
+// DEV NOTE: The CMS preview of ui.toml (src/admin/previews.ts) provides the text being edited, which
+//           every component then shows in place of the saved text
+export const MESSAGES_KEY: InjectionKey<Readonly<Ref<Partial<Messages>>>> = Symbol('messages')
+
 /** UI text for the current locale */
 export function useMessages() {
   const locale = useLocale()
-  return computed(() => MESSAGES[locale.value])
+  const draft = inject(MESSAGES_KEY, undefined)
+  return computed<Messages>(() => ({ ...MESSAGES[locale.value], ...draft?.value }))
 }

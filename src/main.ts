@@ -5,6 +5,7 @@ import './main.css'
 
 import App from './App.vue'
 import routes from './routes'
+import { nextPage } from './transition'
 
 export const createApp = ViteSSG(
   // the root component
@@ -34,7 +35,10 @@ export const createApp = ViteSSG(
       }
     })
 
-    router.afterEach((to) => {
+    // DEV NOTE: The page scrolls inside #main (src/components/Nav.vue), not the window, so this
+    //           stands in for the router's scrollBehavior. Once the old page has faded out (App.vue).
+    router.afterEach(async (to, from) => {
+      await nextPage(to, from)
       const main = document.querySelector('#main')
       if (!main) return
       if (to.hash) {

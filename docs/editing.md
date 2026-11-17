@@ -38,7 +38,9 @@ entry can be translated a bit at a time. New entries start in English only; turn
 the entry when you're ready to translate it.
 
 The preview pane shows the entry with the site's own components and styles. Talks are listed
-alphabetically by their file name, which comes from the title when the talk is created.
+alphabetically by their file name, which comes from the title when the talk is created. The
+**User Interface (UI)** text (under General) previews in the header, the latest book and its
+testimonials, which show most of it.
 
 ## Images
 
@@ -48,8 +50,12 @@ Uploads go to `public/images/` and are compressed when the site is built.
 ## For developers
 
 - CMS configuration: `public/admin/config.yml`. Collection and file names (`books-list`,
-  `talks-detail`, `talks-list`, `journalism-detail`, `about`) are also the preview template names
-  in `src/admin/previews.ts`.
+  `talks-detail`, `talks-list`, `journalism-detail`, `about`, `ui`) are also the preview template
+  names in `src/admin/previews.ts`.
+- A preview shows the saved file's value for any field the entry being edited doesn't have at all
+  (`SAVED` in `src/content.ts`), so a half-filled entry still renders. A field cleared in the editor
+  stays cleared. The `ui` preview hands its draft text to every component through `MESSAGES_KEY`
+  (`src/messages.ts`).
 - The Sveltia version is pinned in `public/admin/index.html`. After bumping it, check that the
   previews still render (they rely on `CMS.React` and `registerPreviewTemplate`).
 - Previews mount the site's Vue components inside Sveltia's preview iframe (`src/admin/bridge.ts`).

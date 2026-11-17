@@ -206,7 +206,6 @@ collections:
         file: content/{{locale}}/ui.toml
         format: toml
         i18n: true
-        editor: { preview: false }
         fields:
           - { name: author, label: Author, widget: string, i18n: true }
           - { name: readMore, label: Read more, widget: string, i18n: true }

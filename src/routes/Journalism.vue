@@ -5,6 +5,7 @@ import { useHead } from '@unhead/vue'
 import JournalismContent from '@/components/JournalismContent.vue'
 import { AUTHOR_NAME } from '@/constants'
 import { useJournalismPage } from '@/content'
+import { usePageHead } from '@/head'
 import { LOCALE_TAGS, useLocale } from '@/locale'
 import { format, useMessages } from '@/messages'
 import { articleDateSort } from '@/presentation'
@@ -20,22 +21,16 @@ const title = messages.value.journalism.title
 const description = format(messages.value.journalism.description, {
   summary: page.description ?? messages.value.journalism.defaultSummary,
 })
-const metaDescription = `${title} — ${AUTHOR_NAME}`
+const fullTitle = usePageHead({ title, description })
 
 useHead({
-  title,
-  meta: [
-    { name: 'description', content: description },
-    { property: 'og:title', content: metaDescription },
-    { property: 'og:description', content: description },
-  ],
   script: [
     {
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: metaDescription,
+        name: fullTitle.value,
         url: pageUrl(route.path),
         inLanguage: LOCALE_TAGS[locale.value],
         description,

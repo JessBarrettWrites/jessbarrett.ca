@@ -4,6 +4,7 @@ import { createMemoryHistory, createRouter, START_LOCATION } from 'vue-router'
 
 import { DARK_THEME, LIGHT_THEME } from '@/constants'
 import { DEFAULT_LOCALE, isLocale, LOCALE_KEY, type Locale } from '@/locale'
+import { MESSAGES_KEY, type Messages } from '@/messages'
 import type { PreviewTemplate, PreviewTemplateProps } from '@/admin/sveltia'
 
 // DEV NOTE: Sveltia renders preview templates with its bundled React, so each template is a thin React
@@ -40,30 +41,38 @@ export function previewLocale({ document }: PreviewTemplateProps): Locale {
   return isLocale(language) ? language : DEFAULT_LOCALE
 }
 
+/** A preview template rendering `component` with props from the entry. `toMessages` gives
+ *  interface text to show in place of the saved text (for previewing ui.toml). */
 export function vuePreview<P extends Record<string, unknown>>(
   component: Component,
   toProps: (props: PreviewTemplateProps, locale: Locale) => P | Promise<P>,
+  toMessages?: (props: PreviewTemplateProps, locale: Locale) => Partial<Messages>,
 ): PreviewTemplate {
   return function VuePreview(props: PreviewTemplateProps) {
     const { createElement, useLayoutEffect, useRef } = window.CMS.React
     const container = useRef<HTMLDivElement | null>(null)
     const state = useRef<ShallowRef<P | undefined> | null>(null)
     const localeRef = useRef<Ref<Locale> | null>(null)
+    const messagesRef = useRef<Ref<Partial<Messages>> | null>(null)
 
     // Mount once
     useLayoutEffect(() => {
       const current = shallowRef<P>()
       const locale = ref<Locale>(previewLocale(props))
+      const messages = ref<Partial<Messages>>({})
       const app = createApp({ render: () => current.value && h(component, current.value) })
       app.use(previewRouter())
       app.provide(LOCALE_KEY, locale)
+      app.provide(MESSAGES_KEY, messages)
       applyTheme(props.document)
       app.mount(container.current!)
       state.current = current
       localeRef.current = locale
+      messagesRef.current = messages
       return () => {
         state.current = null
         localeRef.current = null
+        messagesRef.current = null
         app.unmount()
       }
     }, [])
@@ -73,6 +82,7 @@ export function vuePreview<P extends Record<string, unknown>>(
       const current = state.current
       const locale = previewLocale(props)
       if (localeRef.current) localeRef.current.value = locale
+      if (messagesRef.current && toMessages) messagesRef.current.value = toMessages(props, locale)
       let stale = false
       const next = toProps(props, locale)
       if (next instanceof Promise) {

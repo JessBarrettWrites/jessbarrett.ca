@@ -1,0 +1,8 @@
+<!-- Storybook's date control always shows a time beside the date. The site's dates are date-only
+     (e.g. a book's release date), so hide the time; picking a date keeps the time (midnight) as it is.
+     Also in preview.css, for the controls on Docs pages. -->
+<style>
+  input[type='time'][id$='-time'] {
+    display: none;
+  }
+</style>

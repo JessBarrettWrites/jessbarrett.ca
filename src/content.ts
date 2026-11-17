@@ -139,6 +139,21 @@ function localizedFolder(
   })
 }
 
+/** Fields of a folder's entry, as saved, or none for an entry that isn't saved yet */
+function savedEntry(files: RawFiles, locale: Locale, slug: string): Fields {
+  return localizedFolder(files, locale, readMarkdown).find(([s]) => s === slug)?.[1] ?? {}
+}
+
+// DEV NOTE: The CMS previews (`src/admin`) show the saved fields wherever the entry being edited
+//           doesn't have them yet, so that a half-filled entry still renders
+export const SAVED = {
+  about: (locale: Locale) => localizedFile(rawAboutFiles, locale, readMarkdown),
+  talksPage: (locale: Locale) => localizedFile(rawTalksPageFiles, locale, readToml),
+  journalism: (locale: Locale) => localizedFile(rawJournalismFiles, locale, readToml),
+  book: (locale: Locale, slug: string) => savedEntry(rawBookFiles, locale, slug),
+  talk: (locale: Locale, slug: string) => savedEntry(rawTalkFiles, locale, slug),
+}
+
 // DEV NOTE: The `to*` transforms are shared with the CMS previews (`src/admin`), which get the same
 //           fields from the editor instead of from the files on disk
 export function toBook(slug: string, toml: BookToml, body: string): Book {

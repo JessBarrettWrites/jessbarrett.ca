@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest'
+import { computed, defineComponent, h } from 'vue'
+import { mount } from '@vue/test-utils'
 import { AUTHOR_NAME } from '@/constants'
 import { DEFAULT_LOCALE, LOCALES } from '@/locale'
-import { format, MESSAGES, mergeText } from '@/messages'
+import { format, MESSAGES, MESSAGES_KEY, mergeText, useMessages, withAuthor } from '@/messages'
 import { parseTyped } from '@/parse'
 
 const rawUiFiles = import.meta.glob<string>('../../content/*/ui.toml', {
@@ -48,6 +50,42 @@ describe('mergeText', () => {
       a: 'A',
       nested: { b: 'Bé', c: 'C' },
     })
+  })
+
+  it('takes lists whole from the translation, unless it has none', () => {
+    const base = { list: [{ a: 'A' }, { a: 'B' }] }
+    expect(mergeText(base, { list: [{ a: 'Á' }] })).toEqual({ list: [{ a: 'Á' }] })
+    expect(mergeText(base, { list: [] })).toEqual(base)
+  })
+})
+
+describe('withAuthor', () => {
+  it('fills in the author name in nested text and lists', () => {
+    expect(withAuthor({ a: { b: 'by {author}' }, list: [{ c: '{author}' }] })).toEqual({
+      a: { b: `by ${AUTHOR_NAME}` },
+      list: [{ c: AUTHOR_NAME }],
+    })
+  })
+})
+
+describe('useMessages', () => {
+  function shown(provide?: object) {
+    const Nav = defineComponent({
+      setup() {
+        const messages = useMessages()
+        return () => h('span', messages.value.nav.books)
+      },
+    })
+    return mount(Nav, { global: { provide } }).text()
+  }
+
+  it('shows the saved text', () => {
+    expect(shown()).toBe('Books')
+  })
+
+  it('shows draft text from the CMS preview in its place', () => {
+    const draft = computed(() => ({ nav: { ...MESSAGES.en.nav, books: 'Draft' } }))
+    expect(shown({ [MESSAGES_KEY as symbol]: draft })).toBe('Draft')
   })
 })
 

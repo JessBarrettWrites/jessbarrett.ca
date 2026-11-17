@@ -125,10 +125,11 @@ const bodyStyle = computed(() => {
     </p>
 
     <div class="relative">
+      <!-- Positioned, so it also clips the screen-reader-only text inside ('sr-only' is absolute) -->
       <div
         ref="bodyElement"
         :style="bodyStyle"
-        class="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+        class="relative overflow-hidden transition-[max-height] duration-500 ease-in-out"
       >
         <slot />
       </div>

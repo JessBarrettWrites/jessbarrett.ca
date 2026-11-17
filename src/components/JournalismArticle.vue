@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { toRef } from 'vue'
 import AmDash from '@/components/AmDash.vue'
-import { LOCALE_TAGS, useLocale } from '@/locale'
+import { formatDate, useLocale } from '@/locale'
 import type { JournalismArticle } from '@/types'
-import { articleDateString } from '@/presentation'
 
 const props = defineProps<{
   article: JournalismArticle
 }>()
 
-// Format dates for the page's language, not the browser's
 const locale = useLocale()
-const dateLocale = computed(() => LOCALE_TAGS[locale.value])
 const article = toRef(props, 'article')
 </script>
 
@@ -30,7 +27,7 @@ const article = toRef(props, 'article')
     <span class="text-sm opacity-50">
       <span class="font-serif italic">{{ article.publication }}</span>
       &nbsp;<AmDash />&nbsp;
-      {{ articleDateString(article, dateLocale) }}
+      {{ formatDate(article.date, locale) }}
     </span>
   </a>
   <p v-if="article.description" class="mt-2 text-sm opacity-70 leading-relaxed">

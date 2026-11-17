@@ -12,15 +12,6 @@ export function articleDateSort(left: JournalismArticle, right: JournalismArticl
   return right.date.getTime() - left.date.getTime()
 }
 
-// Display for article date
-export function articleDateString(article: JournalismArticle, locale: string | undefined): string {
-  return article.date.toLocaleDateString(locale, {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  })
-}
-
 // Filter books by featured
 export function featuredBookFilter(today: Date) {
   return (book: Book) => {

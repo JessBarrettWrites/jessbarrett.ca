@@ -1,0 +1,34 @@
+/* Storybook's canvas: a checkerboard behind the stories, like a design tool's artboard. It's on <html>,
+   which always covers the whole scrollable area, and outside any layer, so it wins over daisyUI's
+   page background (`:root` in `@layer base`). */
+html {
+  background: repeating-conic-gradient(#e6e6e6 0 25%, #ffffff 0 50%) 0 0 / 24px 24px;
+}
+
+body {
+  background: transparent;
+}
+
+/* A page shown in a viewport frame (.storybook/viewports.ts) has the site's own background */
+html.viewport-frame {
+  background: var(--color-base-100);
+}
+
+/* ...and fills it as it fills the site's #main (src/components/Nav.vue): a page's <article> is at
+   least the frame's height, so a page shorter than the frame still has its footer at the bottom */
+html.viewport-frame .story {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+html.viewport-frame .story > article {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+/* Date controls on Docs pages: the date only, as in the Controls panel (manager-head.html) */
+input[type='time'][id$='-time'] {
+  display: none;
+}

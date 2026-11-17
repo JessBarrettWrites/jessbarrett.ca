@@ -14,7 +14,12 @@ dist-ssr
 
 # Built CMS previews (pnpm build-admin)
 public/admin/preview
+
 coverage
+
+# Storybook (pnpm build-storybook)
+storybook-static
+*storybook.log
 *.local
 
 /cypress/videos/

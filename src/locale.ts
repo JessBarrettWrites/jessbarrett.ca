@@ -56,6 +56,33 @@ export function preferredLocale(): Locale {
   return DEFAULT_LOCALE
 }
 
+// DEV NOTE: Dates and numbers are written in the page's language, not the browser's
+
+/** A date as the locale writes it in full, e.g. "November 13, 2026" */
+export function formatDate(date: Date, locale: Locale): string {
+  return new Intl.DateTimeFormat(LOCALE_TAGS[locale], { dateStyle: 'long' }).format(date)
+}
+
+/** A day as the locale writes it with its weekday, e.g. "Sunday, November 22, 2026" */
+export function formatLongDate(date: Date, locale: Locale): string {
+  return new Intl.DateTimeFormat(LOCALE_TAGS[locale], { dateStyle: 'full' }).format(date)
+}
+
+/** A time of day as the locale writes it, e.g. "10:00 a.m." */
+export function formatTime(date: Date, locale: Locale): string {
+  return new Intl.DateTimeFormat(LOCALE_TAGS[locale], { timeStyle: 'short' }).format(date)
+}
+
+/** A date's month, abbreviated, e.g. "Nov" */
+export function formatMonth(date: Date, locale: Locale): string {
+  return new Intl.DateTimeFormat(LOCALE_TAGS[locale], { month: 'short' }).format(date)
+}
+
+/** A whole number as the locale writes it, e.g. "1,002" */
+export function formatNumber(value: number, locale: Locale): string {
+  return new Intl.NumberFormat(LOCALE_TAGS[locale]).format(value)
+}
+
 /** Whether the visitor is a search engine or other crawler, which reads each locale's own pages */
 export function isCrawler(): boolean {
   if (typeof navigator === 'undefined') return false

@@ -1,6 +1,11 @@
 import { afterEach, describe, it, expect, vi } from 'vitest'
 import {
   DEFAULT_LOCALE,
+  formatDate,
+  formatLongDate,
+  formatMonth,
+  formatNumber,
+  formatTime,
   isCrawler,
   LOCALE_COOKIE,
   localePath,
@@ -80,5 +85,30 @@ describe('isCrawler', () => {
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15',
     )
     expect(isCrawler()).toBe(false)
+  })
+})
+
+describe('formatting', () => {
+  // Local time, as content dates are
+  const date = new Date(2026, 10, 22, 10, 0)
+
+  it('writes dates in the page language, not the browser’s', () => {
+    expect(formatDate(date, 'en')).toBe('November 22, 2026')
+    expect(formatDate(date, 'fr')).toBe('22 novembre 2026')
+    expect(formatDate(date, 'es')).toBe('22 de noviembre de 2026')
+  })
+
+  it('writes a day with its weekday', () => {
+    expect(formatLongDate(date, 'en')).toBe('Sunday, November 22, 2026')
+  })
+
+  it('writes times and months', () => {
+    expect(formatTime(date, 'en')).toMatch(/^10:00\sa\.m\.$/)
+    expect(formatMonth(date, 'en')).toBe('Nov')
+  })
+
+  it('writes numbers', () => {
+    expect(formatNumber(1002, 'en')).toBe('1,002')
+    expect(formatNumber(1002, 'fr')).toMatch(/^1\s002$/)
   })
 })

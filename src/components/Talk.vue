@@ -50,10 +50,11 @@ const bodyStyle = computed(() => {
     </div>
     <div class="card-body">
       <div class="relative">
+        <!-- Positioned, so it also clips the screen-reader-only text inside ('sr-only' is absolute) -->
         <div
           ref="bodyElement"
           :style="bodyStyle"
-          class="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+          class="relative overflow-hidden transition-[max-height] duration-500 ease-in-out"
         >
           <div class="text-sm leading-relaxed opacity-90 [&_a]:underline [&_a]:underline-offset-2">
             <slot />

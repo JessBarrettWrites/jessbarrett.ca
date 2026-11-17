@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePreferredDark, useStorage } from '@vueuse/core'
-import { computed, toValue, watchEffect } from 'vue'
+import { computed, toValue, useTemplateRef, watchEffect } from 'vue'
 import { DARK_THEME, LIGHT_THEME, type Theme } from '@/constants.ts'
 import { useMessages } from '@/messages'
 
@@ -17,9 +17,13 @@ const isDark = computed(() => {
   return prefersDark.value
 })
 
+// DEV NOTE: The theme goes on the document the toggle is in, not the global `document`: in a CMS
+//           preview that's the preview's iframe, while `document` is the CMS itself, which has a
+//           `data-theme` of its own
+const label = useTemplateRef<HTMLElement>('label')
 watchEffect(() => {
-  if (typeof document === 'undefined') return
-  document.documentElement.setAttribute('data-theme', toValue(isDark) ? DARK_THEME : LIGHT_THEME)
+  const root = label.value?.ownerDocument.documentElement
+  root?.setAttribute('data-theme', toValue(isDark) ? DARK_THEME : LIGHT_THEME)
 })
 
 function toggleTheme() {
@@ -28,7 +32,7 @@ function toggleTheme() {
 </script>
 
 <template>
-  <label class="flex cursor-pointer items-center gap-2">
+  <label ref="label" class="flex cursor-pointer items-center gap-2">
     <span class="sr-only">{{ messages.nav.toggleDarkMode }}</span>
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  bookDateSort,
-  articleDateSort,
-  articleDateString,
-  featuredBookFilter,
-} from '@/presentation'
+import { bookDateSort, articleDateSort, featuredBookFilter } from '@/presentation'
 import { parseDate } from '@/parse'
 import type { Book, JournalismArticle } from '@/types'
 
@@ -84,30 +79,6 @@ describe('articleDateSort', () => {
     const a = makeArticle('2024-06-01')
     const b = makeArticle('2024-06-01')
     expect(articleDateSort(a, b)).toBe(0)
-  })
-})
-
-describe('articleDateString', () => {
-  const locale = new Intl.DateTimeFormat().resolvedOptions().locale
-
-  it('formats a date using the browser locale', () => {
-    const article = makeArticle('2026-01-15')
-    const expected = article.date.toLocaleDateString(locale, {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
-    expect(articleDateString(article, locale)).toBe(expected)
-  })
-
-  it('respects a different locale', () => {
-    const article = makeArticle('2026-03-01')
-    const expected = article.date.toLocaleDateString('fr-FR', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
-    expect(articleDateString(article, 'fr-FR')).toBe(expected)
   })
 })
 

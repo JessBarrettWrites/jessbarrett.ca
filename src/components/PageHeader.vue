@@ -7,7 +7,7 @@ const slots = useSlots()
 </script>
 
 <template>
-  <section class="px-6 py-6 text-center bg-neutral text-neutral-content">
+  <section class="page-header px-6 py-6 text-center bg-neutral text-neutral-content">
     <h1 class="font-serif text-4xl font-bold tracking-tight md:text-6xl">{{ title }}</h1>
     <p
       v-if="slots.subtitle"
