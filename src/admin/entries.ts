@@ -1,4 +1,4 @@
-import { toBook, toJournalismPage, toTalk, withoutEmpty } from '@/content'
+import { toBook, toJournalismPage, toMediaPage, toTalk, withoutEmpty } from '@/content'
 import type {
   AboutPage,
   AboutPageToml,
@@ -6,6 +6,8 @@ import type {
   BookToml,
   JournalismPage,
   JournalismToml,
+  MediaPage,
+  MediaToml,
   Talk,
   TalksPage,
   TalksPageToml,
@@ -39,6 +41,11 @@ export function talksPageFromEntry(data: EntryData): TalksPage {
 export function journalismPageFromEntry(data: EntryData): JournalismPage {
   const toml = withoutEmpty(data) as JournalismToml
   return toJournalismPage({ ...toml, article: (toml.article ?? []).map(withoutEmpty) })
+}
+
+export function mediaPageFromEntry(data: EntryData): MediaPage {
+  const toml = withoutEmpty(data) as MediaToml
+  return toMediaPage({ ...toml, appearance: (toml.appearance ?? []).map(withoutEmpty) })
 }
 
 export function aboutPageFromEntry(data: EntryData, assetUrl: AssetUrl): AboutPage {

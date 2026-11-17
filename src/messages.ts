@@ -16,6 +16,7 @@ export interface Messages {
     home: string
     books: string
     journalism: string
+    media: string
     talks: string
     about: string
     openMenu: string
@@ -32,6 +33,7 @@ export interface Messages {
   home: { description: string; trailerTitle: string }
   books: { title: string; description: string }
   journalism: { title: string; comingSoon: string; description: string; defaultSummary: string }
+  media: { title: string; comingSoon: string; description: string; defaultSummary: string }
   talks: { title: string; description: string }
   about: { title: string; description: string; jobTitle: string; personDescription: string }
   redirect: { title: string }

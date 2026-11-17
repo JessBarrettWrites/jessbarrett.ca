@@ -22,7 +22,7 @@ const articles = computed(() => [...props.page.articles].sort(articleDateSort))
       <template v-if="page.description" #subtitle>{{ page.description }}</template>
     </PageHeader>
 
-    <section class="mx-auto max-w-4xl px-6 py-6 pb-6">
+    <section class="mx-auto w-full max-w-4xl px-6 py-6 pb-6">
       <div v-if="articles.length === 0" class="py-12 text-center opacity-50 font-serif italic">
         {{ messages.journalism.comingSoon }}
       </div>

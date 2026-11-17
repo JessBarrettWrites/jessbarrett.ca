@@ -26,6 +26,7 @@ workflow tests, builds and deploys, so **changes go live about 2–3 minutes aft
 | Pages → About | `content/<lang>/about.md` | About |
 | Pages → Talks Page | `content/<lang>/talks.toml` | Talks (title and intro) |
 | Pages → Journalism | `content/<lang>/journalism.toml` | Journalism |
+| Pages → Media | `content/<lang>/media.toml` | Media |
 | General → User Interface (UI) | `content/<lang>/ui.toml` | Navigation, buttons, page titles |
 | Pages → Contact | `content/contact.toml` (shared) | — |
 
@@ -50,7 +51,7 @@ Uploads go to `public/images/` and are compressed when the site is built.
 ## For developers
 
 - CMS configuration: `public/admin/config.yml`. Collection and file names (`books-list`,
-  `talks-detail`, `talks-list`, `journalism-detail`, `about`, `ui`) are also the preview template
+  `talks-detail`, `talks-list`, `journalism-detail`, `media-detail`, `about`, `ui`) are also the preview template
   names in `src/admin/previews.ts`.
 - A preview shows the saved file's value for any field the entry being edited doesn't have at all
   (`SAVED` in `src/content.ts`), so a half-filled entry still renders. A field cleared in the editor

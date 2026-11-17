@@ -3,6 +3,7 @@ import {
   aboutPageFromEntry,
   bookFromEntry,
   journalismPageFromEntry,
+  mediaPageFromEntry,
   talkFromEntry,
   talksPageFromEntry,
 } from '@/admin/entries'
@@ -96,6 +97,31 @@ describe('journalismPageFromEntry', () => {
 
   it('handles an empty article list', () => {
     expect(journalismPageFromEntry({ description: '' }).articles).toEqual([])
+  })
+})
+
+describe('mediaPageFromEntry', () => {
+  it('maps the description and appearances', () => {
+    const page = mediaPageFromEntry({
+      description: 'Podcasts and interviews',
+      appearance: [
+        {
+          title: 'An Episode',
+          outlet: 'A Podcast',
+          date: '2026-11-15',
+          url: 'https://example.com/episode',
+          description: '',
+        },
+      ],
+    })
+    expect(page.description).toBe('Podcasts and interviews')
+    expect(page.appearances[0]!.outlet).toBe('A Podcast')
+    expect(page.appearances[0]!.date).toBeInstanceOf(Date)
+    expect(page.appearances[0]!.description).toBeUndefined()
+  })
+
+  it('has no appearances when the entry has none', () => {
+    expect(mediaPageFromEntry({ description: '' }).appearances).toEqual([])
   })
 })
 

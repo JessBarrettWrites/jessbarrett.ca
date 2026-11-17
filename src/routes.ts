@@ -17,6 +17,7 @@ export const PAGES = {
   home: { path: '/', component: () => import('@/routes/Home.vue') },
   books: { path: '/books', component: () => import('@/routes/Books.vue') },
   journalism: { path: '/journalism', component: () => import('@/routes/Journalism.vue') },
+  media: { path: '/media', component: () => import('@/routes/Media.vue') },
   talks: { path: '/talks', component: () => import('@/routes/Talks.vue') },
   about: { path: '/about', component: () => import('@/routes/About.vue') },
 }
@@ -54,7 +55,7 @@ export default [
   ),
 ] satisfies RouteRecordRaw[]
 
-export const NAV_PAGES: PageName[] = ['home', 'books', 'journalism', 'talks', 'about']
+export const NAV_PAGES: PageName[] = ['home', 'books', 'journalism', 'media', 'talks', 'about']
 
 export function pagePath(page: PageName): string {
   return PAGES[page].path

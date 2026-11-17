@@ -78,6 +78,32 @@ export interface JournalismPage {
   articles: JournalismArticle[]
 }
 
+export interface MediaToml {
+  description?: string
+  appearance: MediaAppearanceToml[]
+}
+
+export interface MediaAppearanceToml {
+  title: string
+  outlet: string
+  date: TomlDateValue
+  url: string
+  description?: string
+}
+
+export interface MediaAppearance {
+  title: string
+  outlet: string
+  date: Date
+  url: string
+  description?: string
+}
+
+export interface MediaPage {
+  description?: string
+  appearances: MediaAppearance[]
+}
+
 export interface AboutPageToml {
   title: string
   subtitle?: string

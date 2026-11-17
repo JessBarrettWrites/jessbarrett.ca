@@ -8,6 +8,10 @@ import type {
   JournalismArticleToml,
   JournalismPage,
   JournalismToml,
+  MediaAppearance,
+  MediaAppearanceToml,
+  MediaPage,
+  MediaToml,
   Talk,
   TalksPage,
   TalksPageToml,
@@ -35,6 +39,11 @@ const rawTalksPageFiles = import.meta.glob<string>('../content/*/talks.toml', {
   eager: true,
 })
 const rawJournalismFiles = import.meta.glob<string>('../content/*/journalism.toml', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+})
+const rawMediaFiles = import.meta.glob<string>('../content/*/media.toml', {
   query: '?raw',
   import: 'default',
   eager: true,
@@ -150,6 +159,7 @@ export const SAVED = {
   about: (locale: Locale) => localizedFile(rawAboutFiles, locale, readMarkdown),
   talksPage: (locale: Locale) => localizedFile(rawTalksPageFiles, locale, readToml),
   journalism: (locale: Locale) => localizedFile(rawJournalismFiles, locale, readToml),
+  media: (locale: Locale) => localizedFile(rawMediaFiles, locale, readToml),
   book: (locale: Locale, slug: string) => savedEntry(rawBookFiles, locale, slug),
   talk: (locale: Locale, slug: string) => savedEntry(rawTalkFiles, locale, slug),
 }
@@ -184,6 +194,17 @@ export function toJournalismPage(toml: JournalismToml): JournalismPage {
   }
 }
 
+export function toMediaAppearance(toml: MediaAppearanceToml): MediaAppearance {
+  return { ...toml, date: parseDate(toml.date)! }
+}
+
+export function toMediaPage(toml: MediaToml): MediaPage {
+  return {
+    description: toml.description,
+    appearances: (toml.appearance ?? []).map(toMediaAppearance),
+  }
+}
+
 export function useBooks(locale: Locale = DEFAULT_LOCALE): Book[] {
   return localizedFolder(rawBookFiles, locale, readMarkdown).map(([slug, fields]) => {
     const { body = '', ...toml } = fields
@@ -209,6 +230,14 @@ export function useJournalismPage(locale: Locale = DEFAULT_LOCALE): JournalismPa
 
 export function useJournalismArticles(locale: Locale = DEFAULT_LOCALE): JournalismArticle[] {
   return useJournalismPage(locale).articles
+}
+
+export function useMediaPage(locale: Locale = DEFAULT_LOCALE): MediaPage {
+  return toMediaPage(localizedFile(rawMediaFiles, locale, readToml) as MediaToml)
+}
+
+export function useMediaAppearances(locale: Locale = DEFAULT_LOCALE): MediaAppearance[] {
+  return useMediaPage(locale).appearances
 }
 
 export function useTalks(locale: Locale = DEFAULT_LOCALE): Talk[] {

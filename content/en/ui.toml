@@ -11,6 +11,7 @@ testimonialOn = "on"
 home = "Home"
 books = "Books"
 journalism = "Journalism"
+media = "Media"
 talks = "Talks"
 about = "About"
 openMenu = "Open menu"
@@ -38,6 +39,13 @@ comingSoon = "Coming soon."
 # {summary} is the page description from journalism.toml, or `defaultSummary`
 description = "{summary} by {author}."
 defaultSummary = "Reporting and essays"
+
+[media]
+title = "Media"
+comingSoon = "Coming soon."
+# {summary} is the page description from media.toml, or `defaultSummary`
+description = "{summary} featuring {author}."
+defaultSummary = "Podcasts and interviews"
 
 [talks]
 title = "Talks"

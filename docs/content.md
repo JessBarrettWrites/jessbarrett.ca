@@ -205,6 +205,38 @@ date = 2023-03-02
 url = "https://www.avenuecalgary.com/example"
 ```
 
+### Media (`media.toml`)
+
+A single TOML file (no Markdown body) containing a page description and an array of podcast,
+interview and other appearances. Same shape as `journalism.toml`.
+
+| Field         | Type                 | Required | Description                     |
+| ------------- | -------------------- | -------- | ------------------------------- |
+| `description` | string               | no       | Shown under the page title      |
+| `appearance`  | list of `Appearance` | yes      | Appearances, in any order (sorted newest first on the page) |
+
+#### Appearance
+
+| Field         | Type      | Required | Description                                  |
+| ------------- | --------- | -------- | -------------------------------------------- |
+| `title`       | string    | yes      | Episode or segment title                     |
+| `outlet`      | string    | yes      | Show, podcast or outlet name                 |
+| `date`        | TOML date | yes      | Air or publication date (e.g. `2026-11-15`, unquoted) |
+| `url`         | string    | yes      | Link to the episode                          |
+| `description` | string    | no       | Short description                            |
+
+**Example:**
+
+```toml
+description = "Podcasts, interviews and other appearances"
+
+[[appearance]]
+title = "Why More Housing Isn't the Same as Home"
+outlet = "The Strong Towns Podcast"
+date = 2026-11-15
+url = "https://podcast.strongtowns.org/e/why-more-housing-isnt-the-same-as-home/"
+```
+
 ## Images
 
 Place images in `public/images/`. They are served at `/images/` (e.g. `public/images/cover.jpg` becomes `/images/cover.jpg`).
@@ -218,7 +250,7 @@ Edited in the CMS under **General → User Interface (UI)**.
 The text around the content: navigation labels, buttons ("Get the Book", "Read more"), and page
 titles and descriptions used for search engines. `{author}` is replaced with the author's name. The
 journalism `description` also takes `{summary}`, which is the description from `journalism.toml`,
-or `defaultSummary` when there isn't one.
+or `defaultSummary` when there isn't one; the media `description` does the same with `media.toml`.
 
 Each language's `ui.toml` must have the same keys as `content/en/ui.toml` (a test checks this). A
 missing or empty translated text uses the English one.

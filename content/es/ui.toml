@@ -11,6 +11,7 @@ testimonialOn = "sobre"
 home = "Inicio"
 books = "Libros"
 journalism = "Periodismo"
+media = "Medios"
 talks = "Conferencias"
 about = "Acerca de"
 openMenu = "Abrir menú"
@@ -38,6 +39,13 @@ comingSoon = "Próximamente."
 # {summary} es la descripción de la página (journalism.toml), o `defaultSummary`
 description = "{summary} de {author}."
 defaultSummary = "Reportajes y ensayos"
+
+[media]
+title = "Medios"
+comingSoon = "Próximamente."
+# {summary} es la descripción de la página (media.toml), o `defaultSummary`
+description = "{summary} con {author}."
+defaultSummary = "Pódcasts y entrevistas"
 
 [talks]
 title = "Conferencias"

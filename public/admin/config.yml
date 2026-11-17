@@ -183,6 +183,33 @@ collections:
               - { name: url, label: Link, widget: string }
               - { name: description, label: Description, widget: text, required: false }
 
+      - name: media-detail
+        label: Media
+        file: content/{{locale}}/media.toml
+        format: toml
+        i18n: true
+        preview_path: '/{{locale}}/media'
+        fields:
+          - name: description
+            label: Description
+            widget: string
+            required: false
+            i18n: true
+            hint: Shown under the page title
+          - name: appearance
+            label: Appearances
+            label_singular: Appearance
+            widget: list
+            add_to_top: true
+            collapsed: auto
+            summary: '{{fields.outlet}}: {{fields.title}}'
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: outlet, label: Show or outlet, widget: string }
+              - { name: date, label: Date, widget: datetime, type: date }
+              - { name: url, label: Link, widget: string }
+              - { name: description, label: Description, widget: text, required: false }
+
       - name: contact
         label: Contact
         # Shared by every locale
@@ -220,6 +247,7 @@ collections:
               - { name: home, label: Home, widget: string, i18n: true }
               - { name: books, label: Books, widget: string, i18n: true }
               - { name: journalism, label: Journalism, widget: string, i18n: true }
+              - { name: media, label: Media, widget: string, i18n: true }
               - { name: talks, label: Talks, widget: string, i18n: true }
               - { name: about, label: About, widget: string, i18n: true }
               - { name: openMenu, label: Open menu, widget: string, i18n: true }
@@ -254,6 +282,16 @@ collections:
               - { name: description, label: Description, widget: string, i18n: true }
           - name: journalism
             label: Journalism
+            widget: object
+            i18n: true
+            collapsed: true
+            fields:
+              - { name: title, label: Title, widget: string, i18n: true }
+              - { name: comingSoon, label: Coming soon, widget: string, i18n: true }
+              - { name: description, label: Description, widget: string, i18n: true }
+              - { name: defaultSummary, label: Default summary, widget: string, i18n: true }
+          - name: media
+            label: Media
             widget: object
             i18n: true
             collapsed: true

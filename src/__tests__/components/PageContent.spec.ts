@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import AboutContent from '@/components/AboutContent.vue'
 import JournalismContent from '@/components/JournalismContent.vue'
+import MediaContent from '@/components/MediaContent.vue'
 import TalksContent from '@/components/TalksContent.vue'
 
 describe('AboutContent', () => {
@@ -62,5 +63,36 @@ describe('JournalismContent', () => {
     })
     const links = wrapper.findAll('a').map((a) => a.attributes('href'))
     expect(links).toEqual(['https://example.com/newer', 'https://example.com/older'])
+  })
+})
+
+describe('MediaContent', () => {
+  const appearance = (title: string, date: string) => ({
+    title,
+    outlet: 'A Podcast',
+    date: new Date(`${date}T00:00:00`),
+    url: `https://example.com/${title}`,
+  })
+
+  it('shows the description, and coming soon without appearances', () => {
+    const wrapper = mount(MediaContent, {
+      props: { page: { description: 'Podcasts and interviews', appearances: [] } },
+    })
+    expect(wrapper.text()).toContain('Podcasts and interviews')
+    expect(wrapper.text()).toContain('Coming soon.')
+  })
+
+  it('lists appearances newest first', () => {
+    const wrapper = mount(MediaContent, {
+      props: {
+        page: {
+          appearances: [appearance('older', '2020-01-01'), appearance('newer', '2026-01-01')],
+        },
+      },
+    })
+    const links = wrapper.findAll('a').map((a) => a.attributes('href'))
+    expect(links.indexOf('https://example.com/newer')).toBeLessThan(
+      links.indexOf('https://example.com/older'),
+    )
   })
 })

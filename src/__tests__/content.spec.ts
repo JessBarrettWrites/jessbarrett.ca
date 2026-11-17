@@ -5,6 +5,8 @@ import {
   useTestimonials,
   useJournalismArticles,
   useJournalismPage,
+  useMediaAppearances,
+  useMediaPage,
   useTalks,
   useTalksPage,
   useAboutPage,
@@ -99,6 +101,27 @@ describe('useJournalismPage', () => {
 
   it('has the same articles as useJournalismArticles', () => {
     expect(useJournalismPage().articles).toEqual(useJournalismArticles())
+  })
+})
+
+describe('useMediaPage', () => {
+  it('has a description', () => {
+    expect(useMediaPage().description).toBe('Podcasts, interviews and other appearances')
+  })
+
+  it('each appearance has required fields', () => {
+    expect(useMediaAppearances().length).toBeGreaterThan(0)
+    for (const appearance of useMediaAppearances()) {
+      expect(appearance.title).toBeTruthy()
+      expect(appearance.outlet).toBeTruthy()
+      expect(appearance.date).toBeInstanceOf(Date)
+      expect(appearance.url).toBeTruthy()
+    }
+  })
+
+  it('shares the appearances with translations', () => {
+    expect(useMediaPage('fr').description).toBe('Balados, entrevues et autres apparitions')
+    expect(useMediaPage('fr').appearances).toEqual(useMediaPage('en').appearances)
   })
 })
 

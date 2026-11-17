@@ -6,6 +6,7 @@ import '@/main.css'
 
 import AboutContent from '@/components/AboutContent.vue'
 import JournalismContent from '@/components/JournalismContent.vue'
+import MediaContent from '@/components/MediaContent.vue'
 import TalksContent from '@/components/TalksContent.vue'
 import BookPreview from '@/admin/previews/BookPreview.vue'
 import InterfacePreview from '@/admin/previews/InterfacePreview.vue'
@@ -18,6 +19,7 @@ import {
   aboutPageFromEntry,
   bookFromEntry,
   journalismPageFromEntry,
+  mediaPageFromEntry,
   talkFromEntry,
   talksPageFromEntry,
 } from '@/admin/entries'
@@ -92,6 +94,13 @@ CMS.registerPreviewTemplate(
   'journalism-detail',
   vuePreview(JournalismContent, (props, locale) => ({
     page: journalismPageFromEntry(data(props, locale, SAVED.journalism(locale))),
+  })),
+)
+
+CMS.registerPreviewTemplate(
+  'media-detail',
+  vuePreview(MediaContent, (props, locale) => ({
+    page: mediaPageFromEntry(data(props, locale, SAVED.media(locale))),
   })),
 )
 
