@@ -1,6 +1,13 @@
 description = "Selected reporting and essays"
 
 [[article]]
+title = "I Left Vancouver So I Could Buy a House. Then I Moved Back"
+publication = "The Walrus"
+date = 2026-11-23
+url = "https://thewalrus.ca/i-left-vancouver-so-i-could-buy-a-house/"
+description = ""
+
+[[article]]
 title = "Why Canada’s Empty Condos Won’t Solve the Housing Crisis"
 publication = "The Walrus"
 date = 2026-07-22
